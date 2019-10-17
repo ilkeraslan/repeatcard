@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FlashCards</string>
+    <string name="homepage_title">Flashcards</string>
+    <string name="flashcard_1">FlashCard 1</string>
+    <string name="flashcard_2">Flashcard 2</string>
+    <string name="flashcard_3">Flashcard 3</string>
 </resources>
