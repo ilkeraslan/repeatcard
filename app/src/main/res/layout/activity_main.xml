@@ -15,12 +15,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height=  "0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/flashcard_1"
@@ -44,5 +46,16 @@
                 android:text="@string/flashcard_3" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/add_flashcard"
+        style="@style/text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorPrimary"
+        android:onClick="addFlashcard"
+        android:text="@string/add_flashcard"
+        android:textColor="@color/colorWhite" />
 
 </LinearLayout>
