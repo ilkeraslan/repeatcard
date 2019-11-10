@@ -4,4 +4,9 @@
     <string name="flashcard_1">FlashCard 1</string>
     <string name="flashcard_2">Flashcard 2</string>
     <string name="flashcard_3">Flashcard 3</string>
+    <string name="add_flashcard">Add Flashcard</string>
+    <string name="flashcard_title_text">Flashcard Title!</string>
+    <string name="title_home">Home</string>
+    <string name="title_directories">Directories</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
