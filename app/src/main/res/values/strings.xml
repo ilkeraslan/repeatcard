@@ -9,4 +9,5 @@
     <string name="title_home">Home</string>
     <string name="title_directories">Directories</string>
     <string name="title_notifications">Notifications</string>
+    <string name="directory_title">Directory Title</string>
 </resources>

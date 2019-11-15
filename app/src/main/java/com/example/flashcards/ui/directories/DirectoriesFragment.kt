@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.flashcards.R
+import kotlinx.android.synthetic.main.directories_fragment.*
 
 class DirectoriesFragment : Fragment() {
 
@@ -27,7 +29,10 @@ class DirectoriesFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DirectoriesViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        recyclerView_directories.layoutManager = LinearLayoutManager(this.context)
+        recyclerView_directories.adapter = DirectoriesAdapter()
+
     }
 
 }
