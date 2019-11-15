@@ -25,8 +25,6 @@ class DirectoriesAdapter : RecyclerView.Adapter<DirectoriesViewHolder>() {
         val directory_titles = directory_titles[position]
         holder.view.textView_directory_row.text = directory_titles
     }
-
-
 }
 
 class DirectoriesViewHolder(val view: View): RecyclerView.ViewHolder(view) {

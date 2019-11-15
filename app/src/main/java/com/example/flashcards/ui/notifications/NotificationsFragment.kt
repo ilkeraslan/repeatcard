@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.flashcards.R
+import kotlinx.android.synthetic.main.notifications_fragment.*
 
 class NotificationsFragment : Fragment() {
 
@@ -27,7 +29,9 @@ class NotificationsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        recyclerView_notifications.layoutManager = LinearLayoutManager(this.context)
+        recyclerView_notifications.adapter = NotificationsAdapter()
     }
 
 }
