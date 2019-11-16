@@ -9,7 +9,13 @@ import kotlinx.android.synthetic.main.directory_row.view.*
 
 class DirectoriesAdapter : RecyclerView.Adapter<DirectoriesViewHolder>() {
 
-    val directory_titles = listOf<String>("foo", "bar", "baz")
+    var directory_titles = listOf("foo", "bar", "baz")
+
+    // Custom setter
+    set(value) {
+        field = value
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoriesViewHolder {
         val layout_inflater = LayoutInflater.from(parent.context)
