@@ -10,4 +10,5 @@
     <string name="title_directories">Directories</string>
     <string name="title_notifications">Notifications</string>
     <string name="directory_title">Directory Title</string>
+    <string name="close_button">Close</string>
 </resources>

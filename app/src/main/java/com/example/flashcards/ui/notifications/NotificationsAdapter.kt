@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
+import com.example.flashcards.ui.flashcard.Flashcard
 import kotlinx.android.synthetic.main.notification_row.view.*
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
 
-    val notification_titles = listOf<String>("Notification-1", "Notification-2", "Notification-3", "Notification-4")
+    var notification_titles = listOf<Flashcard>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsViewHolder {
         val layout_inflater = LayoutInflater.from((parent.context))
@@ -23,11 +24,15 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
         val notification_titles = notification_titles[position]
-        holder.view.textView_notification_row.text = notification_titles
+        holder.view.textView_notification_row.text = notification_titles.name
     }
 
 }
 
 class NotificationsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
+}
+
+class NotificationsListener(val clickListener: (flashcard_id: Int) -> Unit) {
+    fun onClick(flashcard: Flashcard) = clickListener(flashcard.id)
 }
