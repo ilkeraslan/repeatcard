@@ -32,11 +32,15 @@ class DirectoriesFragment : Fragment() {
         recyclerView_directories.layoutManager = LinearLayoutManager(this.context)
         recyclerView_directories.adapter = DirectoriesAdapter()
 
-        var directories_adapter = (recyclerView_directories.adapter as DirectoriesAdapter)
+        // Add data directly in fragment for testing
+        viewModel.addDirectoriesData("directory-5")
+        viewModel.addDirectoriesData("directory-6")
 
         // Observer on directories_list variable
         viewModel.directories_list.observe(this, Observer {
-            it.let { directories_adapter.directory_titles = it }
+            it.let {
+                ((recyclerView_directories.adapter as DirectoriesAdapter)).directory_titles = it
+            }
         })
     }
 }
