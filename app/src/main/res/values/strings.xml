@@ -9,4 +9,8 @@
     <string name="title_home">Home</string>
     <string name="title_directories">Directories</string>
     <string name="title_notifications">Notifications</string>
+    <string name="directory_title">Directory Title</string>
+    <string name="close_button">Close</string>
+    <string name="save_text">Save</string>
+    <string name="flashcard_description_text">Description</string>
 </resources>

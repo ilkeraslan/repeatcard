@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.flashcards.R
+import kotlinx.android.synthetic.main.directories_fragment.*
 
 class DirectoriesFragment : Fragment() {
 
@@ -17,17 +20,27 @@ class DirectoriesFragment : Fragment() {
 
     private lateinit var viewModel: DirectoriesViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.directories_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(DirectoriesViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
+        // LayoutManager and Adapter
+        recyclerView_directories.layoutManager = LinearLayoutManager(this.context)
+        recyclerView_directories.adapter = DirectoriesAdapter()
+
+        // Add data directly in fragment for testing
+        viewModel.addDirectoriesData("directory-5")
+        viewModel.addDirectoriesData("directory-6")
+
+        // Observer on directories_list variable
+        viewModel.directories_list.observe(this, Observer {
+            it.let {
+                ((recyclerView_directories.adapter as DirectoriesAdapter)).directory_titles = it
+            }
+        })
+    }
 }
