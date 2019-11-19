@@ -44,7 +44,10 @@ class NotificationsFragment : Fragment() {
 
         // Shared Preferences
         sharedPrefs =
-            activity!!.getSharedPreferences(SHARED_PREFS_NOTIFICATIONS_NAME, Context.MODE_PRIVATE)
+            requireActivity().getSharedPreferences(
+                SHARED_PREFS_NOTIFICATIONS_NAME,
+                Context.MODE_PRIVATE
+            )
 
         // LayoutManager and Adapter
         recyclerView_notifications.layoutManager = LinearLayoutManager(this.context)
@@ -70,12 +73,10 @@ class NotificationsFragment : Fragment() {
         )
 
         // Create new Flashcard
-        val newFlashcard = Flashcard(Random.nextInt(),flashcard_name.toString())
+        val newFlashcard = Flashcard(Random.nextInt(), flashcard_name.toString())
 
         // Add new Flashcard to ViewModel
         viewModel.addNotificationsData(newFlashcard)
-
-        // Log.i("NEW FLASHCARD:", newFlashcard.name)
 
         // Observer on notifications_list variable
         viewModel.notifications_list.observe(this, Observer {

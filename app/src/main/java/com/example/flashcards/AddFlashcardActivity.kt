@@ -1,6 +1,8 @@
 package com.example.flashcards
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +17,13 @@ const val SHARED_PREFS_ADD_FLASHCARD_TEXT_TAG = "add_flashcard_text_data"
 const val SHARED_PREFS_ADD_FLASHCARD_DESC_TAG = "add_flashcard_desc_data"
 
 class AddFlashcardActivity : AppCompatActivity() {
+
+    companion object {
+        fun openAddFlashcardActivity(startingActivity: Activity) {
+            val intent = Intent(startingActivity, AddFlashcardActivity::class.java)
+            startingActivity.startActivity(intent)
+        }
+    }
 
     private lateinit var flashcard_title: TextView
     private lateinit var flashcard_description: TextView
