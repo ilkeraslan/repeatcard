@@ -25,6 +25,7 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
         val notification_titles = notification_titles[position]
         holder.view.textView_notification_row.text = notification_titles.name
+        holder.view.setOnClickListener { notification_titles }
     }
 
 }

@@ -38,7 +38,9 @@ class DirectoriesFragment : Fragment() {
 
         // Observer on directories_list variable
         viewModel.directories_list.observe(this, Observer {
-            it.let { ((recyclerView_directories.adapter as DirectoriesAdapter)).directory_titles = it }
+            it.let {
+                ((recyclerView_directories.adapter as DirectoriesAdapter)).directory_titles = it
+            }
         })
     }
 }
