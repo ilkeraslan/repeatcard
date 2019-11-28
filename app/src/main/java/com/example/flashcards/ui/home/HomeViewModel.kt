@@ -14,9 +14,9 @@ sealed class FlashcardEvent {
 
 // States that a Flashcard can have
 sealed class FlashcardState {
-    object InProgress : FlashcardState()
+    // object InProgress : FlashcardState()
     data class Error(val error: Throwable) : FlashcardState()
-    object Success : FlashcardState()
+    data class Success(val flashcards: List<Flashcard>) : FlashcardState()
 }
 
 class HomeViewModel : ViewModel() {
@@ -28,22 +28,24 @@ class HomeViewModel : ViewModel() {
         home_data.value = ArrayList()
     }
 
-    val flashcards_list: LiveData<MutableList<Flashcard>> = home_data
-
     // Public method to add Flashcard
-    fun addFlashcard(flashcard: Flashcard) {
+    private fun addFlashcard(flashcard: Flashcard) {
         val newList = home_data
         newList.value?.add(flashcard)
         home_data.value = newList.value
     }
 
     fun send(event: FlashcardEvent) {
-        // TODO
         when(event) {
+            is FlashcardEvent.Load -> loadContent()
             is FlashcardEvent.AddFlashcard -> {
                 addFlashcard(flashcard = event.flashcard)
-                state.value = FlashcardState.Success
+                state.value = FlashcardState.Success(home_data.value!!.toList())
             }
         }
+    }
+
+    private fun loadContent() {
+        state.value = FlashcardState.Success(home_data.value!!.toList())
     }
 }

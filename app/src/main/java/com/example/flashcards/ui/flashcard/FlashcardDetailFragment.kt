@@ -1,5 +1,7 @@
 package com.example.flashcards.ui.flashcard
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +12,18 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.flashcards.R
 
+private const val BUNDLE_TAG_FLASHCARD_ID: String = "BUNDLE_TAG_FLASHCARD_ID"
+
 class FlashcardDetailFragment : Fragment() {
+
+    companion object {
+        fun openGifDetailActivity(startingActivity: Activity, flashcardId: Int) {
+            val intent = Intent(startingActivity, FlashcardDetailFragment::class.java)
+                .putExtra(BUNDLE_TAG_FLASHCARD_ID, flashcardId)
+
+            startingActivity.startActivity(intent)
+        }
+    }
 
     private lateinit var viewModel: FlashcardDetailViewModel
 
