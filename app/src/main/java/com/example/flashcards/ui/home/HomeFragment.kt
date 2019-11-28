@@ -1,8 +1,7 @@
 package com.example.flashcards.ui.home
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
@@ -11,21 +10,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
 import com.example.flashcards.ui.flashcard.Flashcard
-import com.example.flashcards.ui.notifications.NotificationsAdapter
-import com.example.flashcards.ui.notifications.SHARED_PREFS_NOTIFICATION_TEXT_TAG
 import kotlinx.android.synthetic.main.home_fragment.*
-import kotlinx.android.synthetic.main.notifications_fragment.*
 import kotlin.random.Random
 
-const val SHARED_PREFS_HOME_NAME = "AddFlashcardActivity_prefs"
-const val SHARED_PREFS_HOME_TEXT_TAG = "add_flashcard_text_data"
-const val SHARED_PREFS_HOME_DESC_TAG = "add_flashcard_desc_data"
 
 class HomeFragment : Fragment() {
 
@@ -34,7 +27,6 @@ class HomeFragment : Fragment() {
     }
 
     private lateinit var viewModel: HomeViewModel
-    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,60 +37,71 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
-        // Shared Preferences
-        sharedPrefs = requireActivity().getSharedPreferences(SHARED_PREFS_HOME_NAME, Context.MODE_PRIVATE)
+        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
 
         // LayoutManger and Adapter
         recyclerView_home.layoutManager = LinearLayoutManager(this.context)
         recyclerView_home.adapter = HomeAdapter()
 
-        // Get variables from shared preferences
-        setUpViews()
-
         // Observer on flashcards_list variable
-        viewModel.flashcards_list.observe(this, Observer {
-            it.let {
-                (recyclerView_home.adapter as HomeAdapter).flashcards = it
-            }
-        })
+        observeViewModel()
+
+        setUpViews()
     }
 
     private fun setUpViews() {
 
-        val open_add_fragment_action: Button = requireActivity().findViewById(R.id.add_flashcard_button)
-        open_add_fragment_action.setOnClickListener {
-            AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity())
+        val openAddFlashcardActivity: Button =
+            requireActivity().findViewById(R.id.add_flashcard_button)
+
+        // Set onClickListener on add flashcard button
+        openAddFlashcardActivity.setOnClickListener {
+            //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
+            val intent = Intent(activity, AddFlashcardActivity::class.java)
+            startActivityForResult(intent, 1000)
+        }
+    }
+
+    /*
+     * Function to check "AddFlashcardActivity" result
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                viewModel.send(
+                    FlashcardEvent.AddFlashcard(
+                        Flashcard(
+                            Random.nextInt(),
+                            data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString()
+                        )
+                    )
+                )
+            } else {
+                Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
         }
 
-        // Get Flashcard name from shared preferences
-        val flashcard_name = sharedPrefs.getString(
-            SHARED_PREFS_NOTIFICATION_TEXT_TAG, "New Flashcard"
-        )
+        observeViewModel()
+    }
 
-        // Create new Flashcard
-        val newFlashcard = Flashcard(Random.nextInt(),flashcard_name.toString())
+    override fun onResume() {
+        super.onResume()
+        observeViewModel()
+    }
 
-        // Add new Flashcard to ViewModel
-        viewModel.addFlashcard(newFlashcard)
-
-        // Observer on notifications_list variable
-        viewModel.flashcards_list.observe(this, Observer {
-            it.let {
+    private fun observeViewModel() {
+        // Observer on flashcards_list variable
+        // TODO: Observe the state
+        viewModel.flashcards_list.observe(viewLifecycleOwner, Observer { flashcards ->
+            flashcards.let {
                 (recyclerView_home.adapter as HomeAdapter).flashcards =
-                    it
+                    flashcards
             }
         })
     }
-
-    private fun refreshDataActions(prefs: SharedPreferences, title_view: TextView, description_view: TextView, saveDataAction: Button) {
-        if(prefs.contains(SHARED_PREFS_HOME_TEXT_TAG)) {
-            title_view.text = prefs.getString(SHARED_PREFS_HOME_TEXT_TAG, "No title.")
-        }
-        if(prefs.contains(SHARED_PREFS_HOME_DESC_TAG)) {
-            description_view.text = prefs.getString(SHARED_PREFS_HOME_DESC_TAG, "No description.")
-        }
-    }
-
 }
