@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.ui.flashcard.Flashcard
-import com.example.flashcards.ui.flashcard.FlashcardDetailFragment
+import com.example.flashcards.ui.flashcard.FlashcardDetailActivity
 
 class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
 
@@ -25,7 +25,7 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
         holder.flashcard.text = flashcard.name
 
         holder.flashcard.setOnClickListener {
-            FlashcardDetailFragment.openGifDetailActivity(
+            FlashcardDetailActivity.openFlashcardDetailActivity(
                 holder.flashcard.context as Activity,
                 flashcard.id
             )
@@ -49,5 +49,4 @@ class FlashcardsDiffUtil : DiffUtil.ItemCallback<Flashcard>() {
     override fun areContentsTheSame(oldItem: Flashcard, newItem: Flashcard): Boolean {
         return oldItem == newItem
     }
-
 }
