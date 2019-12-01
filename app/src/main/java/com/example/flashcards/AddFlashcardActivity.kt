@@ -32,7 +32,6 @@ class AddFlashcardActivity : AppCompatActivity() {
 
     private fun setUpViews() {
 
-        // Get reference of views
         flashcardTitle = findViewById(R.id.flashcard_title)
         flashcardDescription = findViewById(R.id.flashcard_description)
         flashcardTitleEdit = findViewById(R.id.flashcard_title_editText)
@@ -42,7 +41,6 @@ class AddFlashcardActivity : AppCompatActivity() {
 
         // Click listener on save button
         flashcardSaveButton.setOnClickListener {
-            // TODO: Return values to HomeFragment
             turnToMain()
         }
     }

@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
 import com.example.flashcards.ui.flashcard.Flashcard
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.random.Random
 
