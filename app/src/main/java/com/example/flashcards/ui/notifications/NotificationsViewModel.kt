@@ -11,16 +11,6 @@ class NotificationsViewModel : ViewModel() {
 
     init {
         notifications_data.value = ArrayList()
-
-        addNotificationsData(
-            Flashcard(1,"Lorem ipsum dolor sit amet this is an example notification-1")
-        )
-        addNotificationsData(
-            Flashcard(2,"Lorem ipsum dolor sit amet this is an example notification-2")
-        )
-        addNotificationsData(
-            Flashcard(3,"Lorem ipsum dolor sit amet this is an example notification-3")
-        )
     }
 
     val notifications_list : LiveData<MutableList<Flashcard>> = notifications_data

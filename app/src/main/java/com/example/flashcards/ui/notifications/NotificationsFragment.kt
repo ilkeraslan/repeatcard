@@ -73,7 +73,7 @@ class NotificationsFragment : Fragment() {
         )
 
         // Create new Flashcard
-        val newFlashcard = Flashcard(Random.nextInt(), flashcard_name.toString())
+        val newFlashcard = Flashcard(Random.nextInt().toString(), flashcard_name.toString())
 
         // Add new Flashcard to ViewModel
         viewModel.addNotificationsData(newFlashcard)

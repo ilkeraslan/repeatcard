@@ -27,7 +27,7 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
         holder.flashcard.setOnClickListener {
             FlashcardDetailActivity.openFlashcardDetailActivity(
                 holder.flashcard.context as Activity,
-                flashcard.id
+                flashcard.id.toString()
             )
         }
     }
@@ -37,7 +37,7 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val flashcard = view.findViewById<TextView>(R.id.textView_home_row)
 }
 
-class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {
+class HomeListener(val click_listener: (flashcard_id: String) -> Unit) {
     fun onClick(flashcard: Flashcard) = click_listener(flashcard.id)
 }
 

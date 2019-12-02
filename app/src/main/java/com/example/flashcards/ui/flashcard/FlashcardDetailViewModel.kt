@@ -3,16 +3,31 @@ package com.example.flashcards.ui.flashcard
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+
+// Events that FlashcardDetailActivity can send
+sealed class FlashcardDetailEvent {
+    object Load : FlashcardDetailEvent()
+}
+
+// States that FlashcardDetailViewModel can have
+sealed class FlashcardDetailState {
+    data class Error(val error: Throwable) : FlashcardDetailState()
+    data class Success(val flashcard: Flashcard) : FlashcardDetailState()
+}
+
+
 class FlashcardDetailViewModel : ViewModel() {
 
-    private val flashcard = MutableLiveData<Flashcard>()
-    private val navigate_to_home = MutableLiveData<Boolean?>()
+    var state: MutableLiveData<FlashcardDetailState> = MutableLiveData()
 
-    init {
-        flashcard.value = Flashcard(1, "flashcard-1")
-        navigate_to_home.value = true
+    fun send(event: FlashcardDetailEvent, id: String) {
+        when (event) {
+            is FlashcardDetailEvent.Load -> loadContent(id)
+        }
     }
 
-    val flashcard_detail = flashcard
-    val navigate_to_home_state = navigate_to_home
+    private fun loadContent(flashcard_id: String) {
+        state.value = FlashcardDetailState.Success(Flashcard(flashcard_id, "Test Title"))
+    }
+
 }

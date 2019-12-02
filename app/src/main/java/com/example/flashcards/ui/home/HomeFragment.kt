@@ -78,7 +78,7 @@ class HomeFragment : Fragment() {
                 viewModel.send(
                     FlashcardEvent.AddFlashcard(
                         Flashcard(
-                            Random.nextInt(),
+                            Random.nextInt().toString(),
                             data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString()
                         )
                     )
@@ -97,11 +97,6 @@ class HomeFragment : Fragment() {
         // Observer on flashcards_list variable
         // TODO: Observe the state
         viewModel.state.observe(this, Observer { state ->
-            //            flashcards.let {
-//                (recyclerView_home.adapter as HomeAdapter).flashcards =
-//                    flashcards
-//            }
-            Log.i("OBSERVED_STATE", state.toString())
             when (state) {
                 is FlashcardState.Error -> showError(state.error)
                 is FlashcardState.Success -> showFlashcards(state.flashcards)
