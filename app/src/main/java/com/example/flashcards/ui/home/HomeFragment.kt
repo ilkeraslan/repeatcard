@@ -1,8 +1,8 @@
 package com.example.flashcards.ui.home
 
 import android.app.Activity
+import android.app.Application
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,10 +12,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.AddFlashcardActivity
+import com.example.flashcards.MainActivity
 import com.example.flashcards.R
-import com.example.flashcards.ui.flashcard.Flashcard
+import com.example.flashcards.db.Flashcard
+import com.example.flashcards.db.FlashcardDbManager
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.random.Random
 
@@ -28,6 +33,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var homeAdapter: HomeAdapter
+    private lateinit var homeViewModelFactory: HomeViewModelFactory
+    private lateinit var dbManager: FlashcardDbManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +59,8 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, HomeViewModelFactory(this.activity as Activity))
+            .get(HomeViewModel::class.java)
 
         // LayoutManger and Adapter
         recyclerView_home.layoutManager = LinearLayoutManager(this.context)
@@ -94,9 +102,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // Observer on flashcards_list variable
-        // TODO: Observe the state
-        viewModel.state.observe(this, Observer { state ->
+        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is FlashcardState.Error -> showError(state.error)
                 is FlashcardState.Success -> showFlashcards(state.flashcards)

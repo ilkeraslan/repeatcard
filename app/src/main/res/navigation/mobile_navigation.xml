@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/flashcardDetailFragment"
-        android:name="com.example.flashcards.ui.flashcard.FlashcardDetailFragment"
+        android:name="com.example.flashcards.ui.flashcard_detail.FlashcardDetailFragment"
         android:label="FlashcardDetailFragment" >
         <action
             android:id="@+id/action_flashcardDetailFragment_to_navigation_home"

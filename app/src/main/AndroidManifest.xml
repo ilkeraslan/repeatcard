@@ -17,7 +17,7 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".ui.flashcard.FlashcardDetailActivity"
+            android:name=".ui.flashcard_detail.FlashcardDetailActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -1,4 +1,4 @@
-package com.example.flashcards.ui.flashcard
+package com.example.flashcards.ui.flashcard_detail
 
 import android.app.Activity
 import android.content.Intent

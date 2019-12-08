@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.ui.flashcard.Flashcard
+import com.example.flashcards.db.Flashcard
 import kotlinx.android.synthetic.main.notification_row.view.*
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
@@ -24,10 +24,8 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
         val notification_titles = notification_titles[position]
-        holder.view.textView_notification_row.text = notification_titles.name
-        // holder.view.setOnClickListener { notification_titles } TODO
+        holder.view.textView_notification_row.text = notification_titles.flashcardTitle
     }
-
 }
 
 class NotificationsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
