@@ -1,7 +1,6 @@
 package com.example.flashcards.ui.home
 
 import android.app.Activity
-import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,14 +12,10 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.AddFlashcardActivity
-import com.example.flashcards.MainActivity
 import com.example.flashcards.R
 import com.example.flashcards.db.Flashcard
-import com.example.flashcards.db.FlashcardDbManager
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.random.Random
 
@@ -33,34 +28,19 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var homeAdapter: HomeAdapter
-    private lateinit var homeViewModelFactory: HomeViewModelFactory
-    private lateinit var dbManager: FlashcardDbManager
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
-    private fun setUpViews() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val openAddFlashcardActivity: Button =
-            requireActivity().findViewById(R.id.add_flashcard_button)
-
-        // Set onClickListener on add flashcard button
-        openAddFlashcardActivity.setOnClickListener {
-            //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
-            val intent = Intent(activity, AddFlashcardActivity::class.java)
-            startActivityForResult(intent, 1000)
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, HomeViewModelFactory(this.activity as Activity))
-            .get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         // LayoutManger and Adapter
         recyclerView_home.layoutManager = LinearLayoutManager(this.context)
@@ -75,9 +55,6 @@ class HomeFragment : Fragment() {
         setUpViews()
     }
 
-    /*
-     * Function to check "AddFlashcardActivity" result
-     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -97,8 +74,19 @@ class HomeFragment : Fragment() {
         } else {
             Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
         }
+    }
 
-        observeViewModel()
+    private fun setUpViews() {
+
+        val openAddFlashcardActivity: Button =
+            requireActivity().findViewById(R.id.add_flashcard_button)
+
+        // Set onClickListener on add flashcard button
+        openAddFlashcardActivity.setOnClickListener {
+            //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
+            val intent = Intent(activity, AddFlashcardActivity::class.java)
+            startActivityForResult(intent, 1000)
+        }
     }
 
     private fun observeViewModel() {

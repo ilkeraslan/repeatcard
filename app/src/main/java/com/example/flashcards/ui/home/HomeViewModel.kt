@@ -3,12 +3,10 @@ package com.example.flashcards.ui.home
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flashcards.db.Flashcard
-import com.example.flashcards.db.FlashcardDbManager
 import com.example.flashcards.db.FlashcardRepository
-import com.example.flashcards.db.FlashcardRoomDatabase
+import com.example.flashcards.db.FlashcardDatabase
 import kotlinx.coroutines.launch
 
 
@@ -20,7 +18,7 @@ sealed class FlashcardEvent {
 
 // States that a Flashcard can have
 sealed class FlashcardState {
-    // object InProgress : FlashcardState()
+    //TODO: object InProgress : FlashcardState()
     data class Error(val error: Throwable) : FlashcardState()
 
     data class Success(val flashcards: List<Flashcard>) : FlashcardState()
@@ -37,7 +35,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     var state: MutableLiveData<FlashcardState> = MutableLiveData()
 
     init {
-        val flashcardsDao = FlashcardRoomDatabase.getDatabase(application).flashcardDao()
+        val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
         repository = FlashcardRepository(flashcardsDao)
         updateFlashcards()
     }
@@ -60,7 +58,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         allFlashcards.postValue(repository.getFlashcards())
     }
 
-    fun insert(flashcard: Flashcard) = viewModelScope.launch {
+    private fun insert(flashcard: Flashcard) = viewModelScope.launch {
         repository.insert(flashcard)
         updateFlashcards()
     }
