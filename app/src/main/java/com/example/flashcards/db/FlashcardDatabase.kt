@@ -1,19 +1,20 @@
 package com.example.flashcards.db
 
 import android.content.Context
+import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-public abstract class FlashcardRoomDatabase : RoomDatabase() {
+@Database(entities = arrayOf(Flashcard::class), version = 1, exportSchema = false)
+public abstract class FlashcardDatabase : RoomDatabase() {
 
     abstract fun flashcardDao() : FlashcardDao
 
     companion object {
-        // Singleton
         @Volatile
-        private var INSTANCE: FlashcardRoomDatabase? = null
+        private var INSTANCE: FlashcardDatabase? = null
 
-        fun getDatabase(context: Context): FlashcardRoomDatabase {
+        fun getDatabase(context: Context): FlashcardDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -21,8 +22,8 @@ public abstract class FlashcardRoomDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    FlashcardRoomDatabase::class.java,
-                    "word_database"
+                    FlashcardDatabase::class.java,
+                    "flashcard_table"
                 ).build()
                 INSTANCE = instance
                 return instance

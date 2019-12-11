@@ -3,7 +3,7 @@ package com.example.flashcards.ui.notifications
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.flashcards.ui.flashcard.Flashcard
+import com.example.flashcards.db.Flashcard
 
 class NotificationsViewModel : ViewModel() {
 

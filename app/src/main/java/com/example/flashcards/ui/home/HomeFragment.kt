@@ -2,7 +2,6 @@ package com.example.flashcards.ui.home
 
 import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,10 +11,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
-import com.example.flashcards.ui.flashcard.Flashcard
+import com.example.flashcards.db.Flashcard
 import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.random.Random
 
@@ -30,10 +30,51 @@ class HomeFragment : Fragment() {
     private lateinit var homeAdapter: HomeAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        // LayoutManger and Adapter
+        recyclerView_home.layoutManager = LinearLayoutManager(this.context)
+        homeAdapter = HomeAdapter()
+        recyclerView_home.adapter = homeAdapter
+
+        // Observer on flashcards_list variable
+        observeViewModel()
+
+        setUpViews()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                viewModel.send(
+                    FlashcardEvent.AddFlashcard(
+                        Flashcard(
+                            0,
+                            data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
+                            data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
+                            creation_date = null,
+                            last_modified = null
+                        )
+                    )
+                )
+            } else {
+                Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setUpViews() {
@@ -49,54 +90,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
-        // LayoutManger and Adapter
-        recyclerView_home.layoutManager = LinearLayoutManager(this.context)
-        homeAdapter = HomeAdapter()
-        recyclerView_home.adapter = homeAdapter
-
-        // Observer on flashcards_list variable
-        observeViewModel()
-
-        viewModel.send(FlashcardEvent.Load)
-
-        setUpViews()
-    }
-
-    /*
-     * Function to check "AddFlashcardActivity" result
-     */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                viewModel.send(
-                    FlashcardEvent.AddFlashcard(
-                        Flashcard(
-                            Random.nextInt().toString(),
-                            data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString()
-                        )
-                    )
-                )
-            } else {
-                Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
-        }
-
-        observeViewModel()
-    }
-
     private fun observeViewModel() {
-        // Observer on flashcards_list variable
-        // TODO: Observe the state
-        viewModel.state.observe(this, Observer { state ->
+        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is FlashcardState.Error -> showError(state.error)
                 is FlashcardState.Success -> showFlashcards(state.flashcards)

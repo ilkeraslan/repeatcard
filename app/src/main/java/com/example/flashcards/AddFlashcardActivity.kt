@@ -52,14 +52,16 @@ class AddFlashcardActivity : AppCompatActivity() {
     private fun turnToMain() {
         val intentToMain = Intent()
 
-        if (flashcardDescriptionEdit.text.isNotEmpty()) {
+        if (flashcardTitleEdit.text.isNotEmpty()) {
+            intentToMain.putExtra(
+                "ADD_FLASHCARD_TITLE_RESULT",
+                flashcardTitleEdit.text.toString()
+            )
             intentToMain.putExtra(
                 "ADD_FLASHCARD_DESC_RESULT",
                 flashcardDescriptionEdit.text.toString()
             )
-        }
-        if (flashcardTitleEdit.text.isNotEmpty()) {
-            intentToMain.putExtra("ADD_FLASHCARD_TITLE_RESULT", flashcardTitleEdit.text.toString())
+
             setResult(Activity.RESULT_OK, intentToMain)
         } else {
             setResult(Activity.RESULT_CANCELED)

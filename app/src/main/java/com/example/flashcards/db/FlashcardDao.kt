@@ -8,7 +8,7 @@ import androidx.room.Query
 @Dao
 interface FlashcardDao {
 
-    @Query("SELECT * from flashcard_table ORDER BY flashcard ASC")
+    @Query("SELECT * from flashcard_table ORDER BY flashcard_title ASC")
     suspend fun getFlashcards(): List<Flashcard>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

@@ -1,8 +1,13 @@
 package com.example.flashcards.ui.home
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.flashcards.ui.flashcard.Flashcard
+import androidx.lifecycle.viewModelScope
+import com.example.flashcards.db.Flashcard
+import com.example.flashcards.db.FlashcardRepository
+import com.example.flashcards.db.FlashcardDatabase
+import kotlinx.coroutines.launch
 
 
 // Events that HomeFragment can send
@@ -13,38 +18,50 @@ sealed class FlashcardEvent {
 
 // States that a Flashcard can have
 sealed class FlashcardState {
-    // object InProgress : FlashcardState()
+    //TODO: object InProgress : FlashcardState()
     data class Error(val error: Throwable) : FlashcardState()
+
     data class Success(val flashcards: List<Flashcard>) : FlashcardState()
 }
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val home_data = MutableLiveData<MutableList<Flashcard>>()
+    companion object {
+        fun newInstance(application: Application) = HomeViewModel(application)
+    }
+
+    private val repository: FlashcardRepository
+    val allFlashcards = MutableLiveData<List<Flashcard>>()
     var state: MutableLiveData<FlashcardState> = MutableLiveData()
 
     init {
-        home_data.value = ArrayList()
-    }
-
-    // Public method to add Flashcard
-    private fun addFlashcard(flashcard: Flashcard) {
-        val newList = home_data
-        newList.value?.add(flashcard)
-        home_data.value = newList.value
+        val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
+        repository = FlashcardRepository(flashcardsDao)
+        updateFlashcards()
     }
 
     fun send(event: FlashcardEvent) {
-        when(event) {
+        when (event) {
             is FlashcardEvent.Load -> loadContent()
             is FlashcardEvent.AddFlashcard -> {
-                addFlashcard(flashcard = event.flashcard)
-                state.value = FlashcardState.Success(home_data.value!!.toList())
+                insert(flashcard = event.flashcard)
+                state.value = FlashcardState.Success(allFlashcards.value!!.toList())
             }
         }
     }
 
     private fun loadContent() {
-        state.value = FlashcardState.Success(home_data.value!!.toList())
+        // TODO: handle other states
+        state.value = FlashcardState.Success(allFlashcards.value!!.toList())
+    }
+
+    private fun updateFlashcards() = viewModelScope.launch {
+        allFlashcards.postValue(repository.getFlashcards())
+        state.value = FlashcardState.Success(repository.getFlashcards())
+    }
+
+    private fun insert(flashcard: Flashcard) = viewModelScope.launch {
+        repository.insert(flashcard)
+        updateFlashcards()
     }
 }
