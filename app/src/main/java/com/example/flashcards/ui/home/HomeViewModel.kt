@@ -51,11 +51,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun loadContent() {
+        // TODO: handle other states
         state.value = FlashcardState.Success(allFlashcards.value!!.toList())
     }
 
     private fun updateFlashcards() = viewModelScope.launch {
         allFlashcards.postValue(repository.getFlashcards())
+        state.value = FlashcardState.Success(repository.getFlashcards())
     }
 
     private fun insert(flashcard: Flashcard) = viewModelScope.launch {

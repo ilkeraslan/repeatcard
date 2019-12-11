@@ -21,14 +21,22 @@ class FlashcardDetailViewModel : ViewModel() {
 
     var state: MutableLiveData<FlashcardDetailState> = MutableLiveData()
 
-    fun send(event: FlashcardDetailEvent, id: String) {
+    fun send(event: FlashcardDetailEvent, id: Int) {
         when (event) {
             is FlashcardDetailEvent.Load -> loadContent(id)
         }
     }
 
-    private fun loadContent(flashcard_id: String) {
-        state.value = FlashcardDetailState.Success(Flashcard(flashcard_id, "Test Title"))
+    private fun loadContent(flashcard_id: Int) {
+        state.value = FlashcardDetailState.Success(
+            Flashcard(
+                flashcard_id,
+                "Test Title",
+                null,
+                null,
+                null
+            )
+        )
     }
 
 }

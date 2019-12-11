@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.example.flashcards.R
 
 private const val BUNDLE_TAG_FLASHCARD_ID: String = "BUNDLE_TAG_FLASHCARD_ID"
@@ -13,7 +13,7 @@ private const val BUNDLE_TAG_FLASHCARD_ID: String = "BUNDLE_TAG_FLASHCARD_ID"
 class FlashcardDetailActivity : AppCompatActivity() {
 
     companion object {
-        fun openFlashcardDetailActivity(startingActivity: Activity, flashcardId: String) {
+        fun openFlashcardDetailActivity(startingActivity: Activity, flashcardId: Int) {
             val intent = Intent(startingActivity, FlashcardDetailActivity::class.java)
                 .putExtra(BUNDLE_TAG_FLASHCARD_ID, flashcardId)
 
@@ -23,7 +23,8 @@ class FlashcardDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: FlashcardDetailViewModel
     private lateinit var closeButton: Button
-    private lateinit var flashcard_id: String
+
+    private var flashcard_id = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +34,9 @@ class FlashcardDetailActivity : AppCompatActivity() {
     }
 
     private fun setUpViews() {
-        viewModel = ViewModelProviders.of(this).get(FlashcardDetailViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(FlashcardDetailViewModel::class.java)
         closeButton = findViewById(R.id.button_close_detail)
-        flashcard_id = intent.extras?.get(BUNDLE_TAG_FLASHCARD_ID).toString()
+        flashcard_id = intent.extras!!.getInt("BUNDLE_TAG_FLASHCARD_ID")
 
         viewModel.send(
             FlashcardDetailEvent.Load, flashcard_id

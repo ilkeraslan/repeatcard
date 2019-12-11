@@ -24,7 +24,7 @@ class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
         val notification_titles = notification_titles[position]
-        holder.view.textView_notification_row.text = notification_titles.flashcardTitle
+        holder.view.textView_notification_row.text = notification_titles.title
     }
 }
 
@@ -32,6 +32,6 @@ class NotificationsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
 }
 
-class NotificationsListener(val clickListener: (flashcard_id: String) -> Unit) {
+class NotificationsListener(val clickListener: (flashcard_id: Int) -> Unit) {
     fun onClick(flashcard: Flashcard) = clickListener(flashcard.id)
 }

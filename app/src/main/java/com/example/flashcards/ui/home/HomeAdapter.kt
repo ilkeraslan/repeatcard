@@ -22,7 +22,7 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val flashcard = getItem(position)
-        holder.flashcard.text = flashcard.flashcardTitle
+        holder.flashcard.text = flashcard.title
 
         holder.flashcard.setOnClickListener {
             FlashcardDetailActivity.openFlashcardDetailActivity(
@@ -37,7 +37,7 @@ class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val flashcard = view.findViewById<TextView>(R.id.textView_home_row)
 }
 
-class HomeListener(val click_listener: (flashcard_id: String) -> Unit) {
+class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {
     fun onClick(flashcard: Flashcard) = click_listener(flashcard.id)
 }
 

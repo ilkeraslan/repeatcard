@@ -50,8 +50,6 @@ class HomeFragment : Fragment() {
         // Observer on flashcards_list variable
         observeViewModel()
 
-        viewModel.send(FlashcardEvent.Load)
-
         setUpViews()
     }
 
@@ -63,8 +61,11 @@ class HomeFragment : Fragment() {
                 viewModel.send(
                     FlashcardEvent.AddFlashcard(
                         Flashcard(
-                            Random.nextInt().toString(),
-                            data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString()
+                            0,
+                            data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
+                            data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
+                            creation_date = null,
+                            last_modified = null
                         )
                     )
                 )

@@ -1,12 +1,12 @@
 package com.example.flashcards.ui.notifications
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.R
 import com.example.flashcards.db.Flashcard
@@ -32,7 +32,7 @@ class NotificationsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(NotificationsViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         // LayoutManager and Adapter
         recyclerView_notifications.layoutManager = LinearLayoutManager(this.context)
@@ -44,11 +44,14 @@ class NotificationsFragment : Fragment() {
 
     private fun setUpViews() {
 
-        // Get Flashcard name from shared preferences
-        val flashcard_name = "None"
-
         // Create new Flashcard
-        val newFlashcard = Flashcard(Random.nextInt().toString(), flashcard_name)
+        val newFlashcard = Flashcard(
+            0,
+            "Example",
+            null,
+            null,
+            null
+        )
 
         // Add new Flashcard to ViewModel
         viewModel.addNotificationsData(newFlashcard)
