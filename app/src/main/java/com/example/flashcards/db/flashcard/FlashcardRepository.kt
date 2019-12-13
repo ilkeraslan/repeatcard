@@ -1,4 +1,4 @@
-package com.example.flashcards.db
+package com.example.flashcards.db.flashcard
 
 class FlashcardRepository(private val flashcardDao: FlashcardDao) {
 

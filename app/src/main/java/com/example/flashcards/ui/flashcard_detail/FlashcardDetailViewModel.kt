@@ -2,7 +2,7 @@ package com.example.flashcards.ui.flashcard_detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.flashcards.db.Flashcard
+import com.example.flashcards.db.flashcard.Flashcard
 
 
 // Events that FlashcardDetailActivity can send

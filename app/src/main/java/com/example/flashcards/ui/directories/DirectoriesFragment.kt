@@ -1,15 +1,18 @@
 package com.example.flashcards.ui.directories
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.flashcards.R
+import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
 import kotlinx.android.synthetic.main.directories_fragment.*
 
 class DirectoriesFragment : Fragment() {
@@ -19,28 +22,44 @@ class DirectoriesFragment : Fragment() {
     }
 
     private lateinit var viewModel: DirectoriesViewModel
+    private lateinit var directoriesAdapter: DirectoriesAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.directories_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(DirectoriesViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
 
         // LayoutManager and Adapter
         recyclerView_directories.layoutManager = LinearLayoutManager(this.context)
-        recyclerView_directories.adapter = DirectoriesAdapter()
+        directoriesAdapter = DirectoriesAdapter()
+        recyclerView_directories.adapter = directoriesAdapter
 
-        // Add data directly in fragment for testing
-        viewModel.addDirectoriesData("directory-5")
-        viewModel.addDirectoriesData("directory-6")
+        observeViewModel()
+    }
 
-        // Observer on directories_list variable
-        viewModel.directories_list.observe(this, Observer {
-            it.let {
-                ((recyclerView_directories.adapter as DirectoriesAdapter)).directory_titles = it
+    private fun observeViewModel() {
+        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+            when (state) {
+                is DirectoryState.Error -> showError(state.error)
+                is DirectoryState.Success -> showDirectories(state.directories)
             }
         })
+    }
+
+    private fun showDirectories(directories: List<FlashcardDirectory>) {
+        directoriesAdapter.submitList(directories)
+    }
+
+    private fun showError(error: Throwable) {
+        Log.i("STATE ERROR", "Error: ", error)
+        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
     }
 }

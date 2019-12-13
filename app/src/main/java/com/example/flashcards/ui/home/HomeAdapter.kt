@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.db.Flashcard
+import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_detail.FlashcardDetailActivity
 
 class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
@@ -34,7 +34,7 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
 }
 
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val flashcard = view.findViewById<TextView>(R.id.textView_home_row)
+    val flashcard: TextView = view.findViewById(R.id.textView_home_row)
 }
 
 class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {

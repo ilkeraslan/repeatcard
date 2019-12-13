@@ -9,9 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.R
-import com.example.flashcards.db.Flashcard
+import com.example.flashcards.db.flashcard.Flashcard
 import kotlinx.android.synthetic.main.notifications_fragment.*
-import kotlin.random.Random
 
 
 class NotificationsFragment : Fragment() {

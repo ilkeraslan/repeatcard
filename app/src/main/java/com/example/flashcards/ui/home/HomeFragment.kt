@@ -15,9 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
-import com.example.flashcards.db.Flashcard
+import com.example.flashcards.db.flashcard.Flashcard
 import kotlinx.android.synthetic.main.home_fragment.*
-import kotlin.random.Random
 
 
 class HomeFragment : Fragment() {
@@ -47,7 +46,6 @@ class HomeFragment : Fragment() {
         homeAdapter = HomeAdapter()
         recyclerView_home.adapter = homeAdapter
 
-        // Observer on flashcards_list variable
         observeViewModel()
 
         setUpViews()

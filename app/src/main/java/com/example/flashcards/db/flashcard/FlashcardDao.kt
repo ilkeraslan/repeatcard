@@ -1,4 +1,4 @@
-package com.example.flashcards.db
+package com.example.flashcards.db.flashcard
 
 import androidx.room.Dao
 import androidx.room.Insert

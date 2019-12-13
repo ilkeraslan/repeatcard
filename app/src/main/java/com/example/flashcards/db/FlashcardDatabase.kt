@@ -4,15 +4,40 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
+import com.example.flashcards.db.flashcard.Flashcard
+import com.example.flashcards.db.flashcard.FlashcardDao
+import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
+import com.example.flashcards.db.flashcard_directory.FlashcardDirectoryDao
 
-@Database(entities = arrayOf(Flashcard::class), version = 1, exportSchema = false)
+@Database(
+    entities = arrayOf(Flashcard::class, FlashcardDirectory::class),
+    version = 2,
+    exportSchema = false
+)
 public abstract class FlashcardDatabase : RoomDatabase() {
 
-    abstract fun flashcardDao() : FlashcardDao
+    abstract fun flashcardDao(): FlashcardDao
+    abstract fun directoryDao(): FlashcardDirectoryDao
 
     companion object {
         @Volatile
         private var INSTANCE: FlashcardDatabase? = null
+
+        private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    """
+                        CREATE TABLE flashcard_directories_table (
+                            id INTEGER PRIMARY KEY NOT NULL,
+                            title TEXT NOT NULL,
+                            creationDate TEXT
+                        )
+                    """.trimIndent()
+                )
+            }
+        }
 
         fun getDatabase(context: Context): FlashcardDatabase {
             val tempInstance = INSTANCE
@@ -24,7 +49,9 @@ public abstract class FlashcardDatabase : RoomDatabase() {
                     context.applicationContext,
                     FlashcardDatabase::class.java,
                     "flashcard_table"
-                ).build()
+                )
+                    .addMigrations(MIGRATION_1_2)
+                    .build()
                 INSTANCE = instance
                 return instance
             }

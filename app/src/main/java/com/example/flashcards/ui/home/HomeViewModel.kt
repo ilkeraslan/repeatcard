@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.flashcards.db.Flashcard
-import com.example.flashcards.db.FlashcardRepository
+import com.example.flashcards.db.flashcard.Flashcard
+import com.example.flashcards.db.flashcard.FlashcardRepository
 import com.example.flashcards.db.FlashcardDatabase
 import kotlinx.coroutines.launch
 
@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 sealed class FlashcardEvent {
     object Load : FlashcardEvent()
     data class AddFlashcard(val flashcard: Flashcard) : FlashcardEvent()
+    // TODO: data class DeleteFlashcard(val id: Int) : FlashcardEvent()
 }
 
 // States that a Flashcard can have
@@ -45,7 +46,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             is FlashcardEvent.Load -> loadContent()
             is FlashcardEvent.AddFlashcard -> {
                 insert(flashcard = event.flashcard)
-                state.value = FlashcardState.Success(allFlashcards.value!!.toList())
+                loadContent()
             }
         }
     }
@@ -55,13 +56,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         state.value = FlashcardState.Success(allFlashcards.value!!.toList())
     }
 
-    private fun updateFlashcards() = viewModelScope.launch {
-        allFlashcards.postValue(repository.getFlashcards())
-        state.value = FlashcardState.Success(repository.getFlashcards())
-    }
-
     private fun insert(flashcard: Flashcard) = viewModelScope.launch {
         repository.insert(flashcard)
         updateFlashcards()
+    }
+
+    private fun updateFlashcards() = viewModelScope.launch {
+        allFlashcards.postValue(repository.getFlashcards())
+        state.value = FlashcardState.Success(repository.getFlashcards())
     }
 }

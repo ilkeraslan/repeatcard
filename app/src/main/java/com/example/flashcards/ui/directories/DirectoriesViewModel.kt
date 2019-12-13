@@ -1,26 +1,70 @@
 package com.example.flashcards.ui.directories
 
-import androidx.lifecycle.LiveData
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.flashcards.db.FlashcardDatabase
+import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
+import com.example.flashcards.db.flashcard_directory.FlashcardDirectoryRepository
+import kotlinx.coroutines.launch
 
-class   DirectoriesViewModel : ViewModel() {
 
-    private val directories_data = MutableLiveData<MutableList<String>>()
+sealed class DirectoryEvent {
+    object Load : DirectoryEvent()
+    data class AddDirectory(val directory: FlashcardDirectory) : DirectoryEvent()
+    data class DeleteDirectory(val directory: FlashcardDirectory) : DirectoryEvent()
+}
 
-    init {
-        directories_data.value = ArrayList()
+sealed class DirectoryState {
+    // TODO: object InProgress : DirectoryState()
+    data class Error(val error: Throwable) : DirectoryState()
 
-        addDirectoriesData("directory-1")
-        addDirectoriesData("directory-2")
-        addDirectoriesData("directory-3")
-        addDirectoriesData("directory-4")
+    data class Success(val directories: List<FlashcardDirectory>) : DirectoryState()
+}
+
+class DirectoriesViewModel(application: Application) : AndroidViewModel(application) {
+
+    companion object {
+        fun newInstance(application: Application) = DirectoriesViewModel(application)
     }
 
-    val directories_list : LiveData<MutableList<String>> = directories_data
+    private val repository: FlashcardDirectoryRepository
+    val allDirectories = MutableLiveData<List<FlashcardDirectory>>()
+    var state: MutableLiveData<DirectoryState> = MutableLiveData()
 
-    // Public method to add data
-    fun addDirectoriesData(directory: String) {
-        directories_data.value?.add(directory)
+    init {
+        val directoriesDao = FlashcardDatabase.getDatabase(application).directoryDao()
+        repository = FlashcardDirectoryRepository(directoriesDao)
+        updateDirectories()
+    }
+
+    fun send(event: DirectoryEvent) {
+        when (event) {
+            is DirectoryEvent.Load -> loadContent()
+            is DirectoryEvent.AddDirectory -> {
+                insert(event.directory)
+                loadContent()
+            }
+            is DirectoryEvent.DeleteDirectory -> deleteDirectory(event.directory)
+        }
+    }
+
+    private fun loadContent() {
+        // TODO: Handle other states
+        state.value = DirectoryState.Success(allDirectories.value!!.toList())
+    }
+
+    private fun insert(directory: FlashcardDirectory) = viewModelScope.launch {
+        repository.insert(directory)
+    }
+
+    private fun updateDirectories() = viewModelScope.launch {
+        allDirectories.postValue(repository.getDirectories())
+        state.value = DirectoryState.Success(repository.getDirectories())
+    }
+
+    private fun deleteDirectory(directory: FlashcardDirectory) = viewModelScope.launch {
+        repository.deleteDirectory(directory)
     }
 }
