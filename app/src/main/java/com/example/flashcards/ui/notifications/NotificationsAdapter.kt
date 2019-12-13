@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.db.Flashcard
+import com.example.flashcards.db.flashcard.Flashcard
 import kotlinx.android.synthetic.main.notification_row.view.*
 
 class NotificationsAdapter : RecyclerView.Adapter<NotificationsViewHolder>() {

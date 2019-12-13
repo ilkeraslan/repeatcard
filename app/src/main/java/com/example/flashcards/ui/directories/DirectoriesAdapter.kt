@@ -4,37 +4,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import kotlinx.android.synthetic.main.directory_row.view.*
+import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
 
-class DirectoriesAdapter : RecyclerView.Adapter<DirectoriesViewHolder>() {
-
-    var directory_titles = listOf<String>()
-
-    // Custom setter
-    set(value) {
-        field = value
-        notifyDataSetChanged()
-    }
+class DirectoriesAdapter :
+    ListAdapter<FlashcardDirectory, DirectoriesViewHolder>(DirectoriesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoriesViewHolder {
-        val layout_inflater = LayoutInflater.from(parent.context)
-        val cell_for_row = layout_inflater.inflate(R.layout.directory_row, parent, false)
-        return DirectoriesViewHolder(cell_for_row)
-    }
-
-    override fun getItemCount(): Int {
-        return directory_titles.size
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val cellForRow = layoutInflater.inflate(R.layout.directory_row, parent, false)
+        return DirectoriesViewHolder(cellForRow)
     }
 
     override fun onBindViewHolder(holder: DirectoriesViewHolder, position: Int) {
-        val directory_titles = directory_titles[position]
-        holder.view.textView_directory_row.text = directory_titles
+        val directoryTitle = getItem(position)
+        holder.directory.text = directoryTitle.title
     }
 }
 
-class DirectoriesViewHolder(val view: View): RecyclerView.ViewHolder(view) {
-    // Get reference to views
-    val directory_title: TextView = itemView.findViewById(R.id.textView_directory_row)
+class DirectoriesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val directory: TextView = view.findViewById(R.id.textView_directory_row)
+}
+
+class DirectoriesDiffUtil : DiffUtil.ItemCallback<FlashcardDirectory>() {
+    override fun areItemsTheSame(
+        oldItem: FlashcardDirectory,
+        newItem: FlashcardDirectory
+    ): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(
+        oldItem: FlashcardDirectory,
+        newItem: FlashcardDirectory
+    ): Boolean {
+        return oldItem.id == newItem.id
+    }
 }
