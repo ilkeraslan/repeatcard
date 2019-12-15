@@ -7,4 +7,6 @@ class FlashcardRepository(private val flashcardDao: FlashcardDao) {
     }
 
     suspend fun getFlashcards() = flashcardDao.getFlashcards()
+
+    suspend fun deleteAll() = flashcardDao.deleteAll()
 }
