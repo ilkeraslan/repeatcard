@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 sealed class FlashcardEvent {
     object Load : FlashcardEvent()
     data class AddFlashcard(val flashcard: Flashcard) : FlashcardEvent()
+    object DeleteAll: FlashcardEvent()
     // TODO: data class DeleteFlashcard(val id: Int) : FlashcardEvent()
 }
 
@@ -48,7 +49,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 insert(flashcard = event.flashcard)
                 loadContent()
             }
+            is FlashcardEvent.DeleteAll -> deleteAll()
         }
+    }
+
+    private fun deleteAll() = viewModelScope.launch {
+        repository.deleteAll()
+        updateFlashcards()
     }
 
     private fun loadContent() {

@@ -79,12 +79,19 @@ class HomeFragment : Fragment() {
 
         val openAddFlashcardActivity: Button =
             requireActivity().findViewById(R.id.add_flashcard_button)
+        val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
 
         // Set onClickListener on add flashcard button
         openAddFlashcardActivity.setOnClickListener {
             //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
             val intent = Intent(activity, AddFlashcardActivity::class.java)
             startActivityForResult(intent, 1000)
+        }
+
+        // Set onClickListener on delete all button
+        deleteAll.setOnClickListener {
+            viewModel.send(FlashcardEvent.DeleteAll)
+            Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
     }
 
