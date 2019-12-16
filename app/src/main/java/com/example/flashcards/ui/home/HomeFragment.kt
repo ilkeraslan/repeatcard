@@ -59,9 +59,9 @@ class HomeFragment : Fragment() {
                 viewModel.send(
                     FlashcardEvent.AddFlashcard(
                         Flashcard(
-                            0,
-                            data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
-                            data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
+                            id = 0,
+                            title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
+                            description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
                             creation_date = null,
                             last_modified = null
                         )
