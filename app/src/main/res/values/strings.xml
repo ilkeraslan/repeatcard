@@ -15,4 +15,6 @@
     <string name="flashcard_description_text">Description</string>
     <string name="select_image">Select Image</string>
     <string name="delete_all">Delete All</string>
+    <string name="directory_title_text">Directory Title</string>
+    <string name="directory_description_text">Directory Description</string>
 </resources>

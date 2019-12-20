@@ -57,6 +57,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
 
     private fun insert(directory: FlashcardDirectory) = viewModelScope.launch {
         repository.insert(directory)
+        updateDirectories()
     }
 
     private fun updateDirectories() = viewModelScope.launch {

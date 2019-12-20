@@ -37,13 +37,9 @@ class AddFlashcardActivity : AppCompatActivity() {
         flashcardDescription = findViewById(R.id.flashcard_description)
         flashcardTitleEdit = findViewById(R.id.flashcard_title_editText)
         flashcardDescriptionEdit = findViewById(R.id.flashcard_description_editText)
-
         flashcardSaveButton = findViewById(R.id.flashcard_save_button)
 
-        // Click listener on save button
-        flashcardSaveButton.setOnClickListener {
-            turnToMain()
-        }
+        flashcardSaveButton.setOnClickListener { turnToMain() }
     }
 
     /*
