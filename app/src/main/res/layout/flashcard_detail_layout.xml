@@ -19,7 +19,7 @@
         app:srcCompat="@android:drawable/star_big_on" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/flashcard_detail_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -40,6 +40,6 @@
         android:text="@string/close_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/flashcard_detail_textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

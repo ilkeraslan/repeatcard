@@ -8,6 +8,9 @@ import androidx.room.Query
 @Dao
 interface FlashcardDao {
 
+    @Query("SELECT * from flashcard_table  WHERE id=:id")
+    suspend fun getFlashcard(id: Int): Flashcard
+
     @Query("SELECT * from flashcard_table ORDER BY flashcard_title ASC")
     suspend fun getFlashcards(): List<Flashcard>
 
