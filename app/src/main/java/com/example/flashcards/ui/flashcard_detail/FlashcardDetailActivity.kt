@@ -29,7 +29,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
     private lateinit var viewModel: FlashcardDetailViewModel
     private lateinit var closeButton: Button
     private lateinit var detailTitle: TextView
-    private lateinit var detailDesciption: TextView
+    private lateinit var detailDescription: TextView
 
     private var flashcard_id = 0
 
@@ -55,7 +55,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(FlashcardDetailViewModel::class.java)
         closeButton = findViewById(R.id.button_close_detail)
         detailTitle = findViewById(R.id.flashcard_detail_title)
-        detailDesciption = findViewById(R.id.flashcard_detail_description)
+        detailDescription = findViewById(R.id.flashcard_detail_description)
         flashcard_id = intent.extras!!.getInt("BUNDLE_TAG_FLASHCARD_ID")
 
         viewModel.send(
@@ -69,7 +69,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
 
     private fun showFlashcard(flashcard: Flashcard) {
         detailTitle.text = flashcard.title
-        detailDesciption.text =
+        detailDescription.text =
             if (flashcard.description == "null") "No description." else flashcard.description
     }
 
