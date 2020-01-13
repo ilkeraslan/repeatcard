@@ -39,8 +39,8 @@ class FlashcardReviewFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        val flashcardTitle: TextView = requireActivity().findViewById(R.id.flashcard_review_title)
+        val flashcardTitle: TextView? = activity?.findViewById(R.id.flashcard_review_title)
 
-        flashcardTitle.text = savedInstanceState?.getInt(ARG_POSITION_NUMBER).toString()
+        flashcardTitle?.text = savedInstanceState?.getInt(ARG_POSITION_NUMBER).toString()
     }
 }
