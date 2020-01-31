@@ -70,4 +70,6 @@ dependencies {
 
     // UI
     implementation "com.google.android.material:material:$rootProject.materialVersion"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
 }

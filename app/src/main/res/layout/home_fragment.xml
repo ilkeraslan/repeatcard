@@ -38,7 +38,20 @@
             android:background="@color/colorPrimary"
             android:text="@string/delete_all"
             android:textColor="@color/colorWhite"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.3"/>
+
+        <Button
+            android:id="@+id/review_flashcards_button"
+            style="@style/text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="60dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/colorWhite"
+            android:layout_weight="0.3"
+            android:text="@string/review" />
 
         <Button
             android:id="@+id/add_flashcard_button"
@@ -51,6 +64,6 @@
             android:background="@color/colorPrimary"
             android:text="@string/add_flashcard"
             android:textColor="@color/colorWhite"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.3"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

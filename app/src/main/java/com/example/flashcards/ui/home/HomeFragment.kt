@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
+import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import kotlinx.android.synthetic.main.home_fragment.*
 
 
@@ -80,6 +81,7 @@ class HomeFragment : Fragment() {
         val openAddFlashcardActivity: Button =
             requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
+        val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
 
         // Set onClickListener on add flashcard button
         openAddFlashcardActivity.setOnClickListener {
@@ -92,6 +94,12 @@ class HomeFragment : Fragment() {
         deleteAll.setOnClickListener {
             viewModel.send(FlashcardEvent.DeleteAll)
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
+        }
+
+        review.setOnClickListener {
+            val intent = Intent(activity, FlashcardReviewScreen::class.java)
+            intent.putExtra("FLASHCARD_COUNT", 10)
+            startActivity(intent)
         }
     }
 

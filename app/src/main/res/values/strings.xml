@@ -4,7 +4,6 @@
     <string name="flashcard_1">FlashCard 1</string>
     <string name="flashcard_2">Flashcard 2</string>
     <string name="flashcard_3">Flashcard 3</string>
-    <string name="add_flashcard">Add Flashcard</string>
     <string name="flashcard_title_text">Flashcard Title!</string>
     <string name="title_home">Home</string>
     <string name="title_directories">Directories</string>
@@ -14,7 +13,9 @@
     <string name="save_text">Save</string>
     <string name="flashcard_description_text">Description</string>
     <string name="select_image">Select Image</string>
-    <string name="delete_all">Delete All</string>
+    <string name="add_flashcard">Add</string>
+    <string name="delete_all">Delete</string>
+    <string name="review">Review</string>
     <string name="directory_title_text">Directory Title</string>
     <string name="directory_description_text">Directory Description</string>
 </resources>
