@@ -17,6 +17,10 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name=".ui.directories.AddDirectoryScreen"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
             android:name=".ui.flashcard_detail.FlashcardDetailActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
