@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 sealed class FlashcardEvent {
     object Load : FlashcardEvent()
     data class AddFlashcard(val flashcard: Flashcard) : FlashcardEvent()
-    object DeleteAll: FlashcardEvent()
+    object DeleteAll : FlashcardEvent()
     // TODO: data class DeleteFlashcard(val id: Int) : FlashcardEvent()
 }
 
@@ -33,7 +33,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private val repository: FlashcardRepository
-    val allFlashcards = MutableLiveData<List<Flashcard>>()
+    var allFlashcards = listOf<Flashcard>()
     var state: MutableLiveData<FlashcardState> = MutableLiveData()
 
     init {
@@ -60,7 +60,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun loadContent() {
         // TODO: handle other states
-        state.value = FlashcardState.Success(allFlashcards.value!!.toList())
+        state.value = FlashcardState.Success(allFlashcards)
     }
 
     private fun insert(flashcard: Flashcard) = viewModelScope.launch {
@@ -69,7 +69,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun updateFlashcards() = viewModelScope.launch {
-        allFlashcards.postValue(repository.getFlashcards())
-        state.value = FlashcardState.Success(repository.getFlashcards())
+        state.postValue(FlashcardState.Success(repository.getFlashcards()))
+        allFlashcards = repository.getFlashcards()
     }
 }

@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
 
         review.setOnClickListener {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            intent.putExtra("FLASHCARD_COUNT", 10)
+            intent.putExtra("FLASHCARD_COUNT", viewModel.allFlashcards.size)
             startActivity(intent)
         }
     }
