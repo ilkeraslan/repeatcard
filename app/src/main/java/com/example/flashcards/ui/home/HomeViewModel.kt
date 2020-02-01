@@ -69,7 +69,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun updateFlashcards() = viewModelScope.launch {
-        state.postValue(FlashcardState.Success(repository.getFlashcards()))
         allFlashcards = repository.getFlashcards()
+        state.postValue(FlashcardState.Success(repository.getFlashcards()))
     }
 }
