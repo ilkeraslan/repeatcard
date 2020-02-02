@@ -78,13 +78,13 @@ class HomeFragment : Fragment() {
 
     private fun setUpViews() {
 
-        val openAddFlashcardActivity: Button =
+        val addFlashcardButton: Button =
             requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
         val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
 
         // Set onClickListener on add flashcard button
-        openAddFlashcardActivity.setOnClickListener {
+        addFlashcardButton.setOnClickListener {
             //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
             val intent = Intent(activity, AddFlashcardActivity::class.java)
             startActivityForResult(intent, 1000)
