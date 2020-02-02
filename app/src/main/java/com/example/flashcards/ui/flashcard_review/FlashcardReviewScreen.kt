@@ -2,6 +2,7 @@ package com.example.flashcards.ui.flashcard_review
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
     private lateinit var viewModel: HomeViewModel
     private lateinit var reviewAdapter: FlashcardReviewAdapter
     private lateinit var flashcards: List<Flashcard>
+    private lateinit var closeButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,21 +30,22 @@ class FlashcardReviewScreen : AppCompatActivity() {
 
         reviewAdapter = FlashcardReviewAdapter(flashcards)
 
-
-        Log.i("Flashcards: ", flashcards.toString())
-
         val viewPager: ViewPager2 = findViewById(R.id.reviewPager)
         viewPager.adapter = reviewAdapter
 
+        observe()
+
+        closeButton = findViewById(R.id.closeReviewButton)
+        closeButton.setOnClickListener { finish() }
+    }
+
+    private fun observe() {
         viewModel.state.observe(this, Observer { state ->
             flashcards = when (state) {
                 is FlashcardState.Error -> listOf()
                 is FlashcardState.Success -> state.flashcards
             }
-
             reviewAdapter.notifyDataSetChanged()
         })
-
-
     }
 }

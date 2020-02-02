@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/layout_home_row"
+        android:id="@+id/layoutHomeRow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView_home_row"
+            android:id="@+id/imageViewHomeRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -25,11 +25,11 @@
             android:layout_weight=".2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_home_row"
+            app:layout_constraintTop_toBottomOf="@+id/textViewHomeRow"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
         <TextView
-            android:id="@+id/textView_home_row"
+            android:id="@+id/textViewHomeRow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

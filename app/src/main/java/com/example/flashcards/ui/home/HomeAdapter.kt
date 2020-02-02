@@ -4,6 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -24,7 +25,7 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
         val flashcard = getItem(position)
         holder.flashcard.text = flashcard.title
 
-        holder.flashcard.setOnClickListener {
+        holder.flashcardView.setOnClickListener {
             FlashcardDetailActivity.openFlashcardDetailActivity(
                 holder.flashcard.context as Activity,
                 flashcard.id
@@ -34,7 +35,8 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
 }
 
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val flashcard: TextView = view.findViewById(R.id.textView_home_row)
+    val flashcard: TextView = view.findViewById(R.id.textViewHomeRow)
+    val flashcardView: LinearLayout = view.findViewById(R.id.layoutHomeRow)
 }
 
 class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {

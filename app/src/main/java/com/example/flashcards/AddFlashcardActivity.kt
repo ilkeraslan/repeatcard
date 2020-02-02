@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.TextView
 
 class AddFlashcardActivity : AppCompatActivity() {
@@ -54,8 +53,12 @@ class AddFlashcardActivity : AppCompatActivity() {
                 flashcardTitleEdit.text.toString()
             )
             intentToMain.putExtra(
-                "ADD_FLASHCARD_DESC_RESULT",
-                flashcardDescriptionEdit.text.toString()
+                "ADD_FLASHCARD_DESCRIPTION_RESULT",
+                if (flashcardDescriptionEdit.text.isNullOrEmpty()) {
+                    "No description"
+                } else {
+                    flashcardDescriptionEdit.text.toString()
+                }
             )
 
             setResult(Activity.RESULT_OK, intentToMain)
