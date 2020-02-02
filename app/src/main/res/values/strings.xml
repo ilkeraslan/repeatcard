@@ -18,4 +18,5 @@
     <string name="review">Review</string>
     <string name="directory_title_text">Directory Title</string>
     <string name="directory_description_text">Directory Description</string>
+    <string name="flashcardImage">Flashcard Image</string>
 </resources>

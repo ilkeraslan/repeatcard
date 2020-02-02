@@ -10,13 +10,18 @@
         android:id="@+id/flashcard_review_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Lorem ipsum" />
+        android:padding="16dp" />
 
     <TextView
         android:id="@+id/flashcard_review_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Lorem ipsum" />
+        android:padding="16dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/flashcardImage"
+        app:srcCompat="@drawable/photography" />
 </LinearLayout>

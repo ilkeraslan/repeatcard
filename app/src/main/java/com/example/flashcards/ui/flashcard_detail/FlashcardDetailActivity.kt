@@ -31,7 +31,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
     private lateinit var detailTitle: TextView
     private lateinit var detailDescription: TextView
 
-    private var flashcard_id = 0
+    private var flashcardId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,10 +56,10 @@ class FlashcardDetailActivity : AppCompatActivity() {
         closeButton = findViewById(R.id.button_close_detail)
         detailTitle = findViewById(R.id.flashcard_detail_title)
         detailDescription = findViewById(R.id.flashcard_detail_description)
-        flashcard_id = intent.extras!!.getInt("BUNDLE_TAG_FLASHCARD_ID")
+        flashcardId = intent.extras!!.getInt("BUNDLE_TAG_FLASHCARD_ID")
 
         viewModel.send(
-            FlashcardDetailEvent.Load, flashcard_id
+            FlashcardDetailEvent.Load, flashcardId
         )
 
         closeButton.setOnClickListener {
@@ -69,8 +69,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
 
     private fun showFlashcard(flashcard: Flashcard) {
         detailTitle.text = flashcard.title
-        detailDescription.text =
-            if (flashcard.description == "null") "No description." else flashcard.description
+        detailDescription.text = flashcard.description
     }
 
     private fun showError(error: Throwable) {
