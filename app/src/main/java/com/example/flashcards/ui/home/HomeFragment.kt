@@ -10,9 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
@@ -28,6 +30,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var homeAdapter: HomeAdapter
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +45,12 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        // LayoutManger and Adapter
-        recyclerView_home.layoutManager = LinearLayoutManager(this.context)
-        homeAdapter = HomeAdapter()
-        recyclerView_home.adapter = homeAdapter
-
         observeViewModel()
+
+        recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        homeAdapter = HomeAdapter()
+        recyclerView.adapter = homeAdapter
 
         setUpViews()
     }
@@ -78,23 +81,44 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpViews() {
-
         val addFlashcardButton: Button =
             requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
+        val deleteFlashcardButton: Button? = activity?.findViewById(R.id.deleteButtonHomeRow)
         val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
 
-        // Set onClickListener on add flashcard button
         addFlashcardButton.setOnClickListener {
             //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
             val intent = Intent(activity, AddFlashcardActivity::class.java)
             startActivityForResult(intent, 1000)
         }
 
-        // Set onClickListener on delete all button
         deleteAll.setOnClickListener {
             viewModel.send(FlashcardEvent.DeleteAll)
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
+        }
+
+        deleteFlashcardButton?.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val inflater = this.layoutInflater
+
+            dialogBuilder.setTitle("Are you sure you want to delete?")
+
+            dialogBuilder.setPositiveButton("Yes") { dialog, which ->
+                viewModel.send(
+                    FlashcardEvent.DeleteFlashcard(
+                        recyclerView.findContainingViewHolder(
+                            it
+                        )?.itemId as Int
+                    )
+                )
+            }
+
+            dialogBuilder.setNegativeButton("No") { dialog, which ->
+                viewModel.send(FlashcardEvent.Load)
+            }
+
+            dialogBuilder.create().show()
         }
 
         review.setOnClickListener {

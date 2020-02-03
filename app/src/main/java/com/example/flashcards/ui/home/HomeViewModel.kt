@@ -12,10 +12,10 @@ import kotlinx.coroutines.launch
 
 // Events that HomeFragment can send
 sealed class FlashcardEvent {
-    object Load : FlashcardEvent()
     data class AddFlashcard(val flashcard: Flashcard) : FlashcardEvent()
     object DeleteAll : FlashcardEvent()
-    // TODO: data class DeleteFlashcard(val id: Int) : FlashcardEvent()
+    data class DeleteFlashcard(val id: Int) : FlashcardEvent()
+    object Load : FlashcardEvent()
 }
 
 // States that a Flashcard can have
@@ -44,17 +44,23 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     fun send(event: FlashcardEvent) {
         when (event) {
-            is FlashcardEvent.Load -> loadContent()
             is FlashcardEvent.AddFlashcard -> {
                 insert(flashcard = event.flashcard)
                 loadContent()
             }
             is FlashcardEvent.DeleteAll -> deleteAll()
+            is FlashcardEvent.DeleteFlashcard -> deleteFlashcard(event.id)
+            is FlashcardEvent.Load -> loadContent()
         }
     }
 
     private fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
+        updateFlashcards()
+    }
+
+    private fun deleteFlashcard(id: Int) = viewModelScope.launch {
+        repository.deleteFlashcard(id)
         updateFlashcards()
     }
 
@@ -70,6 +76,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun updateFlashcards() = viewModelScope.launch {
         allFlashcards = repository.getFlashcards()
-        state.postValue(FlashcardState.Success(repository.getFlashcards()))
+        state.postValue(FlashcardState.Success(allFlashcards))
     }
 }

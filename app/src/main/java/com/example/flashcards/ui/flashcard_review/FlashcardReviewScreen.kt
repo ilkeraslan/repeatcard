@@ -19,6 +19,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
     private lateinit var reviewAdapter: FlashcardReviewAdapter
     private lateinit var flashcards: List<Flashcard>
     private lateinit var closeButton: Button
+    private lateinit var viewPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +27,18 @@ class FlashcardReviewScreen : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
+        observe()
+
+        setupViews()
+    }
+
+    private fun setupViews() {
         flashcards = viewModel.allFlashcards
 
         reviewAdapter = FlashcardReviewAdapter(flashcards)
 
-        val viewPager: ViewPager2 = findViewById(R.id.reviewPager)
+        viewPager = findViewById(R.id.reviewPager)
         viewPager.adapter = reviewAdapter
-
-        observe()
 
         closeButton = findViewById(R.id.closeReviewButton)
         closeButton.setOnClickListener { finish() }

@@ -27,17 +27,12 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
         val flashcard = getItem(position)
         holder.flashcard.text = flashcard.title
 
-        holder.flashcardView.setOnClickListener {
+        holder.flashcard.setOnClickListener {
             FlashcardDetailActivity.openFlashcardDetailActivity(
                 holder.flashcard.context as Activity,
                 flashcard.id
             )
         }
-
-// TODO
-/*        holder.flashcardView.setOnLongClickListener {
-
-        }*/
     }
 }
 
