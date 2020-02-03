@@ -43,9 +43,10 @@ class DirectoryScreen : AppCompatActivity() {
 
         val directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
 
+        observeViewModel()
+
         viewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
 
-        observeViewModel()
     }
 
     private fun observeViewModel() {
