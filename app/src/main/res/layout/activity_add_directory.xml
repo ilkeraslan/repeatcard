@@ -30,7 +30,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/directory_title" />
 
-
     <Button
         android:id="@+id/directory_save_button"
         android:layout_width="0dp"

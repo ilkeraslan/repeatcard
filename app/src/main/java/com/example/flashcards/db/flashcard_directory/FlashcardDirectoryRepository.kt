@@ -8,6 +8,8 @@ class FlashcardDirectoryRepository(private val flashcardDirectoryDao: FlashcardD
 
     suspend fun getDirectories() = flashcardDirectoryDao.getDirectories()
 
+    suspend fun getDirectoryContent(id: Int) = flashcardDirectoryDao.getDirectoryContent(id)
+
     suspend fun deleteDirectory(directory: FlashcardDirectory) =
         flashcardDirectoryDao.deleteDirectory(directory.id)
 }

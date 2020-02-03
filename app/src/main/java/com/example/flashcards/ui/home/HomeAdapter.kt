@@ -1,11 +1,13 @@
 package com.example.flashcards.ui.home
 
 import android.app.Activity
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -31,12 +33,17 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
                 flashcard.id
             )
         }
+
+// TODO
+/*        holder.flashcardView.setOnLongClickListener {
+
+        }*/
     }
 }
 
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val flashcard: TextView = view.findViewById(R.id.textViewHomeRow)
-    val flashcardView: LinearLayout = view.findViewById(R.id.layoutHomeRow)
+    val flashcardView: ConstraintLayout = view.findViewById(R.id.home_row)
 }
 
 class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {

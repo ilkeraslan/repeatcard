@@ -64,7 +64,8 @@ class HomeFragment : Fragment() {
                             title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
                             description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
                             creation_date = null,
-                            last_modified = null
+                            last_modified = null,
+                            directory_id = null
                         )
                     )
                 )

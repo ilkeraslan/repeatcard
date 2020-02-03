@@ -41,9 +41,9 @@ class DirectoriesFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
 
         // LayoutManager and Adapter
-        recyclerView_directories.layoutManager = LinearLayoutManager(this.context)
+        recyclerViewDirectory.layoutManager = LinearLayoutManager(this.context)
         directoriesAdapter = DirectoriesAdapter()
-        recyclerView_directories.adapter = directoriesAdapter
+        recyclerViewDirectory.adapter = directoriesAdapter
 
         observeViewModel()
 
@@ -59,7 +59,7 @@ class DirectoriesFragment : Fragment() {
                     DirectoryEvent.AddDirectory(
                         FlashcardDirectory(
                             id = 0,
-                            title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT").toString(),
+                            title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
                             creationDate = ""
                         )
                     )

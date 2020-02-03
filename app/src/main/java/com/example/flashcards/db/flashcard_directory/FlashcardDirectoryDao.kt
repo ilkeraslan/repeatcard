@@ -4,12 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.flashcards.db.flashcard.Flashcard
 
 @Dao
-interface FlashcardDirectoryDao  {
+interface FlashcardDirectoryDao {
 
     @Query("SELECT * from flashcard_directories_table ORDER BY title ASC")
-    suspend fun getDirectories() : List<FlashcardDirectory>
+    suspend fun getDirectories(): List<FlashcardDirectory>
+
+    @Query("SELECT * from flashcard_table WHERE directory_id = :id")
+    suspend fun getDirectoryContent(id: Int): List<Flashcard>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(flashcardDirectory: FlashcardDirectory)

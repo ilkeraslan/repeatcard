@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/directoriesRow"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/home_row">
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageViewHomeRow"
+        android:id="@+id/imageViewDirectoriesRow"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -16,26 +17,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
+        app:srcCompat="@drawable/ic_directory_black_24dp" />
 
     <TextView
-        android:id="@+id/textViewHomeRow"
+        android:id="@+id/textViewDirectoriesRow"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/flashcard_title_text"
+        android:text="@string/directory_title"
         android:textAlignment="textStart"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteButtonHomeRow"
-        app:layout_constraintStart_toEndOf="@+id/imageViewHomeRow"
+        app:layout_constraintEnd_toStartOf="@+id/deleteButtonDirectoriesRow"
+        app:layout_constraintStart_toEndOf="@+id/imageViewDirectoriesRow"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/deleteButtonHomeRow"
+        android:id="@+id/deleteButtonDirectoriesRow"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="center"
@@ -48,6 +49,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
