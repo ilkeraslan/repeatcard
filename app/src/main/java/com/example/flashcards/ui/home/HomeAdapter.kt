@@ -15,7 +15,7 @@ import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_detail.FlashcardDetailActivity
 
-class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
+class HomeAdapter(val clickListener: HomeListener) : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -33,17 +33,24 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
                 flashcard.id
             )
         }
+
+        holder.flashcardDelete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
     }
 }
 
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val flashcard: TextView = view.findViewById(R.id.textViewHomeRow)
     val flashcardView: ConstraintLayout = view.findViewById(R.id.home_row)
+    val flashcardDelete: View = view.findViewById(R.id.deleteButtonHomeRow)
 }
 
-class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {
-    fun onClick(flashcard: Flashcard) = click_listener(flashcard.id)
+interface HomeListener {
+    fun itemDeleted(id: Int)
 }
+
+//class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {
+//    fun onClick(flashcard: Flashcard) = click_listener(flashcard.id)
+//}
 
 class FlashcardsDiffUtil : DiffUtil.ItemCallback<Flashcard>() {
     override fun areItemsTheSame(oldItem: Flashcard, newItem: Flashcard): Boolean {

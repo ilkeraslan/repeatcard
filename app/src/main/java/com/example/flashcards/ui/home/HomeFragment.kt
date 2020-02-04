@@ -31,6 +31,7 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var recyclerView: RecyclerView
+    private lateinit var homeListener: HomeListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +50,13 @@ class HomeFragment : Fragment() {
 
         recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        homeAdapter = HomeAdapter()
+        homeListener = object : HomeListener {
+            override fun itemDeleted(id: Int) {
+                viewModel.send(FlashcardEvent.DeleteFlashcard(id))
+            }
+        }
+        homeAdapter = HomeAdapter(homeListener)
+
         recyclerView.adapter = homeAdapter
 
         setUpViews()
@@ -98,6 +105,7 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
 
+/*
         deleteFlashcardButton?.setOnClickListener {
             val dialogBuilder = AlertDialog.Builder(requireContext())
             val inflater = this.layoutInflater
@@ -120,6 +128,7 @@ class HomeFragment : Fragment() {
 
             dialogBuilder.create().show()
         }
+*/
 
         review.setOnClickListener {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
