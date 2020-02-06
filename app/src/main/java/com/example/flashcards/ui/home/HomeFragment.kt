@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,16 +47,7 @@ class HomeFragment : Fragment() {
 
         observeViewModel()
 
-        recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        homeListener = object : HomeListener {
-            override fun itemDeleted(id: Int) {
-                viewModel.send(FlashcardEvent.DeleteFlashcard(id))
-            }
-        }
-        homeAdapter = HomeAdapter(homeListener)
-
-        recyclerView.adapter = homeAdapter
+        setUpRecyclerView()
 
         setUpViews()
     }
@@ -85,6 +77,19 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setUpRecyclerView() {
+        recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        homeListener = object : HomeListener {
+            override fun itemDeleted(id: Int) {
+                alertToDelete(id)
+            }
+        }
+        homeAdapter = HomeAdapter(homeListener)
+
+        recyclerView.adapter = homeAdapter
+    }
+
     private fun setUpViews() {
         val addFlashcardButton: Button =
             requireActivity().findViewById(R.id.add_flashcard_button)
@@ -98,40 +103,53 @@ class HomeFragment : Fragment() {
         }
 
         deleteAll.setOnClickListener {
-            viewModel.send(FlashcardEvent.DeleteAll)
-            Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
+            alertToDelete()
         }
-
-/*
-        deleteFlashcardButton?.setOnClickListener {
-            val dialogBuilder = AlertDialog.Builder(requireContext())
-            val inflater = this.layoutInflater
-
-            dialogBuilder.setTitle("Are you sure you want to delete?")
-
-            dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-                viewModel.send(
-                    FlashcardEvent.DeleteFlashcard(
-                        recyclerView.findContainingViewHolder(
-                            it
-                        )?.itemId as Int
-                    )
-                )
-            }
-
-            dialogBuilder.setNegativeButton("No") { dialog, which ->
-                viewModel.send(FlashcardEvent.Load)
-            }
-
-            dialogBuilder.create().show()
-        }
-*/
 
         review.setOnClickListener {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
-//            intent.putExtra("FLASHCARD_COUNT", viewModel.allFlashcards.size)
             startActivity(intent)
         }
+    }
+
+    private fun alertToDelete() {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = this.layoutInflater
+
+        dialogBuilder.setTitle("Are you sure you want to delete?")
+
+        dialogBuilder.setPositiveButton("Yes") { dialog, which ->
+            viewModel.send(
+                FlashcardEvent.DeleteAll
+            )
+            Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
+        }
+
+        dialogBuilder.setNegativeButton("No") { dialog, which ->
+            viewModel.send(FlashcardEvent.Load)
+        }
+
+        dialogBuilder.create().show()
+    }
+
+    private fun alertToDelete(id: Int) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = this.layoutInflater
+
+        dialogBuilder.setTitle("Are you sure you want to delete?")
+
+        dialogBuilder.setPositiveButton("Yes") { dialog, which ->
+            viewModel.send(
+                FlashcardEvent.DeleteFlashcard(id)
+            )
+            Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
+        }
+
+        dialogBuilder.setNegativeButton("No") { dialog, which ->
+            viewModel.send(FlashcardEvent.Load)
+        }
+
+        dialogBuilder.create().show()
     }
 
     private fun observeViewModel() {
