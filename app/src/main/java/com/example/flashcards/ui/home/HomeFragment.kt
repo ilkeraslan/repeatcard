@@ -13,11 +13,11 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
-import kotlinx.android.synthetic.main.home_fragment.*
 
 
 class HomeFragment : Fragment() {
@@ -28,6 +28,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var homeAdapter: HomeAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var homeListener: HomeListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,12 +44,18 @@ class HomeFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
-        // LayoutManger and Adapter
-        recyclerView_home.layoutManager = LinearLayoutManager(this.context)
-        homeAdapter = HomeAdapter()
-        recyclerView_home.adapter = homeAdapter
-
         observeViewModel()
+
+        recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        homeListener = object : HomeListener {
+            override fun itemDeleted(id: Int) {
+                viewModel.send(FlashcardEvent.DeleteFlashcard(id))
+            }
+        }
+        homeAdapter = HomeAdapter(homeListener)
+
+        recyclerView.adapter = homeAdapter
 
         setUpViews()
     }
@@ -64,7 +72,8 @@ class HomeFragment : Fragment() {
                             title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
                             description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
                             creation_date = null,
-                            last_modified = null
+                            last_modified = null,
+                            directory_id = null
                         )
                     )
                 )
@@ -77,28 +86,50 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpViews() {
-
         val addFlashcardButton: Button =
             requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
         val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
 
-        // Set onClickListener on add flashcard button
         addFlashcardButton.setOnClickListener {
             //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
             val intent = Intent(activity, AddFlashcardActivity::class.java)
             startActivityForResult(intent, 1000)
         }
 
-        // Set onClickListener on delete all button
         deleteAll.setOnClickListener {
             viewModel.send(FlashcardEvent.DeleteAll)
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
 
+/*
+        deleteFlashcardButton?.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val inflater = this.layoutInflater
+
+            dialogBuilder.setTitle("Are you sure you want to delete?")
+
+            dialogBuilder.setPositiveButton("Yes") { dialog, which ->
+                viewModel.send(
+                    FlashcardEvent.DeleteFlashcard(
+                        recyclerView.findContainingViewHolder(
+                            it
+                        )?.itemId as Int
+                    )
+                )
+            }
+
+            dialogBuilder.setNegativeButton("No") { dialog, which ->
+                viewModel.send(FlashcardEvent.Load)
+            }
+
+            dialogBuilder.create().show()
+        }
+*/
+
         review.setOnClickListener {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            intent.putExtra("FLASHCARD_COUNT", viewModel.allFlashcards.size)
+//            intent.putExtra("FLASHCARD_COUNT", viewModel.allFlashcards.size)
             startActivity(intent)
         }
     }

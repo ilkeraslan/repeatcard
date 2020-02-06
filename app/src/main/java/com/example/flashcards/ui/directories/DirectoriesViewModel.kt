@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.flashcards.db.FlashcardDatabase
+import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
 import com.example.flashcards.db.flashcard_directory.FlashcardDirectoryRepository
 import kotlinx.coroutines.launch
@@ -14,13 +15,13 @@ sealed class DirectoryEvent {
     object Load : DirectoryEvent()
     data class AddDirectory(val directory: FlashcardDirectory) : DirectoryEvent()
     data class DeleteDirectory(val directory: FlashcardDirectory) : DirectoryEvent()
+    data class GetDirectoryContent(val directoryId: Int) : DirectoryEvent()
 }
 
 sealed class DirectoryState {
-    // TODO: object InProgress : DirectoryState()
     data class Error(val error: Throwable) : DirectoryState()
-
     data class Success(val directories: List<FlashcardDirectory>) : DirectoryState()
+    data class DirectoryContentSuccess(val flashcards: List<Flashcard>) : DirectoryState()
 }
 
 class DirectoriesViewModel(application: Application) : AndroidViewModel(application) {
@@ -32,6 +33,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     private val repository: FlashcardDirectoryRepository
     val allDirectories = MutableLiveData<List<FlashcardDirectory>>()
     var state: MutableLiveData<DirectoryState> = MutableLiveData()
+    var directoryState: MutableLiveData<DirectoryState> = MutableLiveData()
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(application).directoryDao()
@@ -41,16 +43,26 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
 
     fun send(event: DirectoryEvent) {
         when (event) {
-            is DirectoryEvent.Load -> loadContent()
+            is DirectoryEvent.Load -> loadDirectories()
             is DirectoryEvent.AddDirectory -> {
                 insert(event.directory)
-                loadContent()
+                loadDirectories()
             }
             is DirectoryEvent.DeleteDirectory -> deleteDirectory(event.directory)
+            is DirectoryEvent.GetDirectoryContent -> getDirectoryContent(event.directoryId)
         }
     }
 
-    private fun loadContent() {
+    private fun deleteDirectory(directory: FlashcardDirectory) = viewModelScope.launch {
+        repository.deleteDirectory(directory)
+    }
+
+    private fun getDirectoryContent(directoryId: Int) = viewModelScope.launch {
+        directoryState.value =
+            DirectoryState.DirectoryContentSuccess(repository.getDirectoryContent(directoryId))
+    }
+
+    private fun loadDirectories() {
         // TODO: Handle other states
         state.value = DirectoryState.Success(allDirectories.value!!.toList())
     }
@@ -63,9 +75,5 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     private fun updateDirectories() = viewModelScope.launch {
         allDirectories.postValue(repository.getDirectories())
         state.value = DirectoryState.Success(repository.getDirectories())
-    }
-
-    private fun deleteDirectory(directory: FlashcardDirectory) = viewModelScope.launch {
-        repository.deleteDirectory(directory)
     }
 }

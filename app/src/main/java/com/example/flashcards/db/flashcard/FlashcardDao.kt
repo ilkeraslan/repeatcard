@@ -19,4 +19,7 @@ interface FlashcardDao {
 
     @Query("DELETE FROM flashcard_table")
     suspend fun deleteAll()
+
+    @Query("DELETE FROM flashcard_table WHERE id=:id")
+    suspend fun deleteFlashcard(id: Int)
 }

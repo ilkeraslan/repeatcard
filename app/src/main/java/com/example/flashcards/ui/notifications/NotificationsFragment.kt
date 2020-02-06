@@ -45,11 +45,12 @@ class NotificationsFragment : Fragment() {
 
         // Create new Flashcard
         val newFlashcard = Flashcard(
-            0,
-            "Example",
-            null,
-            null,
-            null
+            id = 0,
+            title = "Example",
+            description = null,
+            creation_date = null,
+            last_modified = null,
+            directory_id = null
         )
 
         // Add new Flashcard to ViewModel

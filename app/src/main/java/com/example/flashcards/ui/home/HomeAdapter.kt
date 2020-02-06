@@ -4,7 +4,6 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,7 +12,8 @@ import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_detail.FlashcardDetailActivity
 
-class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
+class HomeAdapter(val clickListener: HomeListener) :
+    ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -25,22 +25,24 @@ class HomeAdapter : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil())
         val flashcard = getItem(position)
         holder.flashcard.text = flashcard.title
 
-        holder.flashcardView.setOnClickListener {
+        holder.flashcard.setOnClickListener {
             FlashcardDetailActivity.openFlashcardDetailActivity(
                 holder.flashcard.context as Activity,
                 flashcard.id
             )
         }
+
+        holder.flashcardDelete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
     }
 }
 
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val flashcard: TextView = view.findViewById(R.id.textViewHomeRow)
-    val flashcardView: LinearLayout = view.findViewById(R.id.layoutHomeRow)
+    val flashcardDelete: View = view.findViewById(R.id.deleteButtonHomeRow)
 }
 
-class HomeListener(val click_listener: (flashcard_id: Int) -> Unit) {
-    fun onClick(flashcard: Flashcard) = click_listener(flashcard.id)
+interface HomeListener {
+    fun itemDeleted(id: Int)
 }
 
 class FlashcardsDiffUtil : DiffUtil.ItemCallback<Flashcard>() {
