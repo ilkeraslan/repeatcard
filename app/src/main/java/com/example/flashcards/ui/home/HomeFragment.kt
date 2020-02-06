@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +18,6 @@ import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
-import kotlinx.android.synthetic.main.home_fragment.*
 
 
 class HomeFragment : Fragment() {
@@ -91,7 +89,6 @@ class HomeFragment : Fragment() {
         val addFlashcardButton: Button =
             requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
-        val deleteFlashcardButton: Button? = activity?.findViewById(R.id.deleteButtonHomeRow)
         val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
 
         addFlashcardButton.setOnClickListener {
@@ -132,7 +129,7 @@ class HomeFragment : Fragment() {
 
         review.setOnClickListener {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            intent.putExtra("FLASHCARD_COUNT", viewModel.allFlashcards.size)
+//            intent.putExtra("FLASHCARD_COUNT", viewModel.allFlashcards.size)
             startActivity(intent)
         }
     }

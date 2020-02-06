@@ -1,14 +1,13 @@
 package com.example.flashcards.ui.flashcard_review
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flashcards.R
-import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.home.FlashcardState
 import com.example.flashcards.ui.home.HomeViewModel
 
@@ -17,7 +16,6 @@ class FlashcardReviewScreen : AppCompatActivity() {
 
     private lateinit var viewModel: HomeViewModel
     private lateinit var reviewAdapter: FlashcardReviewAdapter
-    private lateinit var flashcards: List<Flashcard>
     private lateinit var closeButton: Button
     private lateinit var viewPager: ViewPager2
 
@@ -33,9 +31,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        flashcards = viewModel.allFlashcards
-
-        reviewAdapter = FlashcardReviewAdapter(flashcards)
+        reviewAdapter = FlashcardReviewAdapter()
 
         viewPager = findViewById(R.id.reviewPager)
         viewPager.adapter = reviewAdapter
@@ -46,11 +42,14 @@ class FlashcardReviewScreen : AppCompatActivity() {
 
     private fun observe() {
         viewModel.state.observe(this, Observer { state ->
-            flashcards = when (state) {
-                is FlashcardState.Error -> listOf()
-                is FlashcardState.Success -> state.flashcards
+
+            when (state) {
+                is FlashcardState.Error -> Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
+                is FlashcardState.Success -> {
+                    reviewAdapter.submitList(state.flashcards)
+                    reviewAdapter.notifyDataSetChanged()
+                }
             }
-            reviewAdapter.notifyDataSetChanged()
         })
     }
 }
