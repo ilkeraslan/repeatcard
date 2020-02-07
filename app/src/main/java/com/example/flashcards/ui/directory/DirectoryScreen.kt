@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
@@ -38,16 +39,28 @@ class DirectoryScreen : AppCompatActivity() {
         setContentView(R.layout.directory_layout)
 
         viewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
-        recyclerView = findViewById(R.id.recyclerViewDirectory)
-        adapter = DirectoryAdapter()
-        recyclerView.adapter = adapter
-
-        val directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
 
         observeViewModel()
 
-        viewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
+        setUpRecyclerView()
 
+        setUpViews()
+    }
+
+    private fun setUpViews() {
+        val directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
+
+        viewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
+    }
+
+    private fun setUpRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerViewDirectory)
+        recyclerView.layoutManager = LinearLayoutManager(this.applicationContext)
+        adapter = DirectoryAdapter()
+        recyclerView.adapter = adapter
+
+        // TODO: Add clickListener to delete a flashcard
+        // TODO: Add clickListener to show details of a flashcard
     }
 
     private fun observeViewModel() {
@@ -61,7 +74,7 @@ class DirectoryScreen : AppCompatActivity() {
 
     private fun showError(error: Throwable) {
         Log.i("SHOW_ERROR", "Error: ", error)
-        Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "No flashcards yet!", Toast.LENGTH_SHORT).show()
     }
 
     private fun showFlashcards(flashcards: List<Flashcard>) {

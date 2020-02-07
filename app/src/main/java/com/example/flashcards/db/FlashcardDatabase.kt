@@ -8,11 +8,11 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard.FlashcardDao
-import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
-import com.example.flashcards.db.flashcard_directory.FlashcardDirectoryDao
+import com.example.flashcards.db.directory.Directory
+import com.example.flashcards.db.directory.FlashcardDirectoryDao
 
 @Database(
-    entities = arrayOf(Flashcard::class, FlashcardDirectory::class),
+    entities = arrayOf(Flashcard::class, Directory::class),
     version = 2,
     exportSchema = false
 )

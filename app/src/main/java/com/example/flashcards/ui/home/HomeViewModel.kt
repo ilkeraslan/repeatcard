@@ -7,12 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard.FlashcardRepository
 import com.example.flashcards.db.FlashcardDatabase
+import com.example.flashcards.db.directory.FlashcardDirectoryRepository
 import kotlinx.coroutines.launch
 
 
 // Events that HomeFragment can send
 sealed class FlashcardEvent {
     data class AddFlashcard(val flashcard: Flashcard) : FlashcardEvent()
+    data class AddToDirectory(val id: Int, val directoryId: Int) : FlashcardEvent()
     object DeleteAll : FlashcardEvent()
     data class DeleteFlashcard(val id: Int) : FlashcardEvent()
     object Load : FlashcardEvent()
@@ -31,12 +33,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private val repository: FlashcardRepository
-    //    var allFlashcards = listOf<Flashcard>()
+    private val directoryRepository: FlashcardDirectoryRepository
     var state: MutableLiveData<FlashcardState> = MutableLiveData()
 
     init {
         val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
+        val directoryDao = FlashcardDatabase.getDatabase(application).directoryDao()
         repository = FlashcardRepository(flashcardsDao)
+        directoryRepository = FlashcardDirectoryRepository(directoryDao)
         loadContent()
     }
 
@@ -46,11 +50,23 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 insert(flashcard = event.flashcard)
                 loadContent()
             }
+            is FlashcardEvent.AddToDirectory -> addFlashcardToDirectory(
+                flashcardId = event.id,
+                directoryId = event.directoryId
+            )
             is FlashcardEvent.DeleteAll -> deleteAll()
             is FlashcardEvent.DeleteFlashcard -> deleteFlashcard(event.id)
             is FlashcardEvent.Load -> loadContent()
         }
     }
+
+    private fun addFlashcardToDirectory(flashcardId: Int, directoryId: Int) =
+        viewModelScope.launch {
+            val flascardToChange = repository.getFlashcard(flashcardId)
+            flascardToChange.directory_id = directoryId
+            repository.updateFlashcard(flascardToChange)
+            loadContent()
+        }
 
     private fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()

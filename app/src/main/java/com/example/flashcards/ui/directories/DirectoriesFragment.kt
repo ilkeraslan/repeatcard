@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.flashcards.R
-import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
+import com.example.flashcards.db.directory.Directory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.directories_fragment.*
 
@@ -57,7 +57,7 @@ class DirectoriesFragment : Fragment() {
             if (data != null) {
                 viewModel.send(
                     DirectoryEvent.AddDirectory(
-                        FlashcardDirectory(
+                        Directory(
                             id = 0,
                             title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
                             creationDate = ""
@@ -91,7 +91,7 @@ class DirectoriesFragment : Fragment() {
         })
     }
 
-    private fun showDirectories(directories: List<FlashcardDirectory>) {
+    private fun showDirectories(directories: List<Directory>) {
         directoriesAdapter.submitList(directories)
     }
 

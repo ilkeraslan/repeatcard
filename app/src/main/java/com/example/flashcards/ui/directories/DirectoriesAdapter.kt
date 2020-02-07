@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.db.flashcard_directory.FlashcardDirectory
+import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.ui.directory.DirectoryScreen
 
 class DirectoriesAdapter :
-    ListAdapter<FlashcardDirectory, DirectoriesViewHolder>(DirectoriesDiffUtil()) {
+    ListAdapter<Directory, DirectoriesViewHolder>(DirectoriesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoriesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -40,17 +40,17 @@ class DirectoriesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val directoryView: ConstraintLayout = view.findViewById(R.id.directoriesRow)
 }
 
-class DirectoriesDiffUtil : DiffUtil.ItemCallback<FlashcardDirectory>() {
+class DirectoriesDiffUtil : DiffUtil.ItemCallback<Directory>() {
     override fun areItemsTheSame(
-        oldItem: FlashcardDirectory,
-        newItem: FlashcardDirectory
+        oldItem: Directory,
+        newItem: Directory
     ): Boolean {
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(
-        oldItem: FlashcardDirectory,
-        newItem: FlashcardDirectory
+        oldItem: Directory,
+        newItem: Directory
     ): Boolean {
         return oldItem.id == newItem.id
     }
