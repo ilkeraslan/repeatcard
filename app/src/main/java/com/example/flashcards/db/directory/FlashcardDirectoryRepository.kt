@@ -1,15 +1,17 @@
-package com.example.flashcards.db.flashcard_directory
+package com.example.flashcards.db.directory
 
 class FlashcardDirectoryRepository(private val flashcardDirectoryDao: FlashcardDirectoryDao) {
 
-    suspend fun insert(flashcardDirectory: FlashcardDirectory) {
-        flashcardDirectoryDao.insert(flashcardDirectory)
+    suspend fun addDirectory(directory: Directory) {
+        flashcardDirectoryDao.insert(directory)
     }
+
+/*    suspend fun addFlashcardToDirectory(id: Int) = flashcardDirectoryDao.addFlashcardToDirectory(id)*/
 
     suspend fun getDirectories() = flashcardDirectoryDao.getDirectories()
 
     suspend fun getDirectoryContent(id: Int) = flashcardDirectoryDao.getDirectoryContent(id)
 
-    suspend fun deleteDirectory(directory: FlashcardDirectory) =
+    suspend fun deleteDirectory(directory: Directory) =
         flashcardDirectoryDao.deleteDirectory(directory.id)
 }

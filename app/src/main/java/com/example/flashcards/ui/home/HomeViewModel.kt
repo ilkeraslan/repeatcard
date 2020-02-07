@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard.FlashcardRepository
 import com.example.flashcards.db.FlashcardDatabase
+import com.example.flashcards.db.directory.FlashcardDirectoryRepository
 import kotlinx.coroutines.launch
 
 
@@ -31,12 +32,14 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private val repository: FlashcardRepository
-    //    var allFlashcards = listOf<Flashcard>()
+    private val directoryRepository: FlashcardDirectoryRepository
     var state: MutableLiveData<FlashcardState> = MutableLiveData()
 
     init {
         val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
+        val directoryDao = FlashcardDatabase.getDatabase(application).directoryDao()
         repository = FlashcardRepository(flashcardsDao)
+        directoryRepository = FlashcardDirectoryRepository(directoryDao)
         loadContent()
     }
 
@@ -50,6 +53,10 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             is FlashcardEvent.DeleteFlashcard -> deleteFlashcard(event.id)
             is FlashcardEvent.Load -> loadContent()
         }
+    }
+
+    private fun addFlashcardToDirectory(id: Int) {
+        directoryRepository.
     }
 
     private fun deleteAll() = viewModelScope.launch {

@@ -10,7 +10,12 @@ class FlashcardRepository(private val flashcardDao: FlashcardDao) {
 
     suspend fun getFlashcards() = flashcardDao.getFlashcards()
 
+    suspend fun getFlashcardsForDirectory(directoryId: Int) =
+        flashcardDao.getFlashcardsForDirectory(directoryId)
+
     suspend fun insert(flashcard: Flashcard) {
         flashcardDao.insert(flashcard)
     }
+
+    suspend fun updateFlashcard(id: Int) = flashcardDao.updateFlashcard(id)
 }

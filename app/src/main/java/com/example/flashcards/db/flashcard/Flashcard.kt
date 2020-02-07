@@ -2,9 +2,20 @@ package com.example.flashcards.db.flashcard
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
+import com.example.flashcards.db.directory.Directory
 
-@Entity(tableName = "flashcard_table")
+@Entity(
+    foreignKeys = [ForeignKey(
+        entity = Directory::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("directory_id"),
+        onDelete = CASCADE
+    )],
+    tableName = "flashcard_table"
+)
 class Flashcard(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "flashcard_title") val title: String,
