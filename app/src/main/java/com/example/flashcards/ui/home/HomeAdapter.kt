@@ -32,17 +32,25 @@ class HomeAdapter(val clickListener: HomeListener) :
             )
         }
 
+        holder.addFlashcardToDirectory.setOnClickListener {
+            clickListener.addFlashcardToDirectory(
+                flashcard.id
+            )
+        }
+
         holder.flashcardDelete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
     }
 }
 
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val flashcard: TextView = view.findViewById(R.id.textViewHomeRow)
+    val addFlashcardToDirectory: View = view.findViewById(R.id.addToDirectoryButtonHomeRow)
     val flashcardDelete: View = view.findViewById(R.id.deleteButtonHomeRow)
 }
 
 interface HomeListener {
     fun itemDeleted(id: Int)
+    fun addFlashcardToDirectory(id: Int)
 }
 
 class FlashcardsDiffUtil : DiffUtil.ItemCallback<Flashcard>() {

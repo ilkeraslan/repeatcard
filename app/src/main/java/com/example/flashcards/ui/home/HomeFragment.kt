@@ -84,10 +84,18 @@ class HomeFragment : Fragment() {
             override fun itemDeleted(id: Int) {
                 alertToDelete(id)
             }
+
+            override fun addFlashcardToDirectory(id: Int) {
+                addToDirectory(id)
+            }
         }
         homeAdapter = HomeAdapter(homeListener)
 
         recyclerView.adapter = homeAdapter
+    }
+
+    private fun addToDirectory(id: Int) {
+        viewModel.send(FlashcardEvent.AddToDirectory(id, 1))
     }
 
     private fun setUpViews() {

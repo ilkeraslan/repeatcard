@@ -23,7 +23,4 @@ interface FlashcardDirectoryDao {
 
     @Query("DELETE FROM flashcard_directories_table WHERE id = :id")
     suspend fun deleteDirectory(id: Int)
-
-/*    @Query("INSERT INTO ")
-    suspend fun addFlashcardToDirectory(id: Int)*/
 }

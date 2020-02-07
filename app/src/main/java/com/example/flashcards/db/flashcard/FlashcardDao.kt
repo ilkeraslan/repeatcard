@@ -24,5 +24,5 @@ interface FlashcardDao {
     suspend fun insert(flashcard: Flashcard)
 
     @Update(entity = Flashcard::class)
-    suspend fun updateFlashcard(flashcardId:Int)
+    suspend fun updateFlashcard(flashcard: Flashcard)
 }

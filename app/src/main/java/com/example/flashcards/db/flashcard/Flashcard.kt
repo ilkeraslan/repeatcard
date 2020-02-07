@@ -22,5 +22,5 @@ class Flashcard(
     @ColumnInfo(name = "flashcard_description") val description: String?,
     @ColumnInfo(name = "creation_date") val creation_date: String?,
     @ColumnInfo(name = "modification_date") val last_modified: String?,
-    @ColumnInfo(name = "directory_id") val directory_id: Int?
+    @ColumnInfo(name = "directory_id", index = true) var directory_id: Int?
 )

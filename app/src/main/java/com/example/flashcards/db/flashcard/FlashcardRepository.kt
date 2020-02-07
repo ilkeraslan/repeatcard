@@ -17,5 +17,5 @@ class FlashcardRepository(private val flashcardDao: FlashcardDao) {
         flashcardDao.insert(flashcard)
     }
 
-    suspend fun updateFlashcard(id: Int) = flashcardDao.updateFlashcard(id)
+    suspend fun updateFlashcard(flashcard: Flashcard) = flashcardDao.updateFlashcard(flashcard)
 }
