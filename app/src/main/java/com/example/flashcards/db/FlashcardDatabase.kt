@@ -10,9 +10,11 @@ import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard.FlashcardDao
 import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.db.directory.FlashcardDirectoryDao
+import com.example.flashcards.db.notification.Notification
+import com.example.flashcards.db.notification.NotificationDao
 
 @Database(
-    entities = arrayOf(Flashcard::class, Directory::class),
+    entities = arrayOf(Flashcard::class, Directory::class, Notification::class),
     version = 2,
     exportSchema = false
 )
@@ -20,6 +22,7 @@ public abstract class FlashcardDatabase : RoomDatabase() {
 
     abstract fun flashcardDao(): FlashcardDao
     abstract fun directoryDao(): FlashcardDirectoryDao
+    abstract fun notificationsDao(): NotificationDao
 
     companion object {
         @Volatile
