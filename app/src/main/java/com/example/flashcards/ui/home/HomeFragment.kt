@@ -21,6 +21,10 @@ import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
 class HomeFragment : Fragment() {
 
@@ -65,8 +69,15 @@ class HomeFragment : Fragment() {
                     id = 0,
                     title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
                     description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
-                    creation_date = null,
-                    last_modified = null,
+                    creation_date = OffsetDateTime.now().format(
+                        DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
+                    ),
+                    last_modified = OffsetDateTime.now().format(
+                        DateTimeFormatter.ofLocalizedDateTime(
+                            FormatStyle.MEDIUM,
+                            FormatStyle.MEDIUM
+                        ).withZone(ZoneId.systemDefault())
+                    ),
                     directory_id = null
                 )
                 homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
