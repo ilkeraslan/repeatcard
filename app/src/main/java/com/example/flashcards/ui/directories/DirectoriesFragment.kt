@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.flashcards.R
 import com.example.flashcards.db.directory.Directory
+import com.example.flashcards.ui.notifications.NotificationEvent
+import com.example.flashcards.ui.notifications.NotificationsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.directories_fragment.*
 
@@ -24,7 +26,8 @@ class DirectoriesFragment : Fragment() {
         fun newInstance() = DirectoriesFragment()
     }
 
-    private lateinit var viewModel: DirectoriesViewModel
+    private lateinit var directoriesViewModel: DirectoriesViewModel
+    private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var directoriesAdapter: DirectoriesAdapter
 
     override fun onCreateView(
@@ -38,7 +41,8 @@ class DirectoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
+        directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
+        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         // LayoutManager and Adapter
         recyclerViewDirectory.layoutManager = LinearLayoutManager(this.context)
@@ -55,15 +59,14 @@ class DirectoriesFragment : Fragment() {
 
         if (requestCode == 2000 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-                viewModel.send(
-                    DirectoryEvent.AddDirectory(
-                        Directory(
-                            id = 0,
-                            title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
-                            creationDate = ""
-                        )
-                    )
+
+                val directory = Directory(
+                    id = 0,
+                    title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
+                    creationDate = ""
                 )
+                directoriesViewModel.send(DirectoryEvent.AddDirectory(directory))
+                notificationsViewModel.send(NotificationEvent.AddDirectory(directory))
             } else {
                 Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
             }
@@ -83,7 +86,7 @@ class DirectoriesFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        directoriesViewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is DirectoryState.Error -> showError(state.error)
                 is DirectoryState.Success -> showDirectories(state.directories)

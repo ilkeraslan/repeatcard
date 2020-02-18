@@ -11,7 +11,6 @@ import com.example.flashcards.db.notification.Notification
 import com.example.flashcards.db.notification.NotificationRepository
 import kotlinx.coroutines.launch
 
-
 sealed class NotificationEvent {
     data class AddFlashcard(val flashcard: Flashcard) : NotificationEvent()
     data class AddDirectory(val directory: Directory) : NotificationEvent()
@@ -25,7 +24,6 @@ sealed class NotificationState {
     data class Error(val error: Throwable) : NotificationState()
     data class Success(val notifications: List<Notification>) : NotificationState()
 }
-
 
 class NotificationsViewModel(application: Application) : AndroidViewModel(application) {
 

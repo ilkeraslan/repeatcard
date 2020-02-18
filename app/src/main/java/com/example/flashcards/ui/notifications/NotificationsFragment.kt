@@ -12,10 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.notification.Notification
-import kotlinx.android.synthetic.main.notifications_fragment.*
-
 
 class NotificationsFragment : Fragment() {
 
@@ -39,9 +36,9 @@ class NotificationsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
-        setUpRecyclerView()
-
         setUpViews()
+
+        setUpRecyclerView()
     }
 
     private fun setUpRecyclerView() {
