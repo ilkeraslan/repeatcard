@@ -19,7 +19,8 @@ import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
-
+import com.example.flashcards.ui.notifications.NotificationEvent
+import com.example.flashcards.ui.notifications.NotificationsViewModel
 
 class HomeFragment : Fragment() {
 
@@ -27,7 +28,8 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
-    private lateinit var viewModel: HomeViewModel
+    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var homeListener: HomeListener
@@ -43,7 +45,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         observeViewModel()
 
@@ -57,18 +60,17 @@ class HomeFragment : Fragment() {
 
         if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-                viewModel.send(
-                    FlashcardEvent.AddFlashcard(
-                        Flashcard(
-                            id = 0,
-                            title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
-                            description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
-                            creation_date = null,
-                            last_modified = null,
-                            directory_id = null
-                        )
-                    )
+
+                val flashcard = Flashcard(
+                    id = 0,
+                    title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
+                    description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
+                    creation_date = null,
+                    last_modified = null,
+                    directory_id = null
                 )
+                homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
+                notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
             } else {
                 Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
             }
@@ -95,7 +97,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun addToDirectory(id: Int) {
-        viewModel.send(FlashcardEvent.AddToDirectory(id, 1))
+        homeViewModel.send(FlashcardEvent.AddToDirectory(id, 1))
     }
 
     private fun setUpViews() {
@@ -127,14 +129,14 @@ class HomeFragment : Fragment() {
         dialogBuilder.setTitle("Are you sure you want to delete?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            viewModel.send(
+            homeViewModel.send(
                 FlashcardEvent.DeleteAll
             )
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
 
         dialogBuilder.setNegativeButton("No") { dialog, which ->
-            viewModel.send(FlashcardEvent.Load)
+            homeViewModel.send(FlashcardEvent.Load)
         }
 
         dialogBuilder.create().show()
@@ -147,21 +149,21 @@ class HomeFragment : Fragment() {
         dialogBuilder.setTitle("Are you sure you want to delete?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            viewModel.send(
+            homeViewModel.send(
                 FlashcardEvent.DeleteFlashcard(id)
             )
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
 
         dialogBuilder.setNegativeButton("No") { dialog, which ->
-            viewModel.send(FlashcardEvent.Load)
+            homeViewModel.send(FlashcardEvent.Load)
         }
 
         dialogBuilder.create().show()
     }
 
     private fun observeViewModel() {
-        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        homeViewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is FlashcardState.Error -> showError(state.error)
                 is FlashcardState.Success -> showFlashcards(state.flashcards)
