@@ -10,6 +10,10 @@ import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.notification.Notification
 import com.example.flashcards.db.notification.NotificationRepository
 import kotlinx.coroutines.launch
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
 sealed class NotificationEvent {
     data class AddFlashcard(val flashcard: Flashcard) : NotificationEvent()
@@ -47,7 +51,12 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
                     notificationId = 0,
                     notificationTitle = "Added new directory",
                     notificationType = "directory",
-                    creationDate = "now"
+                    creationDate = OffsetDateTime.now().format(
+                        DateTimeFormatter.ofLocalizedDateTime(
+                            FormatStyle.MEDIUM,
+                            FormatStyle.MEDIUM
+                        ).withZone(ZoneId.systemDefault())
+                    )
                 )
             )
             is NotificationEvent.AddFlashcard -> insert(
@@ -55,7 +64,12 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
                     notificationId = 0,
                     notificationTitle = "Added new flashcard",
                     notificationType = "flashcard",
-                    creationDate = "now"
+                    creationDate = OffsetDateTime.now().format(
+                        DateTimeFormatter.ofLocalizedDateTime(
+                            FormatStyle.MEDIUM,
+                            FormatStyle.MEDIUM
+                        ).withZone(ZoneId.systemDefault())
+                    )
                 )
             )
             is NotificationEvent.DeleteAll -> deleteAll()

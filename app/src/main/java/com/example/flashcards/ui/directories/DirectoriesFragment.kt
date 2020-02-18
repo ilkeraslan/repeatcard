@@ -12,13 +12,15 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.example.flashcards.R
 import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.directories_fragment.*
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
 class DirectoriesFragment : Fragment() {
 
@@ -63,7 +65,9 @@ class DirectoriesFragment : Fragment() {
                 val directory = Directory(
                     id = 0,
                     title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
-                    creationDate = ""
+                    creationDate = OffsetDateTime.now().format(
+                        DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
+                    )
                 )
                 directoriesViewModel.send(DirectoryEvent.AddDirectory(directory))
                 notificationsViewModel.send(NotificationEvent.AddDirectory(directory))

@@ -72,4 +72,7 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
+    // Date
+    implementation "com.jakewharton.threetenabp:threetenabp:1.2.2"
+
 }
