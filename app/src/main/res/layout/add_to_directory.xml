@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:scrollbars="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/addToDirectoryScroll">
+
+        <RadioGroup
+            android:id="@+id/addToDirectoryRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/addToDirectoryRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+<!--
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/addToDirectoryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />-->
+        </RadioGroup>
+    </ScrollView>
+</LinearLayout>

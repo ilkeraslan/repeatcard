@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.AddFlashcardActivity
 import com.example.flashcards.R
+import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.db.flashcard.Flashcard
+import com.example.flashcards.ui.directories.DirectoriesViewModel
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
@@ -32,6 +34,7 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
+    private lateinit var directoriesViewModel: DirectoriesViewModel
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var homeAdapter: HomeAdapter
@@ -49,13 +52,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
-
+        setupViewModels()
         observeViewModel()
-
         setUpRecyclerView()
-
         setUpViews()
     }
 
@@ -90,6 +89,12 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun setupViewModels() {
+        directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
+    }
+
     private fun setUpRecyclerView() {
         recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -99,7 +104,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun addFlashcardToDirectory(id: Int) {
-                addToDirectory(id)
+                alertToAdd(id)
             }
         }
         homeAdapter = HomeAdapter(homeListener)
@@ -107,8 +112,18 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = homeAdapter
     }
 
-    private fun addToDirectory(id: Int) {
-        homeViewModel.send(FlashcardEvent.AddToDirectory(id, 1))
+    private fun getDirectories(): MutableList<Directory> {
+        val directoriesToAdd: MutableList<Directory> = mutableListOf()
+
+        directoriesViewModel.allDirectories.observe(
+            viewLifecycleOwner,
+            Observer { directory ->
+                directory.forEach { dir ->
+                    directoriesToAdd.add(dir)
+                }
+            })
+
+        return directoriesToAdd
     }
 
     private fun setUpViews() {
@@ -133,11 +148,45 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun alertToAdd(flashcardId: Int) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val directories = getDirectories()
+
+        val radioGroup = RadioGroup(this.context)
+        val scroll = ScrollView(this.context)
+
+        directories.forEach { directory ->
+            val radioButton = RadioButton(this.context)
+            radioButton.text = directory.title
+            radioGroup.addView(radioButton)
+            radioButton.text
+        }
+
+        radioGroup.check(directories.first().id)
+
+        scroll.addView(radioGroup, RadioGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
+
+        val foo = radioGroup.checkedRadioButtonId
+        Log.d("CHECKED", foo.toString())
+
+        dialogBuilder.setTitle("Select Directory")
+        dialogBuilder.setPositiveButton("Select") { dialog, which ->
+            homeViewModel.send(
+                FlashcardEvent.AddToDirectory(
+                    flashcardId,
+                    radioGroup.checkedRadioButtonId // TODO: Doesn't work
+                )
+            )
+        }
+        dialogBuilder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
+
+        dialogBuilder.setView(scroll).create().show()
+    }
+
     private fun alertToDelete() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        val inflater = this.layoutInflater
 
-        dialogBuilder.setTitle("Are you sure you want to delete?")
+        dialogBuilder.setTitle("Are you sure you want to delete ALL?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             homeViewModel.send(
@@ -155,9 +204,8 @@ class HomeFragment : Fragment() {
 
     private fun alertToDelete(id: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-        val inflater = this.layoutInflater
 
-        dialogBuilder.setTitle("Are you sure you want to delete?")
+        dialogBuilder.setTitle("Are you sure you want to delete this?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             homeViewModel.send(
