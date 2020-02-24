@@ -4,9 +4,12 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.util.Log
+import android.widget.*
+import com.bumptech.glide.Glide
+import com.example.flashcards.ui.util.GalleryPicker
+
+const val GALLERY_IMAGE_URI = "com.example.flashcards.GALLERY_URI"
 
 class AddFlashcardActivity : AppCompatActivity() {
 
@@ -22,12 +25,15 @@ class AddFlashcardActivity : AppCompatActivity() {
     private lateinit var flashcardTitleEdit: EditText
     private lateinit var flashcardDescriptionEdit: EditText
     private lateinit var flashcardSaveButton: Button
+    private lateinit var flashcardImage: ImageView
+    private lateinit var imageUri: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_flashcard)
 
         setUpViews()
+        setClickListeners()
     }
 
     private fun setUpViews() {
@@ -37,13 +43,14 @@ class AddFlashcardActivity : AppCompatActivity() {
         flashcardTitleEdit = findViewById(R.id.flashcard_title_editText)
         flashcardDescriptionEdit = findViewById(R.id.flashcard_description_editText)
         flashcardSaveButton = findViewById(R.id.flashcard_save_button)
-
-        flashcardSaveButton.setOnClickListener { turnToMain() }
+        flashcardImage = findViewById(R.id.flashcard_select_image)
     }
 
-    /*
-     * Function to return to HomeFragment
-     */
+    private fun setClickListeners() {
+        flashcardSaveButton.setOnClickListener { turnToMain() }
+        flashcardImage.setOnClickListener { selectImage() }
+    }
+
     private fun turnToMain() {
         val intentToMain = Intent()
 
@@ -60,6 +67,14 @@ class AddFlashcardActivity : AppCompatActivity() {
                     flashcardDescriptionEdit.text.toString()
                 }
             )
+            intentToMain.putExtra(
+                "ADD_FLASHCARD_IMAGE_RESULT",
+                if (imageUri.isNullOrEmpty()) {
+                    "No image"
+                } else {
+                    imageUri
+                }
+            )
 
             setResult(Activity.RESULT_OK, intentToMain)
         } else {
@@ -68,4 +83,26 @@ class AddFlashcardActivity : AppCompatActivity() {
 
         finish()
     }
+
+    private fun selectImage() {
+        startActivityForResult(GalleryPicker.getIntent(this), 2000)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 2000 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+
+                Toast.makeText(this, "Image ok.", Toast.LENGTH_SHORT).show()
+
+                imageUri = data.data.toString()
+                Log.d("IMAGE URI", imageUri.toString())
+
+                // Load the image
+                Glide.with(this).load(imageUri).into(flashcardImage)
+            }
+        }
+    }
+
 }

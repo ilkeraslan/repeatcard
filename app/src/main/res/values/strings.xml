@@ -19,4 +19,6 @@
     <string name="directory_title_text">Directory Title</string>
     <string name="directory_description_text">Directory Description</string>
     <string name="flashcardImage">Flashcard Image</string>
+    <string name="error_loading_image">Can\'t load the image.</string>
+    <string name="image_chooser">Choose an image</string>
 </resources>
