@@ -26,7 +26,7 @@ class AddFlashcardActivity : AppCompatActivity() {
     private lateinit var flashcardDescriptionEdit: EditText
     private lateinit var flashcardSaveButton: Button
     private lateinit var flashcardImage: ImageView
-    private lateinit var imageUri: String
+    private var imageUri: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +70,7 @@ class AddFlashcardActivity : AppCompatActivity() {
             intentToMain.putExtra(
                 "ADD_FLASHCARD_IMAGE_RESULT",
                 if (imageUri.isNullOrEmpty()) {
+                    imageUri = "No image"
                     "No image"
                 } else {
                     imageUri

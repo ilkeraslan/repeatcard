@@ -5,11 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 
@@ -30,6 +32,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
     private lateinit var closeButton: Button
     private lateinit var detailTitle: TextView
     private lateinit var detailDescription: TextView
+    private lateinit var detailImage: ImageView
 
     private var flashcardId = 0
 
@@ -56,6 +59,8 @@ class FlashcardDetailActivity : AppCompatActivity() {
         closeButton = findViewById(R.id.button_close_detail)
         detailTitle = findViewById(R.id.flashcard_detail_title)
         detailDescription = findViewById(R.id.flashcard_detail_description)
+        detailImage = findViewById(R.id.flashcard_detail_imageView)
+
         flashcardId = intent.extras!!.getInt("BUNDLE_TAG_FLASHCARD_ID")
 
         viewModel.send(
@@ -70,6 +75,9 @@ class FlashcardDetailActivity : AppCompatActivity() {
     private fun showFlashcard(flashcard: Flashcard) {
         detailTitle.text = flashcard.title
         detailDescription.text = flashcard.description
+        if (flashcard.imageUri != "No image") {
+            Glide.with(this).load(flashcard.imageUri).into(detailImage)
+        }
     }
 
     private fun showError(error: Throwable) {
