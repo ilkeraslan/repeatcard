@@ -11,7 +11,6 @@ import com.example.flashcards.R
 import com.example.flashcards.ui.home.FlashcardState
 import com.example.flashcards.ui.home.HomeViewModel
 
-
 class FlashcardReviewScreen : AppCompatActivity() {
 
     private lateinit var viewModel: HomeViewModel
