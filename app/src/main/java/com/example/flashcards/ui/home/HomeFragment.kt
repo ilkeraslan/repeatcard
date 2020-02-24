@@ -157,6 +157,7 @@ class HomeFragment : Fragment() {
 
         directories.forEach { directory ->
             val radioButton = RadioButton(this.context)
+            radioButton.id = directory.id
             radioButton.text = directory.title
             radioGroup.addView(radioButton)
             radioButton.text
@@ -165,9 +166,6 @@ class HomeFragment : Fragment() {
         radioGroup.check(directories.first().id)
 
         scroll.addView(radioGroup, RadioGroup.LayoutParams(WRAP_CONTENT, WRAP_CONTENT))
-
-        val foo = radioGroup.checkedRadioButtonId
-        Log.d("CHECKED", foo.toString())
 
         dialogBuilder.setTitle("Select Directory")
         dialogBuilder.setPositiveButton("Select") { dialog, which ->
