@@ -12,11 +12,14 @@ buildscript {
     }
     repositories {
         google()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://maven.fabric.io/public' }
         jcenter()
-        
+
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'com.android.tools.build:gradle:3.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -24,6 +27,8 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
         jcenter()
     }
 }

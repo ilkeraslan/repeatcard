@@ -77,7 +77,8 @@ class HomeFragment : Fragment() {
                             FormatStyle.MEDIUM
                         ).withZone(ZoneId.systemDefault())
                     ),
-                    directory_id = null
+                    directory_id = null,
+                    imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT").toString()
                 )
                 homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
                 notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
