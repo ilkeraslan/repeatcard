@@ -41,9 +41,7 @@ class DirectoryScreen : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
 
         observeViewModel()
-
         setUpRecyclerView()
-
         setUpViews()
     }
 

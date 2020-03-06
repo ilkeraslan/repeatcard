@@ -1,6 +1,5 @@
 package com.example.flashcards.ui.flashcard_review
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,4 +60,3 @@ class FlashcardsDiffUtil : DiffUtil.ItemCallback<Flashcard>() {
         return oldItem.id == newItem.id
     }
 }
-

@@ -9,7 +9,9 @@ import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.notification.Notification
 import com.example.flashcards.db.notification.NotificationRepository
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -18,17 +20,20 @@ import org.threeten.bp.format.FormatStyle
 sealed class NotificationEvent {
     data class AddFlashcard(val flashcard: Flashcard) : NotificationEvent()
     data class AddDirectory(val directory: Directory) : NotificationEvent()
-    data class DeleteFlashcard(val flashcard: Flashcard) : NotificationEvent()
+    data class DeleteFlashcard(val flashcardId: Int) : NotificationEvent()
     data class DeleteDirectory(val directory: Directory) : NotificationEvent()
     object DeleteAll : NotificationEvent()
     object Load : NotificationEvent()
 }
 
 sealed class NotificationState {
-    data class Error(val error: Throwable) : NotificationState()
+    data class Error(val error: Throwable, val notifications: List<Notification>) :
+        NotificationState()
+
     data class Success(val notifications: List<Notification>) : NotificationState()
 }
 
+@ExperimentalCoroutinesApi
 class NotificationsViewModel(application: Application) : AndroidViewModel(application) {
 
     companion object {
@@ -44,6 +49,7 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
         loadContent()
     }
 
+    @ExperimentalCoroutinesApi
     fun send(event: NotificationEvent) {
         when (event) {
             is NotificationEvent.AddDirectory -> insert(
@@ -77,16 +83,24 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
         loadContent()
     }
 
+    @ExperimentalCoroutinesApi
     private fun loadContent() = viewModelScope.launch {
-        val notifications = repository.getNotifications()
-        state.postValue(NotificationState.Success(notifications))
+        val notifications =
+            withContext(viewModelScope.coroutineContext) { repository.getNotifications() }
+        if (notifications.isEmpty()) {
+            state.postValue(NotificationState.Error(NullPointerException(), mutableListOf()))
+        } else {
+            state.postValue(NotificationState.Success(notifications))
+        }
     }
 
+    @ExperimentalCoroutinesApi
     fun insert(notification: Notification) = viewModelScope.launch {
         repository.insertNotification(notification)
         loadContent()
