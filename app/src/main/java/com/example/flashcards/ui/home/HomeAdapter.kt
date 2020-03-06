@@ -12,7 +12,7 @@ import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.flashcard_detail.FlashcardDetailActivity
 
-class HomeAdapter(val clickListener: HomeListener) :
+class HomeAdapter(private val clickListener: HomeListener) :
     ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {

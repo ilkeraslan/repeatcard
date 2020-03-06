@@ -1,17 +1,15 @@
 package com.example.flashcards.ui.directories
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.flashcards.db.FlashcardDatabase
-import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.db.directory.FlashcardDirectoryRepository
+import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard.FlashcardRepository
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 sealed class DirectoryEvent {
@@ -64,10 +62,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun getDirectoryContent(directoryId: Int) = viewModelScope.launch {
-
-        val directoryContent = flashcardRepository.getFlashcardsForDirectory(
-            directoryId
-        )
+        val directoryContent = flashcardRepository.getFlashcardsForDirectory(directoryId)
 
         if (directoryContent.isEmpty()) {
             directoryState.postValue(DirectoryState.Error(NullPointerException()))
