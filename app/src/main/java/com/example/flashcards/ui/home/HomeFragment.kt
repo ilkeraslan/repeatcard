@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +23,7 @@ import com.example.flashcards.ui.directories.DirectoriesViewModel
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -34,9 +35,10 @@ class HomeFragment : Fragment() {
         fun newInstance() = HomeFragment()
     }
 
+    @ExperimentalCoroutinesApi
+    private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var directoriesViewModel: DirectoriesViewModel
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var homeListener: HomeListener
@@ -49,6 +51,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -58,6 +61,7 @@ class HomeFragment : Fragment() {
         setUpViews()
     }
 
+    @ExperimentalCoroutinesApi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -90,12 +94,14 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun setupViewModels() {
         directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
     }
 
+    @ExperimentalCoroutinesApi
     private fun setUpRecyclerView() {
         recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -109,7 +115,6 @@ class HomeFragment : Fragment() {
             }
         }
         homeAdapter = HomeAdapter(homeListener)
-
         recyclerView.adapter = homeAdapter
     }
 
@@ -139,9 +144,7 @@ class HomeFragment : Fragment() {
             startActivityForResult(intent, 1000)
         }
 
-        deleteAll.setOnClickListener {
-            alertToDelete()
-        }
+        deleteAll.setOnClickListener { alertToDelete() }
 
         review.setOnClickListener {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
@@ -149,6 +152,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun alertToAdd(flashcardId: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val directories = getDirectories()
@@ -176,9 +180,9 @@ class HomeFragment : Fragment() {
                     radioGroup.checkedRadioButtonId // TODO: Doesn't work
                 )
             )
+            notificationsViewModel.send(NotificationEvent.DeleteFlashcard(flashcardId))
         }
         dialogBuilder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
-
         dialogBuilder.setView(scroll).create().show()
     }
 
@@ -188,9 +192,7 @@ class HomeFragment : Fragment() {
         dialogBuilder.setTitle("Are you sure you want to delete ALL?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            homeViewModel.send(
-                FlashcardEvent.DeleteAll
-            )
+            homeViewModel.send(FlashcardEvent.DeleteAll)
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
 

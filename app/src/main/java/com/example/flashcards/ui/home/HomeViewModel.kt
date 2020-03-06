@@ -10,8 +10,6 @@ import com.example.flashcards.db.FlashcardDatabase
 import com.example.flashcards.db.directory.FlashcardDirectoryRepository
 import kotlinx.coroutines.launch
 
-
-// Events that HomeFragment can send
 sealed class FlashcardEvent {
     data class AddFlashcard(val flashcard: Flashcard) : FlashcardEvent()
     data class AddToDirectory(val id: Int, val directoryId: Int) : FlashcardEvent()
@@ -20,7 +18,6 @@ sealed class FlashcardEvent {
     object Load : FlashcardEvent()
 }
 
-// States that a Flashcard can have
 sealed class FlashcardState {
     data class Error(val error: Throwable) : FlashcardState()
     data class Success(val flashcards: List<Flashcard>) : FlashcardState()

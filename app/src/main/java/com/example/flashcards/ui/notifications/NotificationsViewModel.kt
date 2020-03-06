@@ -20,14 +20,16 @@ import org.threeten.bp.format.FormatStyle
 sealed class NotificationEvent {
     data class AddFlashcard(val flashcard: Flashcard) : NotificationEvent()
     data class AddDirectory(val directory: Directory) : NotificationEvent()
-    data class DeleteFlashcard(val flashcard: Flashcard) : NotificationEvent()
+    data class DeleteFlashcard(val flashcardId: Int) : NotificationEvent()
     data class DeleteDirectory(val directory: Directory) : NotificationEvent()
     object DeleteAll : NotificationEvent()
     object Load : NotificationEvent()
 }
 
 sealed class NotificationState {
-    data class Error(val error: Throwable) : NotificationState()
+    data class Error(val error: Throwable, val notifications: List<Notification>) :
+        NotificationState()
+
     data class Success(val notifications: List<Notification>) : NotificationState()
 }
 
@@ -92,7 +94,7 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
         val notifications =
             withContext(viewModelScope.coroutineContext) { repository.getNotifications() }
         if (notifications.isEmpty()) {
-            state.postValue(NotificationState.Error(NullPointerException()))
+            state.postValue(NotificationState.Error(NullPointerException(), mutableListOf()))
         } else {
             state.postValue(NotificationState.Success(notifications))
         }
