@@ -20,6 +20,7 @@ import org.threeten.bp.format.FormatStyle
 sealed class NotificationEvent {
     data class AddFlashcard(val flashcard: Flashcard) : NotificationEvent()
     data class AddDirectory(val directory: Directory) : NotificationEvent()
+    data class AddToDirectory(val flashcardId: Int) : NotificationEvent()
     data class DeleteFlashcard(val flashcardId: Int) : NotificationEvent()
     data class DeleteDirectory(val directory: Directory) : NotificationEvent()
     object DeleteAll : NotificationEvent()
@@ -51,6 +52,7 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
 
     @ExperimentalCoroutinesApi
     fun send(event: NotificationEvent) {
+        // TODO -> Manage all events
         when (event) {
             is NotificationEvent.AddDirectory -> insert(
                 Notification(

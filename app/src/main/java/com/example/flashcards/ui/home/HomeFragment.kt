@@ -178,10 +178,10 @@ class HomeFragment : Fragment() {
             homeViewModel.send(
                 FlashcardEvent.AddToDirectory(
                     flashcardId,
-                    radioGroup.checkedRadioButtonId // TODO: Doesn't work
+                    radioGroup.checkedRadioButtonId
                 )
             )
-            notificationsViewModel.send(NotificationEvent.DeleteFlashcard(flashcardId))
+            //notificationsViewModel.send(NotificationEvent.AddToDirectory(flashcardId))
         }
         dialogBuilder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
         dialogBuilder.setView(scroll).create().show()
@@ -210,9 +210,7 @@ class HomeFragment : Fragment() {
         dialogBuilder.setTitle("Are you sure you want to delete this?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            homeViewModel.send(
-                FlashcardEvent.DeleteFlashcard(id)
-            )
+            homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
 

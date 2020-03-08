@@ -32,6 +32,8 @@ class DirectoriesAdapter(private val clickListener: DirectoriesListener) :
                 directory.id
             )
         }
+
+        holder.directoryDelete.setOnClickListener { clickListener.itemDeleted(directory.id) }
     }
 }
 
@@ -42,7 +44,7 @@ class DirectoriesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 }
 
 interface DirectoriesListener {
-    fun itemDeleted(id:Int)
+    fun itemDeleted(id: Int)
 }
 
 class DirectoriesDiffUtil : DiffUtil.ItemCallback<Directory>() {
