@@ -94,6 +94,7 @@ class DirectoriesFragment : Fragment() {
         })
     }
 
+    @ExperimentalCoroutinesApi
     private fun alertToDelete(id: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
@@ -101,6 +102,7 @@ class DirectoriesFragment : Fragment() {
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             directoriesViewModel.send(DirectoryEvent.DeleteDirectory(id))
+            notificationsViewModel.send(NotificationEvent.DeleteDirectory(id))
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
 

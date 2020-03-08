@@ -22,7 +22,7 @@ sealed class NotificationEvent {
     data class AddDirectory(val directory: Directory) : NotificationEvent()
     data class AddToDirectory(val flashcardId: Int) : NotificationEvent()
     data class DeleteFlashcard(val flashcardId: Int) : NotificationEvent()
-    data class DeleteDirectory(val directory: Directory) : NotificationEvent()
+    data class DeleteDirectory(val directoryId: Int) : NotificationEvent()
     object DeleteAll : NotificationEvent()
     object Load : NotificationEvent()
 }
@@ -55,34 +55,37 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
         // TODO -> Manage all events
         when (event) {
             is NotificationEvent.AddDirectory -> insert(
-                Notification(
-                    notificationId = 0,
-                    notificationTitle = "Added new directory",
-                    notificationType = "directory",
-                    creationDate = OffsetDateTime.now().format(
-                        DateTimeFormatter.ofLocalizedDateTime(
-                            FormatStyle.MEDIUM,
-                            FormatStyle.MEDIUM
-                        ).withZone(ZoneId.systemDefault())
-                    )
-                )
+                createNotification("Added new directory", "directory")
             )
             is NotificationEvent.AddFlashcard -> insert(
-                Notification(
-                    notificationId = 0,
-                    notificationTitle = "Added new flashcard",
-                    notificationType = "flashcard",
-                    creationDate = OffsetDateTime.now().format(
-                        DateTimeFormatter.ofLocalizedDateTime(
-                            FormatStyle.MEDIUM,
-                            FormatStyle.MEDIUM
-                        ).withZone(ZoneId.systemDefault())
-                    )
-                )
+                createNotification("Added new flashcard", "flashcard")
+            )
+            is NotificationEvent.AddToDirectory -> insert(
+                createNotification("Added to directory", "flashcard")
+            )
+            is NotificationEvent.DeleteDirectory -> insert(
+                createNotification("Deleted directory", "directory")
+            )
+            is NotificationEvent.DeleteFlashcard -> insert(
+                createNotification("Deleted flashcard", "flashcard")
             )
             is NotificationEvent.DeleteAll -> deleteAll()
             is NotificationEvent.Load -> loadContent()
         }
+    }
+
+    private fun createNotification(title: String, type: String): Notification {
+        return Notification(
+            notificationId = 0,
+            notificationTitle = title,
+            notificationType = type,
+            creationDate = OffsetDateTime.now().format(
+                DateTimeFormatter.ofLocalizedDateTime(
+                    FormatStyle.MEDIUM,
+                    FormatStyle.MEDIUM
+                ).withZone(ZoneId.systemDefault())
+            )
+        )
     }
 
     @ExperimentalCoroutinesApi

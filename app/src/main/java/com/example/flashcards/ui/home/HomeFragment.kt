@@ -181,7 +181,7 @@ class HomeFragment : Fragment() {
                     radioGroup.checkedRadioButtonId
                 )
             )
-            //notificationsViewModel.send(NotificationEvent.AddToDirectory(flashcardId))
+            notificationsViewModel.send(NotificationEvent.AddToDirectory(flashcardId))
         }
         dialogBuilder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
         dialogBuilder.setView(scroll).create().show()
@@ -204,6 +204,7 @@ class HomeFragment : Fragment() {
         dialogBuilder.create().show()
     }
 
+    @ExperimentalCoroutinesApi
     private fun alertToDelete(id: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
@@ -211,6 +212,7 @@ class HomeFragment : Fragment() {
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
+            notificationsViewModel.send(NotificationEvent.DeleteFlashcard(id))
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
 
