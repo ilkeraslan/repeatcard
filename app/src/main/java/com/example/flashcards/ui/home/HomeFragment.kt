@@ -3,7 +3,6 @@ package com.example.flashcards.ui.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,9 +55,55 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupViewModels()
-        observeViewModel()
         setUpRecyclerView()
         setUpViews()
+        observeViewModel()
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun setupViewModels() {
+        directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun setUpRecyclerView() {
+        recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        homeListener = object : HomeListener {
+            override fun itemDeleted(id: Int) {
+                alertToDelete(id)
+            }
+
+            override fun addFlashcardToDirectory(id: Int) {
+                if (getDirectories().isNotEmpty()) {
+                    alertToAdd(id)
+                } else showError(KotlinNullPointerException("No directory."))
+            }
+        }
+        homeAdapter = HomeAdapter(homeListener)
+        recyclerView.adapter = homeAdapter
+    }
+
+    private fun setUpViews() {
+        val addFlashcardButton: Button =
+            requireActivity().findViewById(R.id.add_flashcard_button)
+        val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
+        val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
+
+        addFlashcardButton.setOnClickListener {
+            //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
+            val intent = Intent(activity, AddFlashcardActivity::class.java)
+            startActivityForResult(intent, 1000)
+        }
+
+        deleteAll.setOnClickListener { alertToDelete() }
+
+        review.setOnClickListener {
+            val intent = Intent(activity, FlashcardReviewScreen::class.java)
+            startActivity(intent)
+        }
     }
 
     @ExperimentalCoroutinesApi
@@ -94,30 +139,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @ExperimentalCoroutinesApi
-    private fun setupViewModels() {
-        directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun setUpRecyclerView() {
-        recyclerView = requireActivity().findViewById(R.id.recyclerView_home)
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        homeListener = object : HomeListener {
-            override fun itemDeleted(id: Int) {
-                alertToDelete(id)
-            }
-
-            override fun addFlashcardToDirectory(id: Int) {
-                alertToAdd(id)
-            }
-        }
-        homeAdapter = HomeAdapter(homeListener)
-        recyclerView.adapter = homeAdapter
-    }
-
     private fun getDirectories(): MutableList<Directory> {
         val directoriesToAdd: MutableList<Directory> = mutableListOf()
 
@@ -130,26 +151,6 @@ class HomeFragment : Fragment() {
             })
 
         return directoriesToAdd
-    }
-
-    private fun setUpViews() {
-        val addFlashcardButton: Button =
-            requireActivity().findViewById(R.id.add_flashcard_button)
-        val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
-        val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
-
-        addFlashcardButton.setOnClickListener {
-            //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
-            val intent = Intent(activity, AddFlashcardActivity::class.java)
-            startActivityForResult(intent, 1000)
-        }
-
-        deleteAll.setOnClickListener { alertToDelete() }
-
-        review.setOnClickListener {
-            val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            startActivity(intent)
-        }
     }
 
     @ExperimentalCoroutinesApi
@@ -177,10 +178,10 @@ class HomeFragment : Fragment() {
             homeViewModel.send(
                 FlashcardEvent.AddToDirectory(
                     flashcardId,
-                    radioGroup.checkedRadioButtonId // TODO: Doesn't work
+                    radioGroup.checkedRadioButtonId
                 )
             )
-            notificationsViewModel.send(NotificationEvent.DeleteFlashcard(flashcardId))
+            notificationsViewModel.send(NotificationEvent.AddToDirectory(flashcardId))
         }
         dialogBuilder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
         dialogBuilder.setView(scroll).create().show()
@@ -203,15 +204,15 @@ class HomeFragment : Fragment() {
         dialogBuilder.create().show()
     }
 
+    @ExperimentalCoroutinesApi
     private fun alertToDelete(id: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
         dialogBuilder.setTitle("Are you sure you want to delete this?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            homeViewModel.send(
-                FlashcardEvent.DeleteFlashcard(id)
-            )
+            homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
+            notificationsViewModel.send(NotificationEvent.DeleteFlashcard(id))
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
 
@@ -232,8 +233,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showError(error: Throwable) {
-        Log.i("SHOW_ERROR", "Error: ", error)
-        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, error.localizedMessage?.toString(), Toast.LENGTH_SHORT).show()
     }
 
     private fun showFlashcards(flashcards: List<Flashcard>) {

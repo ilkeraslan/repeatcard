@@ -13,7 +13,7 @@ import com.example.flashcards.R
 import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.ui.directory.DirectoryScreen
 
-class DirectoriesAdapter :
+class DirectoriesAdapter(private val clickListener: DirectoriesListener) :
     ListAdapter<Directory, DirectoriesViewHolder>(DirectoriesDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoriesViewHolder {
@@ -32,12 +32,19 @@ class DirectoriesAdapter :
                 directory.id
             )
         }
+
+        holder.directoryDelete.setOnClickListener { clickListener.itemDeleted(directory.id) }
     }
 }
 
 class DirectoriesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val directory: TextView = view.findViewById(R.id.textViewDirectoriesRow)
     val directoryView: ConstraintLayout = view.findViewById(R.id.directoriesRow)
+    val directoryDelete: View = view.findViewById(R.id.deleteButtonDirectoriesRow)
+}
+
+interface DirectoriesListener {
+    fun itemDeleted(id: Int)
 }
 
 class DirectoriesDiffUtil : DiffUtil.ItemCallback<Directory>() {

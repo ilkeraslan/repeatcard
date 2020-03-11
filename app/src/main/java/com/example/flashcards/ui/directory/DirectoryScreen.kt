@@ -16,7 +16,6 @@ import com.example.flashcards.ui.directories.DirectoriesViewModel
 import com.example.flashcards.ui.directories.DirectoryEvent
 import com.example.flashcards.ui.directories.DirectoryState
 
-
 private const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
 class DirectoryScreen : AppCompatActivity() {
@@ -47,7 +46,6 @@ class DirectoryScreen : AppCompatActivity() {
 
     private fun setUpViews() {
         val directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
-
         viewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
     }
 
