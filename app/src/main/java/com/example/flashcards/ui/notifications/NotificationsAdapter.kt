@@ -9,11 +9,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
-import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.notification.Notification
 
-class NotificationsAdapter :
-    ListAdapter<Notification, NotificationsViewHolder>(NotificationsDiffUtil()) {
+class NotificationsAdapter(private val clickListener: NotificationsListener) : ListAdapter<Notification, NotificationsViewHolder>(NotificationsDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsViewHolder {
         val layoutInflater = LayoutInflater.from((parent.context))
@@ -22,20 +20,22 @@ class NotificationsAdapter :
     }
 
     override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
-        val notificationTitle = getItem(position)
-        holder.title.text = notificationTitle.notificationTitle
-        holder.date.text = notificationTitle.creationDate
+        val notification = getItem(position)
+        holder.title.text = notification.notificationTitle
+        holder.date.text = notification.creationDate
+
+        holder.cancel.setOnClickListener { clickListener.itemDeleted(notification.notificationId) }
     }
 }
 
-class NotificationsViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-    val image: ImageView = view.findViewById(R.id.imageView_notification_row)
+class NotificationsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val cancel: ImageView = view.findViewById(R.id.imageView_notification_row)
     val title: TextView = view.findViewById(R.id.titleText_notification_row)
     val date: TextView = view.findViewById(R.id.dateText_notification_row)
 }
 
-class NotificationsListener(val clickListener: (flashcard_id: Int) -> Unit) {
-    fun onClick(flashcard: Flashcard) = clickListener(flashcard.id)
+interface NotificationsListener {
+    fun itemDeleted(id: Int)
 }
 
 class NotificationsDiffUtil : DiffUtil.ItemCallback<Notification>() {

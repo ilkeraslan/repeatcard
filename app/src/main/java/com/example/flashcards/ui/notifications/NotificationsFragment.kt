@@ -18,14 +18,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class NotificationsFragment : Fragment() {
 
-    companion object {
-        fun openNotificationsFragment() = NotificationsFragment()
-    }
-
     @ExperimentalCoroutinesApi
     private lateinit var viewModel: NotificationsViewModel
     private lateinit var recyclerView: RecyclerView
     private lateinit var notificationsAdapter: NotificationsAdapter
+    private lateinit var notificationsListener: NotificationsListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,11 +42,17 @@ class NotificationsFragment : Fragment() {
         setUpViews()
     }
 
+    @ExperimentalCoroutinesApi
     private fun setUpRecyclerView() {
         recyclerView = requireActivity().findViewById(R.id.recyclerView_notifications)
-        notificationsAdapter = NotificationsAdapter()
-        recyclerView.adapter = notificationsAdapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
+        notificationsListener = object : NotificationsListener {
+            override fun itemDeleted(id: Int) {
+                alertToDelete(id)
+            }
+        }
+        notificationsAdapter = NotificationsAdapter(notificationsListener)
+        recyclerView.adapter = notificationsAdapter
     }
 
     @ExperimentalCoroutinesApi
@@ -86,16 +89,26 @@ class NotificationsFragment : Fragment() {
         dialogBuilder.setTitle("Are you sure you want to delete ALL?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            viewModel.send(
-                NotificationEvent.DeleteAll
-            )
+            viewModel.send(NotificationEvent.DeleteAll)
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
 
-        dialogBuilder.setNegativeButton("No") { dialog, which ->
-            viewModel.send(NotificationEvent.Load)
+        dialogBuilder.setNegativeButton("No") { dialog, which -> viewModel.send(NotificationEvent.Load) }
+        dialogBuilder.create().show()
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun alertToDelete(id: Int) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+
+        dialogBuilder.setTitle("Delete this notification?")
+
+        dialogBuilder.setPositiveButton("Yes") { dialog, which ->
+            viewModel.send(NotificationEvent.DeleteNotification(id))
+            Toast.makeText(context, "Deleted notification.", Toast.LENGTH_SHORT).show()
         }
 
+        dialogBuilder.setNegativeButton("No") { dialog, which -> viewModel.send(NotificationEvent.Load) }
         dialogBuilder.create().show()
     }
 }

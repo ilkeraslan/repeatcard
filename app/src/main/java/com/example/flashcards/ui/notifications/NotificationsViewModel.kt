@@ -23,23 +23,18 @@ sealed class NotificationEvent {
     data class AddToDirectory(val flashcardId: Int) : NotificationEvent()
     data class DeleteFlashcard(val flashcardId: Int) : NotificationEvent()
     data class DeleteDirectory(val directoryId: Int) : NotificationEvent()
+    data class DeleteNotification(val notificationId: Int) : NotificationEvent()
     object DeleteAll : NotificationEvent()
     object Load : NotificationEvent()
 }
 
 sealed class NotificationState {
-    data class Error(val error: Throwable, val notifications: List<Notification>) :
-        NotificationState()
-
+    data class Error(val error: Throwable, val notifications: List<Notification>) : NotificationState()
     data class Success(val notifications: List<Notification>) : NotificationState()
 }
 
 @ExperimentalCoroutinesApi
 class NotificationsViewModel(application: Application) : AndroidViewModel(application) {
-
-    companion object {
-        fun newInstance(application: Application) = NotificationsViewModel(application)
-    }
 
     private val repository: NotificationRepository
     val state: MutableLiveData<NotificationState> = MutableLiveData()
@@ -52,23 +47,13 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
 
     @ExperimentalCoroutinesApi
     fun send(event: NotificationEvent) {
-        // TODO -> Manage all events
         when (event) {
-            is NotificationEvent.AddDirectory -> insert(
-                createNotification("Added new directory", "directory")
-            )
-            is NotificationEvent.AddFlashcard -> insert(
-                createNotification("Added new flashcard", "flashcard")
-            )
-            is NotificationEvent.AddToDirectory -> insert(
-                createNotification("Added to directory", "flashcard")
-            )
-            is NotificationEvent.DeleteDirectory -> insert(
-                createNotification("Deleted directory", "directory")
-            )
-            is NotificationEvent.DeleteFlashcard -> insert(
-                createNotification("Deleted flashcard", "flashcard")
-            )
+            is NotificationEvent.AddDirectory -> insert(createNotification("Added new directory", "directory"))
+            is NotificationEvent.AddFlashcard -> insert(createNotification("Added new flashcard", "flashcard"))
+            is NotificationEvent.AddToDirectory -> insert(createNotification("Added to directory", "flashcard"))
+            is NotificationEvent.DeleteDirectory -> insert(createNotification("Deleted directory", "directory"))
+            is NotificationEvent.DeleteFlashcard -> insert(createNotification("Deleted flashcard", "flashcard"))
+            is NotificationEvent.DeleteNotification -> deleteNotification(event.notificationId)
             is NotificationEvent.DeleteAll -> deleteAll()
             is NotificationEvent.Load -> loadContent()
         }
@@ -80,17 +65,15 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
             notificationTitle = title,
             notificationType = type,
             creationDate = OffsetDateTime.now().format(
-                DateTimeFormatter.ofLocalizedDateTime(
-                    FormatStyle.MEDIUM,
-                    FormatStyle.MEDIUM
-                ).withZone(ZoneId.systemDefault())
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
+                    .withZone(ZoneId.systemDefault())
             )
         )
     }
 
     @ExperimentalCoroutinesApi
-    private fun deleteAll() = viewModelScope.launch {
-        repository.deleteAll()
+    fun insert(notification: Notification) = viewModelScope.launch {
+        repository.insertNotification(notification)
         loadContent()
     }
 
@@ -105,9 +88,13 @@ class NotificationsViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    @ExperimentalCoroutinesApi
-    fun insert(notification: Notification) = viewModelScope.launch {
-        repository.insertNotification(notification)
+    private fun deleteNotification(id: Int) = viewModelScope.launch {
+        repository.deleteNotification(id)
+        loadContent()
+    }
+
+    private fun deleteAll() = viewModelScope.launch {
+        repository.deleteAll()
         loadContent()
     }
 }
