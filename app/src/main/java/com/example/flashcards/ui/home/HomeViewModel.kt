@@ -25,10 +25,6 @@ sealed class FlashcardState {
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    companion object {
-        fun newInstance(application: Application) = HomeViewModel(application)
-    }
-
     private val repository: FlashcardRepository
     private val directoryRepository: FlashcardDirectoryRepository
     var state: MutableLiveData<FlashcardState> = MutableLiveData()
@@ -47,10 +43,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                 insert(flashcard = event.flashcard)
                 loadContent()
             }
-            is FlashcardEvent.AddToDirectory -> addFlashcardToDirectory(
-                flashcardId = event.id,
-                directoryId = event.directoryId
-            )
+            is FlashcardEvent.AddToDirectory -> addFlashcardToDirectory(event.id, event.directoryId)
             is FlashcardEvent.DeleteAll -> deleteAll()
             is FlashcardEvent.DeleteFlashcard -> deleteFlashcard(event.id)
             is FlashcardEvent.Load -> loadContent()

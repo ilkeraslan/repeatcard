@@ -30,17 +30,13 @@ import org.threeten.bp.format.FormatStyle
 
 class HomeFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HomeFragment()
-    }
-
     @ExperimentalCoroutinesApi
     private lateinit var notificationsViewModel: NotificationsViewModel
     private lateinit var directoriesViewModel: DirectoriesViewModel
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var homeAdapter: HomeAdapter
-    private lateinit var recyclerView: RecyclerView
     private lateinit var homeListener: HomeListener
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
