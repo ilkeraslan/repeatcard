@@ -57,7 +57,14 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun deleteDirectory(id: Int) = viewModelScope.launch {
-        // TODO -> unassociate any Flashcard before deleting
+        // Disassociate any Flashcard before deleting
+        val flashcards = repository.getDirectoryContent(id)
+        if (flashcards.isNotEmpty()) {
+            flashcards.forEach { flashcard ->
+                flashcard.directory_id = null
+                flashcardRepository.updateFlashcard(flashcard)
+            }
+        }
         repository.deleteDirectory(id)
         loadContent()
     }

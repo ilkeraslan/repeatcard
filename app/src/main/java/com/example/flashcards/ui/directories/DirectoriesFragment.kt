@@ -26,17 +26,12 @@ import org.threeten.bp.format.FormatStyle
 
 class DirectoriesFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DirectoriesFragment()
-    }
-
-    private lateinit var directoriesViewModel: DirectoriesViewModel
-
     @ExperimentalCoroutinesApi
     private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var directoriesViewModel: DirectoriesViewModel
     private lateinit var directoriesAdapter: DirectoriesAdapter
-    private lateinit var recyclerView: RecyclerView
     private lateinit var directoriesListener: DirectoriesListener
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +51,7 @@ class DirectoriesFragment : Fragment() {
         observeViewModel()
     }
 
+    @ExperimentalCoroutinesApi
     private fun setupRecyclerView() {
         recyclerView = requireActivity().findViewById(R.id.recyclerView_directories)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -63,7 +59,6 @@ class DirectoriesFragment : Fragment() {
             override fun itemDeleted(id: Int) {
                 alertToDelete(id)
             }
-
         }
         directoriesAdapter = DirectoriesAdapter(directoriesListener)
         recyclerView.adapter = directoriesAdapter
@@ -76,8 +71,7 @@ class DirectoriesFragment : Fragment() {
     }
 
     private fun setupViews() {
-        val addDirectoryButton: FloatingActionButton =
-            requireActivity().findViewById(R.id.add_directory_button)
+        val addDirectoryButton: FloatingActionButton = requireActivity().findViewById(R.id.add_directory_button)
 
         addDirectoryButton.setOnClickListener {
             val intent = Intent(activity, AddDirectoryScreen::class.java)
@@ -98,18 +92,15 @@ class DirectoriesFragment : Fragment() {
     private fun alertToDelete(id: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
-        dialogBuilder.setTitle("Are you sure you want to delete this?")
+        dialogBuilder.setTitle("Delete this directory?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             directoriesViewModel.send(DirectoryEvent.DeleteDirectory(id))
             notificationsViewModel.send(NotificationEvent.DeleteDirectory(id))
-            Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Deleted directory.", Toast.LENGTH_SHORT).show()
         }
 
-        dialogBuilder.setNegativeButton("No") { dialog, which ->
-            directoriesViewModel.send(DirectoryEvent.Load)
-        }
-
+        dialogBuilder.setNegativeButton("No") { dialog, which -> directoriesViewModel.send(DirectoryEvent.Load) }
         dialogBuilder.create().show()
     }
 
@@ -123,9 +114,7 @@ class DirectoriesFragment : Fragment() {
                 val directory = Directory(
                     id = 0,
                     title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
-                    creationDate = OffsetDateTime.now().format(
-                        DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-                    )
+                    creationDate = OffsetDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
                 )
                 directoriesViewModel.send(DirectoryEvent.AddDirectory(directory))
                 notificationsViewModel.send(NotificationEvent.AddDirectory(directory))
