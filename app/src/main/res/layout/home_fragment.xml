@@ -30,39 +30,49 @@
         <Button
             android:id="@+id/delete_all_button"
             style="@style/text_style"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="60dp"
-            android:layout_weight="0.3"
-            android:background="@color/colorPrimary"
+            android:layout_weight="1"
+            android:background="@color/colorRed"
             android:text="@string/delete_all"
             android:textColor="@color/colorWhite" />
 
         <Button
             android:id="@+id/review_flashcards_button"
             style="@style/text_style"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="60dp"
-            android:layout_weight="0.3"
+            android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="@string/review"
             android:textColor="@color/colorWhite" />
 
         <Button
+            android:id="@+id/quiz"
+            style="@style/text_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="60dp"
+            android:layout_weight="1"
+            android:background="@color/colorPurple"
+            android:text="@string/quiz"
+            android:textColor="@color/colorWhite" />
+
+        <Button
             android:id="@+id/add_flashcard_button"
             style="@style/text_style"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="60dp"
-            android:layout_weight="0.3"
-            android:background="@color/colorPrimary"
+            android:layout_weight="1"
+            android:background="@color/colorGreen"
             android:text="@string/add_flashcard"
             android:textColor="@color/colorWhite" />
     </LinearLayout>

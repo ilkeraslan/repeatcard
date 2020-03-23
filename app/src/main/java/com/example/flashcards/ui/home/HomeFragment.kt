@@ -22,6 +22,7 @@ import com.example.flashcards.ui.directories.DirectoriesViewModel
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
+import com.example.flashcards.ui.quiz.QuizScreen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -83,13 +84,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpViews() {
-        val addFlashcardButton: Button =
-            requireActivity().findViewById(R.id.add_flashcard_button)
+        val addFlashcardButton: Button = requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
         val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
+        val quiz: Button = requireActivity().findViewById(R.id.quiz)
 
         addFlashcardButton.setOnClickListener {
-            //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
             val intent = Intent(activity, AddFlashcardActivity::class.java)
             startActivityForResult(intent, 1000)
         }
@@ -100,12 +100,18 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
             startActivity(intent)
         }
+
+        quiz.setOnClickListener {
+            val intent = Intent(activity, QuizScreen::class.java)
+            startActivityForResult(intent, 2000)
+        }
     }
 
     @ExperimentalCoroutinesApi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // TODO: Convert to when
         if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
 
@@ -117,10 +123,8 @@ class HomeFragment : Fragment() {
                         DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
                     ),
                     last_modified = OffsetDateTime.now().format(
-                        DateTimeFormatter.ofLocalizedDateTime(
-                            FormatStyle.MEDIUM,
-                            FormatStyle.MEDIUM
-                        ).withZone(ZoneId.systemDefault())
+                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
+                            .withZone(ZoneId.systemDefault())
                     ),
                     directory_id = null,
                     imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT").toString()
@@ -130,6 +134,8 @@ class HomeFragment : Fragment() {
             } else {
                 Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
             }
+        } else if(requestCode == 2000 && resultCode == Activity.RESULT_OK) {
+            // TODO: Do checks
         } else {
             Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
         }
@@ -141,9 +147,7 @@ class HomeFragment : Fragment() {
         directoriesViewModel.allDirectories.observe(
             viewLifecycleOwner,
             Observer { directory ->
-                directory.forEach { dir ->
-                    directoriesToAdd.add(dir)
-                }
+                directory.forEach { dir -> directoriesToAdd.add(dir) }
             })
 
         return directoriesToAdd
@@ -193,10 +197,7 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
 
-        dialogBuilder.setNegativeButton("No") { dialog, which ->
-            homeViewModel.send(FlashcardEvent.Load)
-        }
-
+        dialogBuilder.setNegativeButton("No") { dialog, which -> homeViewModel.send(FlashcardEvent.Load) }
         dialogBuilder.create().show()
     }
 
@@ -212,10 +213,7 @@ class HomeFragment : Fragment() {
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
 
-        dialogBuilder.setNegativeButton("No") { dialog, which ->
-            homeViewModel.send(FlashcardEvent.Load)
-        }
-
+        dialogBuilder.setNegativeButton("No") { dialog, which -> homeViewModel.send(FlashcardEvent.Load) }
         dialogBuilder.create().show()
     }
 
