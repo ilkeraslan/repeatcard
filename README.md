@@ -18,7 +18,6 @@ Each FlashCard has an image, a title and an optional description which enables a
 - [ ] User can select a question to see the details
 - [ ] User can see `Wrong Answer` feedback when the answer is not correct
 - [ ] User can search for a specific flashcard using a `Search Bar`
-- [ ] User can randomize the flashcards
 - [ ] User sees a flashcard as `Not learned` if not changed vice versa
 - [ ] User can mark a flashcard as learned
 - [ ] User can modify a Flashcard.
