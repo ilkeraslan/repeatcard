@@ -16,7 +16,7 @@ class QuizScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.flashcard_review_layout)
+        setContentView(R.layout.activity_quiz)
 
         setupViews()
     }
