@@ -69,15 +69,7 @@ class AddFlashcardActivity : AppCompatActivity() {
                     flashcardDescriptionEdit.text.toString()
                 }
             )
-            intentToMain.putExtra(
-                "ADD_FLASHCARD_IMAGE_RESULT",
-                if (imageUri.isNullOrEmpty()) {
-                    imageUri = "No image"
-                    "No image"
-                } else {
-                    imageUri
-                }
-            )
+            intentToMain.putExtra("ADD_FLASHCARD_IMAGE_RESULT", imageUri)
 
             setResult(Activity.RESULT_OK, intentToMain)
         } else {

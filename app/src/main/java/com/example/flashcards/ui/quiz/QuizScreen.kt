@@ -69,7 +69,10 @@ class QuizScreen : AppCompatActivity() {
     private fun observe() {
         viewModel.state.observe(this, Observer { state ->
             when (state) {
-                is QuizState.Error -> Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
+                is QuizState.Error -> {
+                    Toast.makeText(this, "No question available.", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
                 is QuizState.Success -> {
                     adapter.submitList(state.questions)
                     adapter.notifyDataSetChanged()

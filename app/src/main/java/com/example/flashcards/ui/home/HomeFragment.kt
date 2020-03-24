@@ -127,7 +127,7 @@ class HomeFragment : Fragment() {
                             .withZone(ZoneId.systemDefault())
                     ),
                     directory_id = null,
-                    imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT").toString()
+                    imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
                 )
                 homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
                 notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
@@ -173,12 +173,7 @@ class HomeFragment : Fragment() {
 
         dialogBuilder.setTitle("Select Directory")
         dialogBuilder.setPositiveButton("Select") { dialog, which ->
-            homeViewModel.send(
-                FlashcardEvent.AddToDirectory(
-                    flashcardId,
-                    radioGroup.checkedRadioButtonId
-                )
-            )
+            homeViewModel.send(FlashcardEvent.AddToDirectory(flashcardId, radioGroup.checkedRadioButtonId))
             notificationsViewModel.send(NotificationEvent.AddToDirectory(flashcardId))
         }
         dialogBuilder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
@@ -189,12 +184,10 @@ class HomeFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
         dialogBuilder.setTitle("Are you sure you want to delete ALL?")
-
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             homeViewModel.send(FlashcardEvent.DeleteAll)
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
-
         dialogBuilder.setNegativeButton("No") { dialog, which -> homeViewModel.send(FlashcardEvent.Load) }
         dialogBuilder.create().show()
     }
@@ -204,13 +197,11 @@ class HomeFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
         dialogBuilder.setTitle("Are you sure you want to delete this?")
-
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
             notificationsViewModel.send(NotificationEvent.DeleteFlashcard(id))
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
-
         dialogBuilder.setNegativeButton("No") { dialog, which -> homeViewModel.send(FlashcardEvent.Load) }
         dialogBuilder.create().show()
     }

@@ -1,9 +1,7 @@
 package com.example.flashcards.db.directory
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 
 @Entity(tableName = "flashcard_directories_table")
 class Directory(
