@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.*
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.ScrollView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -23,6 +27,7 @@ import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
 import com.example.flashcards.ui.quiz.QuizScreen
+import com.example.flashcards.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -211,7 +216,7 @@ class HomeFragment : Fragment() {
             when (state) {
                 is FlashcardState.Error -> showError(state.error)
                 is FlashcardState.Success -> showFlashcards(state.flashcards)
-            }
+            }.exhaustive
         })
     }
 
