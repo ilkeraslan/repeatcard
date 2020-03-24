@@ -22,4 +22,6 @@
     <string name="error_loading_image">Can\'t load the image.</string>
     <string name="image_chooser">Choose an image</string>
     <string name="quiz">QUIZ</string>
+    <string name="next">NEXT</string>
+    <string name="previous">PREVIOUS</string>
 </resources>

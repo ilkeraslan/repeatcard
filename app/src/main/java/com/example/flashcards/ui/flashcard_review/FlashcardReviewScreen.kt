@@ -23,9 +23,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
         setContentView(R.layout.flashcard_review_layout)
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
         observe()
-
         setupViews()
     }
 

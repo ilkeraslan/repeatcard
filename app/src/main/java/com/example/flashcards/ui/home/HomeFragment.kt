@@ -103,7 +103,7 @@ class HomeFragment : Fragment() {
 
         quiz.setOnClickListener {
             val intent = Intent(activity, QuizScreen::class.java)
-            startActivityForResult(intent, 2000)
+            startActivity(intent)
         }
     }
 
@@ -134,8 +134,6 @@ class HomeFragment : Fragment() {
             } else {
                 Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
             }
-        } else if(requestCode == 2000 && resultCode == Activity.RESULT_OK) {
-            // TODO: Do checks
         } else {
             Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
         }
