@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -32,7 +33,12 @@ class QuizScreen : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        adapter = QuizAdapter()
+        adapter = QuizAdapter(object : QuizListener {
+            override fun itemSelected(selectedView: TextView, otherViews: List<TextView>) {
+                selectedView.setBackgroundColor(resources.getColor(R.color.colorYellow))
+                otherViews.forEach { unselectedView -> unselectedView.setBackgroundColor(0) }
+            }
+        })
         closeButton = findViewById(R.id.closeQuizButton)
         nextButton = findViewById(R.id.nextButtonQuiz)
         previousButton = findViewById(R.id.previousButtonQuiz)

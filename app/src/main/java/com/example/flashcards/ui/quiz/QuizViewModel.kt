@@ -45,10 +45,10 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
                 val question = Question(
                     id = flashcard.id,
                     imageUri = flashcard.imageUri,
-                    questionText = flashcard.title,
-                    correctAnswer = flashcard.description ?: "no description"
+                    correctAnswer = flashcard.description ?: "no description",
+                    description = flashcard.description
                 )
-                question.option1 = flashcard.description ?: "no description"
+                question.option1 = flashcard.title
                 question.option2 = "Foo"
                 question.option3 = "Bar"
                 question.option4 = "Baz"
@@ -56,6 +56,7 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        state.postValue(if (questions.isNotEmpty()) QuizState.Success(questions) else QuizState.Error(NullPointerException()))
+        // Post Success if exist 4 questions else Error
+        state.postValue(if (questions.size >= 4) QuizState.Success(questions) else QuizState.Error(NullPointerException()))
     }
 }

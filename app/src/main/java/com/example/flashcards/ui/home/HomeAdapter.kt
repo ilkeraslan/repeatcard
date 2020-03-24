@@ -32,9 +32,7 @@ class HomeAdapter(private val clickListener: HomeListener) : ListAdapter<Flashca
         }
 
         holder.addFlashcardToDirectory.setOnClickListener {
-            clickListener.addFlashcardToDirectory(
-                flashcard.id
-            )
+            clickListener.addFlashcardToDirectory(flashcard.id)
         }
 
         holder.flashcardDelete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
