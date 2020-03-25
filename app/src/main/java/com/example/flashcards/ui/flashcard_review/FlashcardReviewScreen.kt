@@ -10,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.flashcards.R
 import com.example.flashcards.ui.home.FlashcardState
 import com.example.flashcards.ui.home.HomeViewModel
+import com.example.flashcards.ui.util.exhaustive
 
 class FlashcardReviewScreen : AppCompatActivity() {
 
@@ -45,7 +46,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
                     reviewAdapter.submitList(state.flashcards)
                     reviewAdapter.notifyDataSetChanged()
                 }
-            }
+            }.exhaustive
         })
     }
 }

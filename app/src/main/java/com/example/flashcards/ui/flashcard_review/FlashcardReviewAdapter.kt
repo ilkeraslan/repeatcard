@@ -27,15 +27,18 @@ class FlashcardReviewAdapter : ListAdapter<Flashcard, FlashcardSliderViewHolder>
 }
 
 class FlashcardSliderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
     private val image = view.findViewById<ImageView>(R.id.reviewImageView)
     private val textTitle = view.findViewById<TextView>(R.id.reviewTitle)
     private val textDescription = view.findViewById<TextView>(R.id.reviewDescription)
 
     fun bind(flashcard: Flashcard) {
-        if (flashcard.imageUri != "No image") {
-            Glide.with(this.itemView.context).load(flashcard.imageUri).into(image)
-        }
+        Glide.with(this.itemView.context)
+            .load(
+                if (flashcard.imageUri.isNullOrEmpty()) this.itemView.context.getDrawable(R.drawable.photography)
+                else flashcard.imageUri
+            )
+            .into(image)
+        
         textTitle.text = flashcard.title
         textDescription.text = flashcard.description
     }
