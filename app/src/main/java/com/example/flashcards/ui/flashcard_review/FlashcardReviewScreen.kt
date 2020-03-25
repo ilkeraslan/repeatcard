@@ -23,9 +23,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
         setContentView(R.layout.flashcard_review_layout)
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
         observe()
-
         setupViews()
     }
 
@@ -41,7 +39,6 @@ class FlashcardReviewScreen : AppCompatActivity() {
 
     private fun observe() {
         viewModel.state.observe(this, Observer { state ->
-
             when (state) {
                 is FlashcardState.Error -> Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
                 is FlashcardState.Success -> {

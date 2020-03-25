@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.*
+import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.ScrollView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -22,6 +26,8 @@ import com.example.flashcards.ui.directories.DirectoriesViewModel
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
+import com.example.flashcards.ui.quiz.QuizScreen
+import com.example.flashcards.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -83,13 +89,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpViews() {
-        val addFlashcardButton: Button =
-            requireActivity().findViewById(R.id.add_flashcard_button)
+        val addFlashcardButton: Button = requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
         val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
+        val quiz: Button = requireActivity().findViewById(R.id.quiz)
 
         addFlashcardButton.setOnClickListener {
-            //AddFlashcardActivity.openAddFlashcardActivity(this.requireActivity()) TODO: Doesn't work.
             val intent = Intent(activity, AddFlashcardActivity::class.java)
             startActivityForResult(intent, 1000)
         }
@@ -100,12 +105,18 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
             startActivity(intent)
         }
+
+        quiz.setOnClickListener {
+            val intent = Intent(activity, QuizScreen::class.java)
+            startActivity(intent)
+        }
     }
 
     @ExperimentalCoroutinesApi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        // TODO: Convert to when
         if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
 
@@ -117,13 +128,11 @@ class HomeFragment : Fragment() {
                         DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
                     ),
                     last_modified = OffsetDateTime.now().format(
-                        DateTimeFormatter.ofLocalizedDateTime(
-                            FormatStyle.MEDIUM,
-                            FormatStyle.MEDIUM
-                        ).withZone(ZoneId.systemDefault())
+                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
+                            .withZone(ZoneId.systemDefault())
                     ),
                     directory_id = null,
-                    imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT").toString()
+                    imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
                 )
                 homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
                 notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
@@ -141,9 +150,7 @@ class HomeFragment : Fragment() {
         directoriesViewModel.allDirectories.observe(
             viewLifecycleOwner,
             Observer { directory ->
-                directory.forEach { dir ->
-                    directoriesToAdd.add(dir)
-                }
+                directory.forEach { dir -> directoriesToAdd.add(dir) }
             })
 
         return directoriesToAdd
@@ -171,12 +178,7 @@ class HomeFragment : Fragment() {
 
         dialogBuilder.setTitle("Select Directory")
         dialogBuilder.setPositiveButton("Select") { dialog, which ->
-            homeViewModel.send(
-                FlashcardEvent.AddToDirectory(
-                    flashcardId,
-                    radioGroup.checkedRadioButtonId
-                )
-            )
+            homeViewModel.send(FlashcardEvent.AddToDirectory(flashcardId, radioGroup.checkedRadioButtonId))
             notificationsViewModel.send(NotificationEvent.AddToDirectory(flashcardId))
         }
         dialogBuilder.setNegativeButton("Cancel") { dialog, which -> dialog.cancel() }
@@ -187,16 +189,11 @@ class HomeFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
         dialogBuilder.setTitle("Are you sure you want to delete ALL?")
-
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             homeViewModel.send(FlashcardEvent.DeleteAll)
             Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
         }
-
-        dialogBuilder.setNegativeButton("No") { dialog, which ->
-            homeViewModel.send(FlashcardEvent.Load)
-        }
-
+        dialogBuilder.setNegativeButton("No") { dialog, which -> homeViewModel.send(FlashcardEvent.Load) }
         dialogBuilder.create().show()
     }
 
@@ -205,17 +202,12 @@ class HomeFragment : Fragment() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
 
         dialogBuilder.setTitle("Are you sure you want to delete this?")
-
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
             homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
             notificationsViewModel.send(NotificationEvent.DeleteFlashcard(id))
             Toast.makeText(context, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
         }
-
-        dialogBuilder.setNegativeButton("No") { dialog, which ->
-            homeViewModel.send(FlashcardEvent.Load)
-        }
-
+        dialogBuilder.setNegativeButton("No") { dialog, which -> homeViewModel.send(FlashcardEvent.Load) }
         dialogBuilder.create().show()
     }
 
@@ -224,7 +216,7 @@ class HomeFragment : Fragment() {
             when (state) {
                 is FlashcardState.Error -> showError(state.error)
                 is FlashcardState.Success -> showFlashcards(state.flashcards)
-            }
+            }.exhaustive
         })
     }
 
