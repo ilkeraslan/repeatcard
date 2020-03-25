@@ -15,7 +15,7 @@
         android:id="@+id/closeReviewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:background="@color/colorBlack"
         android:text="@string/close_button"
         android:textColor="@color/colorWhite"

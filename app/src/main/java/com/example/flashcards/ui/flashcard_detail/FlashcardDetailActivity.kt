@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
+import com.example.flashcards.ui.util.exhaustive
 
 private const val BUNDLE_TAG_FLASHCARD_ID: String = "BUNDLE_TAG_FLASHCARD_ID"
 
@@ -41,7 +42,6 @@ class FlashcardDetailActivity : AppCompatActivity() {
         setContentView(R.layout.flashcard_detail_layout)
 
         setUpViews()
-
         observeViewModel()
     }
 
@@ -50,7 +50,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
             when (state) {
                 is FlashcardDetailState.Error -> showError(state.error)
                 is FlashcardDetailState.Success -> showFlashcard(state.flashcard)
-            }
+            }.exhaustive
         })
     }
 
@@ -63,21 +63,21 @@ class FlashcardDetailActivity : AppCompatActivity() {
 
         flashcardId = intent.extras!!.getInt("BUNDLE_TAG_FLASHCARD_ID")
 
-        viewModel.send(
-            FlashcardDetailEvent.Load, flashcardId
-        )
+        viewModel.send(FlashcardDetailEvent.Load, flashcardId)
 
-        closeButton.setOnClickListener {
-            finish()
-        }
+        closeButton.setOnClickListener { finish() }
     }
 
     private fun showFlashcard(flashcard: Flashcard) {
         detailTitle.text = flashcard.title
         detailDescription.text = flashcard.description
-        if (flashcard.imageUri != "No image") {
-            Glide.with(this).load(flashcard.imageUri).into(detailImage)
-        }
+
+        Glide.with(this)
+            .load(
+                if (flashcard.imageUri.isNullOrEmpty()) resources.getDrawable(R.drawable.photography)
+                else flashcard.imageUri
+            )
+            .into(detailImage)
     }
 
     private fun showError(error: Throwable) {
