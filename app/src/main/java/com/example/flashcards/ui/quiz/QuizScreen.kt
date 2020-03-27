@@ -29,10 +29,10 @@ class QuizScreen : AppCompatActivity() {
         setContentView(R.layout.activity_quiz)
 
         viewModel = ViewModelProvider(this).get(QuizViewModel::class.java)
+        observe()
         setupViews()
         setupClickListeners()
         setupOnPageChangeListener()
-        observe()
     }
 
     private fun setupViews() {
