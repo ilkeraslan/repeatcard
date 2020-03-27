@@ -13,14 +13,29 @@
 
     <Button
         android:id="@+id/closeReviewButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        style="@style/review_button"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@color/colorBlack"
         android:text="@string/close_button"
-        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/reviewPager" />
+
+    <Button
+        android:id="@+id/previousReviewButton"
+        style="@style/review_button"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/previous"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/nextReviewButton"
+        style="@style/review_button"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/next"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
