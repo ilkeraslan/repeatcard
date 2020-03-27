@@ -26,10 +26,6 @@ sealed class DirectoryState {
 
 class DirectoriesViewModel(application: Application) : AndroidViewModel(application) {
 
-    companion object {
-        fun newInstance(application: Application) = DirectoriesViewModel(application)
-    }
-
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     val allDirectories = MutableLiveData<List<Directory>>()
@@ -86,7 +82,12 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun insert(directory: Directory) = viewModelScope.launch {
-        repository.addDirectory(directory)
+        val directories = repository.getDirectories()
+        var canAddDirectory = true
+        directories.forEach { existingDirectory ->
+            if(existingDirectory.title == directory.title) canAddDirectory = false
+        }
+        if(canAddDirectory) repository.addDirectory(directory)
         loadContent()
     }
 

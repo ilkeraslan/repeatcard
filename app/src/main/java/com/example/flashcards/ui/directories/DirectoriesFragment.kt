@@ -19,6 +19,7 @@ import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
+import com.example.flashcards.ui.util.exhaustive
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
@@ -45,6 +46,10 @@ class DirectoriesFragment : Fragment() {
         setupViewModels()
         setupRecyclerView()
         setupViews()
+
+        // Add default directory
+        directoriesViewModel.send(DirectoryEvent.AddDirectory(Directory(0, "Miscellaneous", null)))
+
         observeViewModel()
     }
 
@@ -87,7 +92,9 @@ class DirectoriesFragment : Fragment() {
             when (state) {
                 is DirectoryState.Error -> showError(state.error)
                 is DirectoryState.Success -> showDirectories(state.directories)
-            }
+                is DirectoryState.DirectoryContentSuccess -> {/* Do nothing here */
+                }
+            }.exhaustive
         })
     }
 
@@ -113,7 +120,6 @@ class DirectoriesFragment : Fragment() {
 
         if (requestCode == 2000 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-
                 val directory = Directory(
                     id = 0,
                     title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
@@ -121,11 +127,7 @@ class DirectoriesFragment : Fragment() {
                 )
                 directoriesViewModel.send(DirectoryEvent.AddDirectory(directory))
                 notificationsViewModel.send(NotificationEvent.AddDirectory(directory))
-            } else {
-                Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
         }
     }
 

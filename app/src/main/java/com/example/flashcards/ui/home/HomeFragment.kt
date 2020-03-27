@@ -98,7 +98,6 @@ class HomeFragment : Fragment() {
         // TODO: Convert to when
         if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-
                 val flashcard = Flashcard(
                     id = 0,
                     title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
@@ -115,11 +114,7 @@ class HomeFragment : Fragment() {
                 )
                 homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
                 notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
-            } else {
-                Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
         }
     }
 
