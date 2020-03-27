@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="50dp"
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
@@ -49,18 +48,6 @@
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="@string/review"
-            android:textColor="@color/colorWhite" />
-
-        <Button
-            android:id="@+id/quiz"
-            style="@style/text_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="60dp"
-            android:layout_weight="1"
-            android:background="@color/colorPurple"
-            android:text="@string/quiz"
             android:textColor="@color/colorWhite" />
 
         <Button

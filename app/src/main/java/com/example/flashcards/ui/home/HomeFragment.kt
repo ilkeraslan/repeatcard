@@ -26,7 +26,6 @@ import com.example.flashcards.ui.directories.DirectoriesViewModel
 import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
-import com.example.flashcards.ui.quiz.QuizScreen
 import com.example.flashcards.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
@@ -55,6 +54,15 @@ class HomeFragment : Fragment() {
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupViewModels()
+        setUpRecyclerView()
+        setUpViews()
+        observeViewModel()
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         setupViewModels()
         setUpRecyclerView()
@@ -92,7 +100,6 @@ class HomeFragment : Fragment() {
         val addFlashcardButton: Button = requireActivity().findViewById(R.id.add_flashcard_button)
         val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
         val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
-        val quiz: Button = requireActivity().findViewById(R.id.quiz)
 
         addFlashcardButton.setOnClickListener {
             val intent = Intent(activity, AddFlashcardActivity::class.java)
@@ -103,11 +110,6 @@ class HomeFragment : Fragment() {
 
         review.setOnClickListener {
             val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            startActivity(intent)
-        }
-
-        quiz.setOnClickListener {
-            val intent = Intent(activity, QuizScreen::class.java)
             startActivity(intent)
         }
     }
