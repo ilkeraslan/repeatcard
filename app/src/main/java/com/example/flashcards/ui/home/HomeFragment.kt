@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.Button
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.ScrollView
@@ -23,10 +22,10 @@ import com.example.flashcards.R
 import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.ui.directories.DirectoriesViewModel
-import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
 import com.example.flashcards.ui.util.exhaustive
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -43,26 +42,13 @@ class HomeFragment : Fragment() {
     private lateinit var homeListener: HomeListener
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupViewModels()
-        setUpRecyclerView()
-        setUpViews()
-        observeViewModel()
-    }
-
-    override fun onResume() {
-        super.onResume()
 
         setupViewModels()
         setUpRecyclerView()
@@ -97,20 +83,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpViews() {
-        val addFlashcardButton: Button = requireActivity().findViewById(R.id.add_flashcard_button)
-        val deleteAll: Button = requireActivity().findViewById(R.id.delete_all_button)
-        val review: Button = requireActivity().findViewById(R.id.review_flashcards_button)
+        val addFlashcardButton: FloatingActionButton = requireActivity().findViewById(R.id.add_flashcard_button)
 
         addFlashcardButton.setOnClickListener {
             val intent = Intent(activity, AddFlashcardActivity::class.java)
             startActivityForResult(intent, 1000)
-        }
-
-        deleteAll.setOnClickListener { alertToDelete() }
-
-        review.setOnClickListener {
-            val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            startActivity(intent)
         }
     }
 

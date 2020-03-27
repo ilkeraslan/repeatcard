@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.db.directory.Directory
+import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,11 +34,7 @@ class DirectoriesFragment : Fragment() {
     private lateinit var directoriesListener: DirectoriesListener
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.directories_fragment, container, false)
     }
 
@@ -72,10 +69,16 @@ class DirectoriesFragment : Fragment() {
 
     private fun setupViews() {
         val addDirectoryButton: FloatingActionButton = requireActivity().findViewById(R.id.add_directory_button)
+        val review: FloatingActionButton = requireActivity().findViewById(R.id.reviewButton)
 
         addDirectoryButton.setOnClickListener {
             val intent = Intent(activity, AddDirectoryScreen::class.java)
             startActivityForResult(intent, 2000)
+        }
+
+        review.setOnClickListener {
+            val intent = Intent(activity, FlashcardReviewScreen::class.java)
+            startActivity(intent)
         }
     }
 

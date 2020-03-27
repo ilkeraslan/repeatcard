@@ -13,11 +13,7 @@ class QuizFragment : Fragment() {
 
     private lateinit var startQuiz: Button
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.quiz_fragment, container, false)
     }
 

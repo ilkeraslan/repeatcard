@@ -20,11 +20,17 @@
         <action
             android:id="@+id/action_navigation_home_to_navigation_notifications"
             app:destination="@id/navigation_notifications"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit" />
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_navigation_home_to_navigation_quiz"
-            app:destination="@id/navigation_quiz" />
+            app:destination="@id/navigation_quiz"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -43,7 +49,7 @@
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.flashcards.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="@string/logs"
         tools:layout="@layout/notifications_fragment"/>
 
 </navigation>
