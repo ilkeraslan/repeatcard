@@ -26,4 +26,5 @@
     <string name="previous">PREVIOUS</string>
     <string name="take_a_quiz">TAKE A QUIZ</string>
     <string name="logs">LOGS</string>
+    <string name="no_flashcard_yet">NO FLASHCARD YET!</string>
 </resources>

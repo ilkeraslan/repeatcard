@@ -3,7 +3,6 @@ package com.example.flashcards.ui.directories
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -136,7 +135,6 @@ class DirectoriesFragment : Fragment() {
     }
 
     private fun showError(error: Throwable) {
-        Log.i("STATE ERROR", "Error: ", error)
         Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
     }
 }

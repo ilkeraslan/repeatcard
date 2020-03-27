@@ -9,6 +9,7 @@ import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.db.directory.FlashcardDirectoryRepository
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard.FlashcardRepository
+import com.example.flashcards.ui.util.exhaustive
 import kotlinx.coroutines.launch
 
 sealed class DirectoryEvent {
@@ -49,7 +50,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
             is DirectoryEvent.DeleteDirectory -> deleteDirectory(event.id)
             is DirectoryEvent.GetDirectoryContent -> getDirectoryContent(event.directoryId)
             is DirectoryEvent.Load -> loadContent()
-        }
+        }.exhaustive
     }
 
     private fun deleteDirectory(id: Int) = viewModelScope.launch {
@@ -72,11 +73,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
             directoryState.postValue(DirectoryState.Error(NullPointerException()))
         } else {
             directoryState.postValue(
-                DirectoryState.DirectoryContentSuccess(
-                    flashcardRepository.getFlashcardsForDirectory(
-                        directoryId
-                    )
-                )
+                DirectoryState.DirectoryContentSuccess(flashcardRepository.getFlashcardsForDirectory(directoryId))
             )
         }
     }
@@ -85,9 +82,9 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
         val directories = repository.getDirectories()
         var canAddDirectory = true
         directories.forEach { existingDirectory ->
-            if(existingDirectory.title == directory.title) canAddDirectory = false
+            if (existingDirectory.title == directory.title) canAddDirectory = false
         }
-        if(canAddDirectory) repository.addDirectory(directory)
+        if (canAddDirectory) repository.addDirectory(directory)
         loadContent()
     }
 
