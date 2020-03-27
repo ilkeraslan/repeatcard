@@ -12,47 +12,44 @@
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_navigation_home_to_navigation_directories"
-            app:destination="@id/navigation_directories" />
+            app:destination="@id/navigation_directories"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_navigation_home_to_navigation_notifications"
-            app:destination="@id/navigation_notifications" />
+            app:destination="@id/navigation_notifications"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_navigation_home_to_flashcardReviewScreen"
-            app:destination="@id/flashcardReviewScreen" />
+            android:id="@+id/action_navigation_home_to_navigation_quiz"
+            app:destination="@id/navigation_quiz"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_quiz"
+        android:name="com.example.flashcards.ui.quiz.QuizFragment"
+        android:label="@string/quiz"
+        tools:layout="@layout/quiz_fragment">
     </fragment>
 
     <fragment
         android:id="@+id/navigation_directories"
         android:name="com.example.flashcards.ui.directories.DirectoriesFragment"
         android:label="@string/title_directories"
-        tools:layout="@layout/directories_fragment">
-        <action
-            android:id="@+id/action_navigation_directories_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_navigation_directories_to_navigation_notifications"
-            app:destination="@id/navigation_notifications" />
-    </fragment>
+        tools:layout="@layout/directories_fragment"/>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.flashcards.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/notifications_fragment">
-        <action
-            android:id="@+id/action_navigation_notifications_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_navigation_notifications_to_navigation_directories"
-            app:destination="@id/navigation_directories" />
-    </fragment>
+        android:label="@string/logs"
+        tools:layout="@layout/notifications_fragment"/>
 
-    <fragment
-        android:id="@+id/flashcardReviewScreen"
-        android:name="com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen"
-        android:label="FlashcardReviewScreen">
-        <action
-            android:id="@+id/action_flashcardReviewScreen_to_navigation_home"
-            app:destination="@id/navigation_home" />
-    </fragment>
 </navigation>

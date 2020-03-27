@@ -24,11 +24,7 @@ class NotificationsFragment : Fragment() {
     private lateinit var notificationsAdapter: NotificationsAdapter
     private lateinit var notificationsListener: NotificationsListener
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.notifications_fragment, container, false)
     }
 

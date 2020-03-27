@@ -5,9 +5,9 @@
     <string name="flashcard_2">Flashcard 2</string>
     <string name="flashcard_3">Flashcard 3</string>
     <string name="flashcard_title_text">Flashcard Title</string>
-    <string name="title_home">Home</string>
-    <string name="title_directories">Directories</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_home">HOME</string>
+    <string name="title_directories">DIRECTORIES</string>
+    <string name="title_notifications">NOTIFICATIONS</string>
     <string name="directory_title">Directory Title</string>
     <string name="close_button">Close</string>
     <string name="save_text">Save</string>
@@ -24,4 +24,6 @@
     <string name="quiz">QUIZ</string>
     <string name="next">NEXT</string>
     <string name="previous">PREVIOUS</string>
+    <string name="take_a_quiz">TAKE A QUIZ</string>
+    <string name="logs">LOGS</string>
 </resources>
