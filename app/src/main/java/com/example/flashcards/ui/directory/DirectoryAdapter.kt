@@ -3,6 +3,7 @@ package com.example.flashcards.ui.directory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.db.flashcard.Flashcard
 
-class DirectoryAdapter : ListAdapter<Flashcard, DirectoryViewHolder>(DirectoryDiffUtil()) {
+class DirectoryAdapter(private val clickListener: DirectoryListener) :
+    ListAdapter<Flashcard, DirectoryViewHolder>(DirectoryDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,11 +23,17 @@ class DirectoryAdapter : ListAdapter<Flashcard, DirectoryViewHolder>(DirectoryDi
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
         val flashcard = getItem(position)
         holder.flashcard.text = flashcard.title
+        holder.delete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
     }
 }
 
 class DirectoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val flashcard: TextView = view.findViewById(R.id.textViewDirectoryRow)
+    val delete: Button = view.findViewById(R.id.deleteButtonDirectoryRow)
+}
+
+interface DirectoryListener {
+    fun itemDeleted(id: Int)
 }
 
 class DirectoryDiffUtil : DiffUtil.ItemCallback<Flashcard>() {

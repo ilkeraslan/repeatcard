@@ -3,7 +3,6 @@ package com.example.flashcards.ui.directories
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.db.directory.Directory
-import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
+import com.example.flashcards.ui.util.exhaustive
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
@@ -69,25 +68,20 @@ class DirectoriesFragment : Fragment() {
 
     private fun setupViews() {
         val addDirectoryButton: FloatingActionButton = requireActivity().findViewById(R.id.add_directory_button)
-        val review: FloatingActionButton = requireActivity().findViewById(R.id.reviewButton)
 
         addDirectoryButton.setOnClickListener {
             val intent = Intent(activity, AddDirectoryScreen::class.java)
             startActivityForResult(intent, 2000)
         }
-
-        review.setOnClickListener {
-            val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun observeViewModel() {
-        directoriesViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        directoriesViewModel.directoriesState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is DirectoryState.Error -> showError(state.error)
                 is DirectoryState.Success -> showDirectories(state.directories)
-            }
+                is DirectoryState.Error -> {/* Do nothing here */}
+                is DirectoryState.DirectoryContentSuccess -> {/* Do nothing here */}
+            }.exhaustive
         })
     }
 
@@ -113,7 +107,6 @@ class DirectoriesFragment : Fragment() {
 
         if (requestCode == 2000 && resultCode == Activity.RESULT_OK) {
             if (data != null) {
-
                 val directory = Directory(
                     id = 0,
                     title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
@@ -121,20 +114,11 @@ class DirectoriesFragment : Fragment() {
                 )
                 directoriesViewModel.send(DirectoryEvent.AddDirectory(directory))
                 notificationsViewModel.send(NotificationEvent.AddDirectory(directory))
-            } else {
-                Toast.makeText(context, "Error, no data.", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(context, "Error, please try again.", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun showDirectories(directories: List<Directory>) {
         directoriesAdapter.submitList(directories)
-    }
-
-    private fun showError(error: Throwable) {
-        Log.i("STATE ERROR", "Error: ", error)
-        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
     }
 }

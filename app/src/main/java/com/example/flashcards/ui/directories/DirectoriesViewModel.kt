@@ -9,7 +9,10 @@ import com.example.flashcards.db.directory.Directory
 import com.example.flashcards.db.directory.FlashcardDirectoryRepository
 import com.example.flashcards.db.flashcard.Flashcard
 import com.example.flashcards.db.flashcard.FlashcardRepository
+import com.example.flashcards.ui.util.exhaustive
 import kotlinx.coroutines.launch
+
+const val DEFAULT_DIRECTORY_NAME = "Miscellaneous"
 
 sealed class DirectoryEvent {
     object Load : DirectoryEvent()
@@ -26,14 +29,10 @@ sealed class DirectoryState {
 
 class DirectoriesViewModel(application: Application) : AndroidViewModel(application) {
 
-    companion object {
-        fun newInstance(application: Application) = DirectoriesViewModel(application)
-    }
-
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     val allDirectories = MutableLiveData<List<Directory>>()
-    var state: MutableLiveData<DirectoryState> = MutableLiveData()
+    var directoriesState: MutableLiveData<DirectoryState> = MutableLiveData()
     var directoryState: MutableLiveData<DirectoryState> = MutableLiveData()
 
     init {
@@ -53,7 +52,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
             is DirectoryEvent.DeleteDirectory -> deleteDirectory(event.id)
             is DirectoryEvent.GetDirectoryContent -> getDirectoryContent(event.directoryId)
             is DirectoryEvent.Load -> loadContent()
-        }
+        }.exhaustive
     }
 
     private fun deleteDirectory(id: Int) = viewModelScope.launch {
@@ -76,22 +75,30 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
             directoryState.postValue(DirectoryState.Error(NullPointerException()))
         } else {
             directoryState.postValue(
-                DirectoryState.DirectoryContentSuccess(
-                    flashcardRepository.getFlashcardsForDirectory(
-                        directoryId
-                    )
-                )
+                DirectoryState.DirectoryContentSuccess(flashcardRepository.getFlashcardsForDirectory(directoryId))
             )
         }
     }
 
     private fun insert(directory: Directory) = viewModelScope.launch {
-        repository.addDirectory(directory)
+        val directories = repository.getDirectories()
+        var canAddDirectory = true
+        directories.forEach { existingDirectory ->
+            if (existingDirectory.title == directory.title) canAddDirectory = false
+        }
+        if (canAddDirectory) repository.addDirectory(directory)
         loadContent()
     }
 
     private fun loadContent() = viewModelScope.launch {
-        allDirectories.postValue((repository.getDirectories()))
-        state.postValue(DirectoryState.Success(repository.getDirectories()))
+        val directories = repository.getDirectories()
+        if (directories.isEmpty()) {
+            val defaultDirectory = Directory(1, DEFAULT_DIRECTORY_NAME, null)
+            repository.addDirectory(defaultDirectory)
+            allDirectories.postValue((listOf(defaultDirectory)))
+        } else {
+            allDirectories.postValue((repository.getDirectories()))
+        }
+        directoriesState.postValue(DirectoryState.Success(repository.getDirectories()))
     }
 }

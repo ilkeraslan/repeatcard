@@ -3,6 +3,8 @@ package com.example.flashcards.ui.directories
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -26,6 +28,9 @@ class DirectoriesAdapter(private val clickListener: DirectoriesListener) :
         val directory = getItem(position)
         holder.directory.text = directory.title
 
+        // Set delete button to invisible if default directory
+        holder.directoryDelete.visibility = if (holder.directory.text == DEFAULT_DIRECTORY_NAME) INVISIBLE else VISIBLE
+
         holder.directoryView.setOnClickListener {
             DirectoryScreen.openDirectoryScreen(
                 holder.directory.context as Activity,
@@ -48,17 +53,11 @@ interface DirectoriesListener {
 }
 
 class DirectoriesDiffUtil : DiffUtil.ItemCallback<Directory>() {
-    override fun areItemsTheSame(
-        oldItem: Directory,
-        newItem: Directory
-    ): Boolean {
+    override fun areItemsTheSame(oldItem: Directory, newItem: Directory): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(
-        oldItem: Directory,
-        newItem: Directory
-    ): Boolean {
+    override fun areContentsTheSame(oldItem: Directory, newItem: Directory): Boolean {
         return oldItem.id == newItem.id
     }
 }
