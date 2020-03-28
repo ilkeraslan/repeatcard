@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flashcards.R
 import com.example.flashcards.db.directory.Directory
-import com.example.flashcards.ui.flashcard_review.FlashcardReviewScreen
 import com.example.flashcards.ui.notifications.NotificationEvent
 import com.example.flashcards.ui.notifications.NotificationsViewModel
 import com.example.flashcards.ui.util.exhaustive
@@ -69,21 +68,15 @@ class DirectoriesFragment : Fragment() {
 
     private fun setupViews() {
         val addDirectoryButton: FloatingActionButton = requireActivity().findViewById(R.id.add_directory_button)
-        val review: FloatingActionButton = requireActivity().findViewById(R.id.reviewButton)
 
         addDirectoryButton.setOnClickListener {
             val intent = Intent(activity, AddDirectoryScreen::class.java)
             startActivityForResult(intent, 2000)
         }
-
-        review.setOnClickListener {
-            val intent = Intent(activity, FlashcardReviewScreen::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun observeViewModel() {
-        directoriesViewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        directoriesViewModel.directoriesState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is DirectoryState.Success -> showDirectories(state.directories)
                 is DirectoryState.Error -> {/* Do nothing here */}

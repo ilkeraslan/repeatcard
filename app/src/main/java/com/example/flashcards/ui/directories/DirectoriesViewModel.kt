@@ -32,7 +32,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     val allDirectories = MutableLiveData<List<Directory>>()
-    var state: MutableLiveData<DirectoryState> = MutableLiveData()
+    var directoriesState: MutableLiveData<DirectoryState> = MutableLiveData()
     var directoryState: MutableLiveData<DirectoryState> = MutableLiveData()
 
     init {
@@ -99,6 +99,6 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
         } else {
             allDirectories.postValue((repository.getDirectories()))
         }
-        state.postValue(DirectoryState.Success(repository.getDirectories()))
+        directoriesState.postValue(DirectoryState.Success(repository.getDirectories()))
     }
 }

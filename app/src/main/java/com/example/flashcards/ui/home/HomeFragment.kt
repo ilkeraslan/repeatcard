@@ -52,7 +52,6 @@ class HomeFragment : Fragment() {
 
         setupViewModels()
         setUpRecyclerView()
-        setUpViews()
         observeViewModel()
     }
 
@@ -80,42 +79,6 @@ class HomeFragment : Fragment() {
         }
         homeAdapter = HomeAdapter(homeListener)
         recyclerView.adapter = homeAdapter
-    }
-
-    private fun setUpViews() {
-        val addFlashcardButton: FloatingActionButton = requireActivity().findViewById(R.id.add_flashcard_button)
-
-        addFlashcardButton.setOnClickListener {
-            val intent = Intent(activity, AddFlashcardActivity::class.java)
-            startActivityForResult(intent, 1000)
-        }
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // TODO: Convert to when
-        if (requestCode == 1000 && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                val flashcard = Flashcard(
-                    id = 0,
-                    title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
-                    description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
-                    creation_date = OffsetDateTime.now().format(
-                        DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-                    ),
-                    last_modified = OffsetDateTime.now().format(
-                        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
-                            .withZone(ZoneId.systemDefault())
-                    ),
-                    directory_id = null,
-                    imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
-                )
-                homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
-                notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
-            }
-        }
     }
 
     private fun getDirectories(): MutableList<Directory> {

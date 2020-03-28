@@ -53,17 +53,11 @@ interface DirectoriesListener {
 }
 
 class DirectoriesDiffUtil : DiffUtil.ItemCallback<Directory>() {
-    override fun areItemsTheSame(
-        oldItem: Directory,
-        newItem: Directory
-    ): Boolean {
+    override fun areItemsTheSame(oldItem: Directory, newItem: Directory): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(
-        oldItem: Directory,
-        newItem: Directory
-    ): Boolean {
+    override fun areContentsTheSame(oldItem: Directory, newItem: Directory): Boolean {
         return oldItem.id == newItem.id
     }
 }
