@@ -12,6 +12,8 @@ import com.example.flashcards.db.flashcard.FlashcardRepository
 import com.example.flashcards.ui.util.exhaustive
 import kotlinx.coroutines.launch
 
+const val DEFAULT_DIRECTORY_NAME = "Miscellaneous"
+
 sealed class DirectoryEvent {
     object Load : DirectoryEvent()
     data class AddDirectory(val directory: Directory) : DirectoryEvent()
@@ -89,7 +91,14 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     private fun loadContent() = viewModelScope.launch {
-        allDirectories.postValue((repository.getDirectories()))
+        val directories = repository.getDirectories()
+        if (directories.isEmpty()) {
+            val defaultDirectory = Directory(1, DEFAULT_DIRECTORY_NAME, null)
+            repository.addDirectory(defaultDirectory)
+            allDirectories.postValue((listOf(defaultDirectory)))
+        } else {
+            allDirectories.postValue((repository.getDirectories()))
+        }
         state.postValue(DirectoryState.Success(repository.getDirectories()))
     }
 }

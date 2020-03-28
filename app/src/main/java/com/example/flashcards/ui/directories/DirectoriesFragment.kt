@@ -45,10 +45,6 @@ class DirectoriesFragment : Fragment() {
         setupViewModels()
         setupRecyclerView()
         setupViews()
-
-        // Add default directory
-        directoriesViewModel.send(DirectoryEvent.AddDirectory(Directory(0, "Miscellaneous", null)))
-
         observeViewModel()
     }
 
@@ -89,10 +85,9 @@ class DirectoriesFragment : Fragment() {
     private fun observeViewModel() {
         directoriesViewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is DirectoryState.Error -> showError(state.error)
                 is DirectoryState.Success -> showDirectories(state.directories)
-                is DirectoryState.DirectoryContentSuccess -> {/* Do nothing here */
-                }
+                is DirectoryState.Error -> {/* Do nothing here */}
+                is DirectoryState.DirectoryContentSuccess -> {/* Do nothing here */}
             }.exhaustive
         })
     }
@@ -132,9 +127,5 @@ class DirectoriesFragment : Fragment() {
 
     private fun showDirectories(directories: List<Directory>) {
         directoriesAdapter.submitList(directories)
-    }
-
-    private fun showError(error: Throwable) {
-        Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show()
     }
 }
