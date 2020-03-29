@@ -11,13 +11,6 @@ import com.repeatcard.app.R
 
 class AddDirectoryScreen : AppCompatActivity() {
 
-    companion object {
-        fun openAddDirectoryScreen(startingActivity: Activity) {
-            val addDirectoryIntent = Intent(startingActivity, AddDirectoryScreen::class.java)
-            startingActivity.startActivityForResult(addDirectoryIntent, 2000)
-        }
-    }
-
     private lateinit var directoryTitle: TextView
     private lateinit var directoryTitleEdit: EditText
     private lateinit var directorySaveButton: Button
@@ -34,10 +27,10 @@ class AddDirectoryScreen : AppCompatActivity() {
         directoryTitleEdit = findViewById(R.id.directory_title_editText)
         directorySaveButton = findViewById(R.id.directory_save_button)
 
-        directorySaveButton.setOnClickListener { turnToMain() }
+        directorySaveButton.setOnClickListener { closeScreen() }
     }
 
-    private fun turnToMain() {
+    private fun closeScreen() {
         val intentToMain = Intent()
 
         if (directoryTitleEdit.text.isNotEmpty()) {
@@ -45,7 +38,6 @@ class AddDirectoryScreen : AppCompatActivity() {
                 "ADD_DIRECTORY_TITLE_RESULT",
                 directoryTitleEdit.text.toString()
             )
-
             setResult(Activity.RESULT_OK, intentToMain)
         } else {
             setResult(Activity.RESULT_CANCELED)

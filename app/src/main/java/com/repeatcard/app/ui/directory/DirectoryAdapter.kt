@@ -1,15 +1,19 @@
 package com.repeatcard.app.ui.directory
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
+import com.repeatcard.app.ui.flashcard_detail.FlashcardDetailActivity
 
 class DirectoryAdapter(private val clickListener: DirectoryListener) :
     ListAdapter<Flashcard, DirectoryViewHolder>(DirectoryDiffUtil()) {
@@ -22,14 +26,33 @@ class DirectoryAdapter(private val clickListener: DirectoryListener) :
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
         val flashcard = getItem(position)
-        holder.flashcard.text = flashcard.title
+        holder.bind(flashcard)
+
         holder.delete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
+        holder.flashcardTitle.setOnClickListener {
+            FlashcardDetailActivity.openFlashcardDetailActivity(
+                holder.flashcardTitle.context as Activity,
+                flashcard.id
+            )
+        }
     }
 }
 
 class DirectoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val flashcard: TextView = view.findViewById(R.id.textViewDirectoryRow)
+    private val flashcardImage: ImageView = view.findViewById(R.id.imageViewDirectoryRow)
+    val flashcardTitle: TextView = view.findViewById(R.id.textViewDirectoryRow)
     val delete: Button = view.findViewById(R.id.deleteButtonDirectoryRow)
+
+    fun bind(flashcard: Flashcard) {
+        Glide.with(this.itemView.context)
+            .load(
+                if (flashcard.imageUri.isNullOrEmpty()) this.itemView.context.getDrawable(R.drawable.photography)
+                else flashcard.imageUri
+            )
+            .into(flashcardImage)
+
+        flashcardTitle.text = flashcard.title
+    }
 }
 
 interface DirectoryListener {

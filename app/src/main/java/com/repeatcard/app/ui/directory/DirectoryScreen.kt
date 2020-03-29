@@ -14,35 +14,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.repeatcard.app.AddFlashcardActivity
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.ui.directories.DirectoriesViewModel
-import com.repeatcard.app.ui.directories.DirectoryEvent
-import com.repeatcard.app.ui.directories.DirectoryState
 import com.repeatcard.app.ui.flashcard_review.FlashcardReviewScreen
 import com.repeatcard.app.ui.home.FlashcardEvent
 import com.repeatcard.app.ui.home.HomeViewModel
 import com.repeatcard.app.ui.notifications.NotificationEvent
 import com.repeatcard.app.ui.notifications.NotificationsViewModel
 import com.repeatcard.app.ui.util.exhaustive
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Runnable
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
-private const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
+const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
 class DirectoryScreen : AppCompatActivity() {
 
-    private lateinit var directoriesViewModel: DirectoriesViewModel
-    private lateinit var homeViewModel: HomeViewModel
-
     @ExperimentalCoroutinesApi
     private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var directoryViewModel: DirectoryViewModel
+    private lateinit var homeViewModel: HomeViewModel
 
     private lateinit var adapter: DirectoryAdapter
     private lateinit var directoryListener: DirectoryListener
@@ -51,11 +46,11 @@ class DirectoryScreen : AppCompatActivity() {
     private lateinit var addFlashcard: FloatingActionButton
     private lateinit var review: FloatingActionButton
 
-    private var directoryId = 1
+    private var directoryId = 0
 
     companion object {
-        fun openDirectoryScreen(startingActivity: Activity, flashcardId: Int) {
-            val intent = Intent(startingActivity, DirectoryScreen::class.java).putExtra(BUNDLE_TAG_DIRECTORY_ID, flashcardId)
+        fun openDirectoryScreen(startingActivity: Activity, directoryId: Int) {
+            val intent = Intent(startingActivity, DirectoryScreen::class.java).putExtra(BUNDLE_TAG_DIRECTORY_ID, directoryId)
             startingActivity.startActivity(intent)
         }
     }
@@ -65,7 +60,7 @@ class DirectoryScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.directory_layout)
 
-        directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
+        this.directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
 
         setViewModels()
         observe()
@@ -75,17 +70,18 @@ class DirectoryScreen : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     private fun setViewModels() {
-        directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
+        directoryViewModel = DirectoryViewModelFactory(application, directoryId).create(DirectoryViewModel::class.java)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
+
+        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
     }
 
     private fun setUpViews() {
         noFlashcardText = findViewById(R.id.noFlashcardText)
         addFlashcard = findViewById(R.id.add_flashcard_to_directory)
         review = findViewById(R.id.reviewButton)
-
-        directoriesViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
+        noFlashcardText.visibility = INVISIBLE
 
         addFlashcard.setOnClickListener {
             val intent = Intent(this, AddFlashcardActivity::class.java)
@@ -93,6 +89,7 @@ class DirectoryScreen : AppCompatActivity() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun setUpRecyclerView() {
         recyclerView = findViewById(R.id.recyclerViewDirectory)
         recyclerView.layoutManager = LinearLayoutManager(this.applicationContext)
@@ -103,27 +100,22 @@ class DirectoryScreen : AppCompatActivity() {
         }
         adapter = DirectoryAdapter(directoryListener)
         recyclerView.adapter = adapter
-
-        // TODO: Add clickListener to show details of a flashcard
     }
 
     private fun observe() {
-        directoriesViewModel.directoryState.observe(this, Observer { state ->
+        directoryViewModel.state.observe(this, Observer { state ->
             when (state) {
-                is DirectoryState.Error -> {
-                    showError()
+                is DirectoryState.NoContent -> {
+                    noFlashcardText.visibility = VISIBLE
                     review.visibility = INVISIBLE
                 }
-                is DirectoryState.DirectoryContentSuccess -> {
+                is DirectoryState.HasContent -> {
                     showFlashcards(state.flashcards)
-
                     review.visibility = VISIBLE
                     review.setOnClickListener {
-                        val intent = Intent(this, FlashcardReviewScreen::class.java)
-                        startActivity(intent)
+                        FlashcardReviewScreen.openReviewScreen(this, this.directoryId)
                     }
                 }
-                is DirectoryState.Success -> review.visibility = INVISIBLE
             }.exhaustive
         })
     }
@@ -149,8 +141,7 @@ class DirectoryScreen : AppCompatActivity() {
             )
             homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
             notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
-
-            runOnUiThread(Runnable { directoriesViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId)) }) // Does not work
+            directoryViewModel.send(DirectoryEvent.GetDirectoryContent(this.directoryId))
         }
     }
 
@@ -167,11 +158,7 @@ class DirectoryScreen : AppCompatActivity() {
         dialogBuilder.setNegativeButton("No") { dialog, which -> dialog.cancel() }
         dialogBuilder.create().show()
 
-        directoriesViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
-    }
-
-    private fun showError() {
-        noFlashcardText.visibility = VISIBLE
+        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
     }
 
     private fun showFlashcards(flashcards: List<Flashcard>) {
