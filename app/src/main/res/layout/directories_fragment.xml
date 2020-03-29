@@ -31,7 +31,7 @@
         app:backgroundTint="@color/design_default_color_primary_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add_directory_black_24dp" />
+        app:srcCompat="@drawable/ic_add_white_24dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/reviewButton"
