@@ -10,6 +10,8 @@ import com.repeatcard.app.models.Question
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.launch
 
+const val MIN_CARD_NUMBER_FOR_QUIZ = 4
+
 sealed class QuizEvent {
     object GetResults : QuizEvent()
     object Load : QuizEvent()
@@ -37,10 +39,14 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
 
     fun send(event: QuizEvent) {
         when (event) {
-            is QuizEvent.GetResults -> state.postValue(QuizState.Results(selectedOptions))
+            is QuizEvent.GetResults -> getResults()
             is QuizEvent.Load -> loadContent()
             is QuizEvent.SelectOption -> selectOption(event.id, event.option)
         }.exhaustive
+    }
+
+    private fun getResults() {
+        state.postValue(QuizState.Results(selectedOptions))
     }
 
     private fun loadContent() = viewModelScope.launch {
@@ -63,8 +69,8 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        // Post Success if exist 4 questions else Error
-        state.postValue(if (questions.size >= 4) QuizState.Success(questions) else QuizState.Error(NullPointerException()))
+        // Post Success if exist MIN_CARD_NUMBER_FOR_QUIZ else Error
+        state.postValue(if (questions.size >= MIN_CARD_NUMBER_FOR_QUIZ) QuizState.Success(questions) else QuizState.Error(NullPointerException()))
     }
 
     private fun selectOption(id: Int, option: String) {

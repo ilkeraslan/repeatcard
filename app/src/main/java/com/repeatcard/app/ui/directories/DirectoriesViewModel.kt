@@ -52,7 +52,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
         val flashcards = repository.getDirectoryContent(id)
         if (flashcards.isNotEmpty()) {
             flashcards.forEach { flashcard ->
-                flashcard.directory_id = null
+                flashcard.directoryId = null
                 flashcardRepository.updateFlashcard(flashcard)
             }
         }
@@ -77,9 +77,9 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
         if (directories.isEmpty()) {
             val defaultDirectory = Directory(1, DEFAULT_DIRECTORY_NAME, null)
             repository.addDirectory(defaultDirectory)
-            allDirectories.postValue((listOf(defaultDirectory)))
+            allDirectories.postValue(listOf(defaultDirectory))
         } else {
-            allDirectories.postValue((repository.getDirectories()))
+            allDirectories.postValue(repository.getDirectories())
         }
         directoriesState.postValue(DirectoriesState.Success(repository.getDirectories()))
     }

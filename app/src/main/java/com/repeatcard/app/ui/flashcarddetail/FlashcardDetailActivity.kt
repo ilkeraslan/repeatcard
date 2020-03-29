@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.flashcard_detail
+package com.repeatcard.app.ui.flashcarddetail
 
 import android.app.Activity
 import android.content.Intent

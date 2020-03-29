@@ -6,19 +6,19 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.db.flashcard.FlashcardDao
 import com.repeatcard.app.db.directory.Directory
 import com.repeatcard.app.db.directory.FlashcardDirectoryDao
+import com.repeatcard.app.db.flashcard.Flashcard
+import com.repeatcard.app.db.flashcard.FlashcardDao
 import com.repeatcard.app.db.notification.Notification
 import com.repeatcard.app.db.notification.NotificationDao
 
 @Database(
-    entities = arrayOf(Flashcard::class, Directory::class, Notification::class),
+    entities = [Flashcard::class, Directory::class, Notification::class],
     version = 2,
     exportSchema = false
 )
-public abstract class FlashcardDatabase : RoomDatabase() {
+abstract class FlashcardDatabase : RoomDatabase() {
 
     abstract fun flashcardDao(): FlashcardDao
     abstract fun directoryDao(): FlashcardDirectoryDao

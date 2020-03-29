@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.ui.flashcard_detail.FlashcardDetailActivity
+import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailActivity
 
 class HomeAdapter(private val clickListener: HomeListener) : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
 

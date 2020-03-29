@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -22,7 +23,7 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
-const val GALLERY_IMAGE_URI = "com.example.flashcards.GALLERY_URI"
+const val GALLERY_IMAGE_URI = "com.repeatcard.app.GALLERY_URI"
 
 private const val PICK_IMAGE_REQUEST = 689
 
@@ -145,6 +146,7 @@ class GalleryPicker : AppCompatActivity() {
 
     private fun showError(error: Throwable?) {
         Toast.makeText(this, getString(R.string.error_loading_image), Toast.LENGTH_LONG).show()
+        Log.d("Error", error.toString())
     }
 }
 
@@ -190,8 +192,6 @@ private fun getRotationFromExif(uri: Uri, contentResolver: ContentResolver): Int
                 inputStream.close()
             } catch (ignored: IOException) {
             }
-
         }
     }
-
 }

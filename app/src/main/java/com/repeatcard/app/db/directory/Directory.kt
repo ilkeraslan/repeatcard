@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "flashcard_directories_table")
-class Directory(
+data class Directory(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
     val creationDate: String?

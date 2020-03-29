@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.flashcard_review
+package com.repeatcard.app.ui.review
 
 import android.app.Activity
 import android.content.Intent
@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.repeatcard.app.R
 import com.repeatcard.app.ui.directory.BUNDLE_TAG_DIRECTORY_ID
@@ -93,5 +91,4 @@ class FlashcardReviewScreen : AppCompatActivity() {
             }
         })
     }
-
 }

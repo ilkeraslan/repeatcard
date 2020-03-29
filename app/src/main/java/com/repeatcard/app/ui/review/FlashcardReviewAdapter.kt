@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.flashcard_review
+package com.repeatcard.app.ui.review
 
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +38,6 @@ class FlashcardSliderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 else flashcard.imageUri
             )
             .into(image)
-        
         textTitle.text = flashcard.title
         textDescription.text = flashcard.description
     }
