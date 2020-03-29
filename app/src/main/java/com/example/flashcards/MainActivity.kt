@@ -1,11 +1,8 @@
 package com.example.flashcards
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
@@ -20,11 +17,11 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navController = host.navController
 
-        val appBarConfiguration = AppBarConfiguration(
+        /* val appBarConfiguration = AppBarConfiguration(
             setOf(R.id.navigation_home, R.id.navigation_quiz, R.id.navigation_directories, R.id.navigation_notifications)
-        )
+        ) */
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
         navView.setOnNavigationItemReselectedListener { /* do nothing */}
