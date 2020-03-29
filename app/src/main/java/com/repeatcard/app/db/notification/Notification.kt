@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "notifications_table")
-class Notification(
+data class Notification(
     @PrimaryKey(autoGenerate = true) val notificationId: Int,
     @ColumnInfo(name = "notification_title") val notificationTitle: String,
     @ColumnInfo(name = "notification_type") val notificationType: String,

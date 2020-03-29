@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.ui.flashcard_detail.FlashcardDetailActivity
+import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailActivity
 
 class DirectoryAdapter(private val clickListener: DirectoryListener) :
     ListAdapter<Flashcard, DirectoryViewHolder>(DirectoryDiffUtil()) {

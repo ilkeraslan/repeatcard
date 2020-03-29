@@ -22,13 +22,13 @@
             android:name=".ui.directories.AddDirectoryScreen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.flashcard_detail.FlashcardDetailActivity"
+            android:name=".ui.flashcarddetail.FlashcardDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.directory.DirectoryScreen"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.flashcard_review.FlashcardReviewScreen"
+            android:name=".ui.review.FlashcardReviewScreen"
             android:screenOrientation="portrait" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -18,7 +18,6 @@ interface ImageSaver {
     fun saveImage(name: String, bitmap: Bitmap, quality: Int): Single<String>
 
     fun createImageFile(name: String): File
-
 }
 
 class InternalImageSaver(val context: Context) : ImageSaver {

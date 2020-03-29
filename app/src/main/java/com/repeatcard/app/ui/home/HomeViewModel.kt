@@ -53,7 +53,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private fun addFlashcardToDirectory(flashcardId: Int, directoryId: Int) =
         viewModelScope.launch {
             val flashcardToChange = repository.getFlashcard(flashcardId)
-            flashcardToChange.directory_id = directoryId
+            flashcardToChange.directoryId = directoryId
             repository.updateFlashcard(flashcardToChange)
             loadContent()
         }

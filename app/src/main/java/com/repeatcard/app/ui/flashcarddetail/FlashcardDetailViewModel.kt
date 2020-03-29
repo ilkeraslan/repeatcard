@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.flashcard_detail
+package com.repeatcard.app.ui.flashcarddetail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -29,10 +29,10 @@ class FlashcardDetailViewModel(application: Application) : AndroidViewModel(appl
         repository = FlashcardRepository(flashcardsDao)
     }
 
-    private fun updateFlashcard(id: Int) = viewModelScope.launch {
+/*    private fun updateFlashcard(id: Int) = viewModelScope.launch {
         flashcard.postValue(repository.getFlashcard(id))
         state.value = FlashcardDetailState.Success(repository.getFlashcard(id))
-    }
+    }*/
 
     fun send(event: FlashcardDetailEvent, id: Int) {
         when (event) {
@@ -40,9 +40,9 @@ class FlashcardDetailViewModel(application: Application) : AndroidViewModel(appl
         }
     }
 
-    private fun loadContent(flashcard_id: Int) = viewModelScope.launch {
+    private fun loadContent(flashcardId: Int) = viewModelScope.launch {
         state.value = FlashcardDetailState.Success(
-            repository.getFlashcard(flashcard_id)
+            repository.getFlashcard(flashcardId)
         )
     }
 }

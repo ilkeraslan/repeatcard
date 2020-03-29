@@ -61,14 +61,13 @@ class NotificationsFragment : Fragment() {
     private fun observe() {
         viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is NotificationState.Error -> showError(state.error, state.notifications)
+                is NotificationState.Error -> showError()
                 is NotificationState.Success -> showNotifications(state.notifications)
             }
         })
     }
 
-    private fun showError(error: Throwable, notifications: List<Notification>) {
-        notificationsAdapter.submitList(notifications)
+    private fun showError() {
         notificationsAdapter.notifyDataSetChanged()
         Toast.makeText(context, "No notification yet!", Toast.LENGTH_SHORT).show()
     }

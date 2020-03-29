@@ -24,6 +24,8 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
+const val ADD_DIRECTORY_INTENT = 3000
+
 class DirectoriesFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
@@ -71,7 +73,7 @@ class DirectoriesFragment : Fragment() {
 
         addDirectoryButton.setOnClickListener {
             val intent = Intent(activity, AddDirectoryScreen::class.java)
-            startActivityForResult(intent, 2000)
+            startActivityForResult(intent, ADD_DIRECTORY_INTENT)
         }
     }
 
@@ -79,8 +81,7 @@ class DirectoriesFragment : Fragment() {
         directoriesViewModel.directoriesState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is DirectoriesState.Success -> showDirectories(state.directories)
-                is DirectoriesState.Error -> {/* Do nothing here */
-                }
+                is DirectoriesState.Error -> { /* Do nothing here */ }
             }.exhaustive
         })
     }
@@ -105,7 +106,7 @@ class DirectoriesFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 2000 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == ADD_DIRECTORY_INTENT && resultCode == Activity.RESULT_OK && data != null) {
             val directory = Directory(
                 id = 0,
                 title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),

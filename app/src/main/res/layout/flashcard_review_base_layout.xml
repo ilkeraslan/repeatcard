@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="64dp"
-    tools:context=".ui.flashcard_review.FlashcardReviewScreen">
+    tools:context=".ui.review.FlashcardReviewScreen">
 
     <ImageView
         android:id="@+id/reviewImageView"

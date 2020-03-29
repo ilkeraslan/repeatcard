@@ -18,11 +18,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.repeatcard.app.AddFlashcardActivity
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.ui.flashcard_review.FlashcardReviewScreen
 import com.repeatcard.app.ui.home.FlashcardEvent
 import com.repeatcard.app.ui.home.HomeViewModel
 import com.repeatcard.app.ui.notifications.NotificationEvent
 import com.repeatcard.app.ui.notifications.NotificationsViewModel
+import com.repeatcard.app.ui.review.FlashcardReviewScreen
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
@@ -30,6 +30,7 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
+const val ADD_FLASHCARD_INTENT = 1000
 const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
 class DirectoryScreen : AppCompatActivity() {
@@ -85,7 +86,7 @@ class DirectoryScreen : AppCompatActivity() {
 
         addFlashcard.setOnClickListener {
             val intent = Intent(this, AddFlashcardActivity::class.java)
-            startActivityForResult(intent, 1000)
+            startActivityForResult(intent, ADD_FLASHCARD_INTENT)
         }
     }
 
@@ -124,19 +125,19 @@ class DirectoryScreen : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 1000 && resultCode == Activity.RESULT_OK && data != null) {
+        if (requestCode == ADD_FLASHCARD_INTENT && resultCode == Activity.RESULT_OK && data != null) {
             val flashcard = Flashcard(
                 id = 0,
                 title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
                 description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
-                creation_date = OffsetDateTime.now().format(
+                creationDate = OffsetDateTime.now().format(
                     DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
                 ),
-                last_modified = OffsetDateTime.now().format(
+                lastModified = OffsetDateTime.now().format(
                     DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
                         .withZone(ZoneId.systemDefault())
                 ),
-                directory_id = directoryId,
+                directoryId = directoryId,
                 imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
             )
             homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))

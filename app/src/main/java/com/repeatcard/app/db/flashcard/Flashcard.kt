@@ -16,12 +16,12 @@ import com.repeatcard.app.db.directory.Directory
     )],
     tableName = "flashcard_table"
 )
-class Flashcard(
+data class Flashcard(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "flashcard_title") val title: String,
     @ColumnInfo(name = "flashcard_description") val description: String?,
-    @ColumnInfo(name = "creation_date") val creation_date: String?,
-    @ColumnInfo(name = "modification_date") val last_modified: String?,
-    @ColumnInfo(name = "directory_id", index = true) var directory_id: Int?,
+    @ColumnInfo(name = "creation_date") val creationDate: String?,
+    @ColumnInfo(name = "modification_date") val lastModified: String?,
+    @ColumnInfo(name = "directory_id", index = true) var directoryId: Int?,
     @ColumnInfo(name = "image_uri") val imageUri: String?
 )

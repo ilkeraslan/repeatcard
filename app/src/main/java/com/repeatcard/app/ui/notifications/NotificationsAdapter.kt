@@ -14,7 +14,7 @@ import com.repeatcard.app.db.notification.Notification
 class NotificationsAdapter(private val clickListener: NotificationsListener) : ListAdapter<Notification, NotificationsViewHolder>(NotificationsDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsViewHolder {
-        val layoutInflater = LayoutInflater.from((parent.context))
+        val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.notification_row, parent, false)
         return NotificationsViewHolder(cellForRow)
     }

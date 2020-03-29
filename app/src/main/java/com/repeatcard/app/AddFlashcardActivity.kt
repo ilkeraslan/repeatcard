@@ -8,19 +8,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.repeatcard.app.ui.util.GalleryPicker
 
-class AddFlashcardActivity : AppCompatActivity() {
+const val SELECT_IMAGE_INTENT = 2000
 
-    companion object {
-        fun openAddFlashcardActivity(startingActivity: Activity) {
-            val intent = Intent(startingActivity, AddFlashcardActivity::class.java)
-            startingActivity.startActivityForResult(intent, 1000)
-        }
-    }
+class AddFlashcardActivity : AppCompatActivity() {
 
     private lateinit var flashcardTitle: TextView
     private lateinit var flashcardDescription: TextView
@@ -78,23 +72,18 @@ class AddFlashcardActivity : AppCompatActivity() {
     }
 
     private fun selectImage() {
-        startActivityForResult(GalleryPicker.getIntent(this), 2000)
+        startActivityForResult(GalleryPicker.getIntent(this), SELECT_IMAGE_INTENT)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 2000 && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
+        if (requestCode == SELECT_IMAGE_INTENT && resultCode == Activity.RESULT_OK && data != null) {
+            imageUri = data.data.toString()
+            Log.d("IMAGE URI", imageUri.toString())
 
-                Toast.makeText(this, "Image ok.", Toast.LENGTH_SHORT).show()
-
-                imageUri = data.data.toString()
-                Log.d("IMAGE URI", imageUri.toString())
-
-                // Load the image
-                Glide.with(this).load(imageUri).into(flashcardImage)
-            }
+            // Load the image
+            Glide.with(this).load(imageUri).into(flashcardImage)
         }
     }
 }
