@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.flashcards.ui.home.HomeFragment"
+        android:name="com.repeatcard.app.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/home_fragment">
         <action
@@ -35,20 +35,20 @@
 
     <fragment
         android:id="@+id/navigation_quiz"
-        android:name="com.example.flashcards.ui.quiz.QuizFragment"
+        android:name="com.repeatcard.app.ui.quiz.QuizFragment"
         android:label="@string/quiz"
         tools:layout="@layout/quiz_fragment">
     </fragment>
 
     <fragment
         android:id="@+id/navigation_directories"
-        android:name="com.example.flashcards.ui.directories.DirectoriesFragment"
+        android:name="com.repeatcard.app.ui.directories.DirectoriesFragment"
         android:label="@string/title_directories"
         tools:layout="@layout/directories_fragment"/>
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.flashcards.ui.notifications.NotificationsFragment"
+        android:name="com.repeatcard.app.ui.notifications.NotificationsFragment"
         android:label="@string/logs"
         tools:layout="@layout/notifications_fragment"/>
 
