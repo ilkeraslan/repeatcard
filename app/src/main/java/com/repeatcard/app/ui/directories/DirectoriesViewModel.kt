@@ -7,24 +7,21 @@ import androidx.lifecycle.viewModelScope
 import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.directory.Directory
 import com.repeatcard.app.db.directory.FlashcardDirectoryRepository
-import com.repeatcard.app.db.flashcard.Flashcard
 import com.repeatcard.app.db.flashcard.FlashcardRepository
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.launch
 
 const val DEFAULT_DIRECTORY_NAME = "Miscellaneous"
 
-sealed class DirectoryEvent {
-    object Load : DirectoryEvent()
-    data class AddDirectory(val directory: Directory) : DirectoryEvent()
-    data class DeleteDirectory(val id: Int) : DirectoryEvent()
-    data class GetDirectoryContent(val directoryId: Int) : DirectoryEvent()
+sealed class DirectoriesEvent {
+    object Load : DirectoriesEvent()
+    data class AddDirectories(val directory: Directory) : DirectoriesEvent()
+    data class DeleteDirectories(val id: Int) : DirectoriesEvent()
 }
 
-sealed class DirectoryState {
-    data class Error(val error: Throwable) : DirectoryState()
-    data class Success(val directories: List<Directory>) : DirectoryState()
-    data class DirectoryContentSuccess(val flashcards: List<Flashcard>) : DirectoryState()
+sealed class DirectoriesState {
+    data class Error(val error: Throwable) : DirectoriesState()
+    data class Success(val directories: List<Directory>) : DirectoriesState()
 }
 
 class DirectoriesViewModel(application: Application) : AndroidViewModel(application) {
@@ -32,8 +29,7 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     val allDirectories = MutableLiveData<List<Directory>>()
-    var directoriesState: MutableLiveData<DirectoryState> = MutableLiveData()
-    var directoryState: MutableLiveData<DirectoryState> = MutableLiveData()
+    var directoriesState: MutableLiveData<DirectoriesState> = MutableLiveData()
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(application).directoryDao()
@@ -43,15 +39,11 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
         loadContent()
     }
 
-    fun send(event: DirectoryEvent) {
+    fun send(event: DirectoriesEvent) {
         when (event) {
-            is DirectoryEvent.AddDirectory -> {
-                insert(event.directory)
-                loadContent()
-            }
-            is DirectoryEvent.DeleteDirectory -> deleteDirectory(event.id)
-            is DirectoryEvent.GetDirectoryContent -> getDirectoryContent(event.directoryId)
-            is DirectoryEvent.Load -> loadContent()
+            is DirectoriesEvent.AddDirectories -> insert(event.directory)
+            is DirectoriesEvent.DeleteDirectories -> deleteDirectory(event.id)
+            is DirectoriesEvent.Load -> loadContent()
         }.exhaustive
     }
 
@@ -68,24 +60,14 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
         loadContent()
     }
 
-    private fun getDirectoryContent(directoryId: Int) = viewModelScope.launch {
-        val directoryContent = flashcardRepository.getFlashcardsForDirectory(directoryId)
-
-        if (directoryContent.isEmpty()) {
-            directoryState.postValue(DirectoryState.Error(NullPointerException()))
-        } else {
-            directoryState.postValue(
-                DirectoryState.DirectoryContentSuccess(flashcardRepository.getFlashcardsForDirectory(directoryId))
-            )
-        }
-    }
-
     private fun insert(directory: Directory) = viewModelScope.launch {
         val directories = repository.getDirectories()
         var canAddDirectory = true
+
         directories.forEach { existingDirectory ->
             if (existingDirectory.title == directory.title) canAddDirectory = false
         }
+
         if (canAddDirectory) repository.addDirectory(directory)
         loadContent()
     }
@@ -99,6 +81,6 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
         } else {
             allDirectories.postValue((repository.getDirectories()))
         }
-        directoriesState.postValue(DirectoryState.Success(repository.getDirectories()))
+        directoriesState.postValue(DirectoriesState.Success(repository.getDirectories()))
     }
 }

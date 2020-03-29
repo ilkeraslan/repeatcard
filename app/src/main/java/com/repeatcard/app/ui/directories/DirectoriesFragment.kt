@@ -13,12 +13,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.repeatcard.app.R
 import com.repeatcard.app.db.directory.Directory
 import com.repeatcard.app.ui.notifications.NotificationEvent
 import com.repeatcard.app.ui.notifications.NotificationsViewModel
 import com.repeatcard.app.ui.util.exhaustive
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -78,9 +78,9 @@ class DirectoriesFragment : Fragment() {
     private fun observeViewModel() {
         directoriesViewModel.directoriesState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is DirectoryState.Success -> showDirectories(state.directories)
-                is DirectoryState.Error -> {/* Do nothing here */}
-                is DirectoryState.DirectoryContentSuccess -> {/* Do nothing here */}
+                is DirectoriesState.Success -> showDirectories(state.directories)
+                is DirectoriesState.Error -> {/* Do nothing here */
+                }
             }.exhaustive
         })
     }
@@ -92,12 +92,12 @@ class DirectoriesFragment : Fragment() {
         dialogBuilder.setTitle("Delete this directory?")
 
         dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            directoriesViewModel.send(DirectoryEvent.DeleteDirectory(id))
+            directoriesViewModel.send(DirectoriesEvent.DeleteDirectories(id))
             notificationsViewModel.send(NotificationEvent.DeleteDirectory(id))
             Toast.makeText(context, "Deleted directory.", Toast.LENGTH_SHORT).show()
         }
 
-        dialogBuilder.setNegativeButton("No") { dialog, which -> directoriesViewModel.send(DirectoryEvent.Load) }
+        dialogBuilder.setNegativeButton("No") { dialog, which -> directoriesViewModel.send(DirectoriesEvent.Load) }
         dialogBuilder.create().show()
     }
 
@@ -105,16 +105,14 @@ class DirectoriesFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 2000 && resultCode == Activity.RESULT_OK) {
-            if (data != null) {
-                val directory = Directory(
-                    id = 0,
-                    title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
-                    creationDate = OffsetDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
-                )
-                directoriesViewModel.send(DirectoryEvent.AddDirectory(directory))
-                notificationsViewModel.send(NotificationEvent.AddDirectory(directory))
-            }
+        if (requestCode == 2000 && resultCode == Activity.RESULT_OK && data != null) {
+            val directory = Directory(
+                id = 0,
+                title = data.getStringExtra("ADD_DIRECTORY_TITLE_RESULT")!!.toString(),
+                creationDate = OffsetDateTime.now().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
+            )
+            directoriesViewModel.send(DirectoriesEvent.AddDirectories(directory))
+            notificationsViewModel.send(NotificationEvent.AddDirectory(directory))
         }
     }
 
