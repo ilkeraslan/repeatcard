@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    tools:context=".ui.flashcarddetail.FlashcardDetailActivity">
 
     <ImageView
         android:id="@+id/flashcard_detail_imageView"
@@ -26,7 +26,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:text="@string/flashcard_title_text"
-        app:layout_constraintBottom_toBottomOf="@+id/reviewTitle"
+        app:layout_constraintBottom_toTopOf="@+id/flashcard_detail_description"
         app:layout_constraintStart_toStartOf="@+id/flashcard_detail_imageView"
         app:layout_constraintTop_toTopOf="@+id/flashcard_detail_title" />
 
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:text="@string/flashcard_description_text"
-        app:layout_constraintBottom_toBottomOf="@+id/reviewDescription"
+        app:layout_constraintBottom_toBottomOf="@+id/flashcard_detail_description"
         app:layout_constraintStart_toStartOf="@+id/reviewFlashcardTitleLabel"
         app:layout_constraintTop_toTopOf="@+id/flashcard_detail_description" />
 
