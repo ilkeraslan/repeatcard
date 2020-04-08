@@ -2,8 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "org.sonarqube"
 
 apply from: '../scripts/detekt_setup.gradle'
+apply from: '../scripts/jacoco_setup.gradle'
+apply from: '../scripts/lint_setup.gradle'
 
 android {
     compileSdkVersion 29
@@ -17,9 +20,19 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            resValue "string", "app_name", "[DEV] Repeatcard"
+            testCoverageEnabled = true
+            testCoverageEnabled true
+        }
         release {
+            resValue "string", "app_name", "Repeatcard"
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //signingConfig signingConfigs.release
         }
     }
     packagingOptions {
@@ -82,4 +95,20 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
+}
+
+sonarqube {
+    properties {
+        property "sonar.organization", "dement0"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.login", System.getenv("SONARCLOUD_TOKEN")
+        property "sonar.projectName", "repeatcard"
+        property "sonar.projectKey", "Dement0_repeatcard"
+        property "sonar.projectVersion", getVersionCode()
+
+        property "sonar.junit.reportPaths", "build/test-results/testDebugUnitTest"
+        property "sonar.androidLint.reportPaths", "build/reports/lint-results-debug.xml"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
+        property "sonar.kotlin.detekt.reportPaths", "build/reports/detekt/detekt.xml"
+    }
 }

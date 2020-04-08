@@ -1,0 +1,51 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.4"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+/**
+ * Adapted from https://medium.com/@rafael_toledo/unified-code-coverage-for-android-revisited-44789c9b722f
+ */
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) { //, 'createDebugCoverageReport'
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports for Debug build"
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    // what to exclude from coverage report
+    // UI, "noise", generated classes, platform classes, etc.
+    def excludes = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/*$ViewInjector*.*',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/*Fragment.*',
+            '**/*Activity.*'
+    ]
+    // generated classes
+    classDirectories.setFrom(fileTree(
+            dir: "$buildDir/intermediates/classes/debug",
+            excludes: excludes
+    ) + fileTree(
+            dir: "$buildDir/tmp/kotlin-classes/debug",
+            excludes: excludes
+    ))
+
+    // sources
+    sourceDirectories.setFrom(files([
+            android.sourceSets.main.java.srcDirs,
+            "$project.projectDir/src/main/java"
+    ]))
+    executionData.setFrom(fileTree(dir: project.buildDir, includes: ['jacoco/testDebugUnitTest.exec']))
+}
