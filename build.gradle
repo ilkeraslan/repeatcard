@@ -25,6 +25,25 @@ buildscript {
         classpath "org.jacoco:org.jacoco.core:0.8.4"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
     }
+    ext.getVersionCode = {
+        if (System.getenv('BITRISE_BUILD_NUMBER') != null)
+            return Integer.valueOf(System.getenv('BITRISE_BUILD_NUMBER'))
+        else
+            return Integer.valueOf(Versions.versionCode)
+    }
+    ext.storePassword = {
+        if (System.getenv('BITRISEIO_ANDROID_KEYSTORE_PASSWORD') != null)
+            return System.getenv('BITRISEIO_ANDROID_KEYSTORE_PASSWORD')
+        else
+            return System.getenv("REPEATCARD_SIGNING_STOREPASSWORD")
+    }
+
+    ext.keyPassword = {
+        if (System.getenv('BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD') != null)
+            return System.getenv('BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD')
+        else
+            return System.getenv("REPEATCARD_SIGNING_KEYPASSWORD")
+    }
 }
 
 allprojects {

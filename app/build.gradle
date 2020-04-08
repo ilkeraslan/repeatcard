@@ -8,6 +8,12 @@ apply from: '../scripts/detekt_setup.gradle'
 apply from: '../scripts/jacoco_setup.gradle'
 apply from: '../scripts/lint_setup.gradle'
 
+ext {
+    APP_VERSION_CODE = getVersionCode()
+    APP_STORE_PASSWORD = storePassword()
+    APP_KEY_PASSWORD = keyPassword()
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -23,7 +29,6 @@ android {
         debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "[DEV] Repeatcard"
-            testCoverageEnabled = true
             testCoverageEnabled true
         }
         release {
@@ -105,6 +110,7 @@ sonarqube {
         property "sonar.projectName", "repeatcard"
         property "sonar.projectKey", "Dement0_repeatcard"
         property "sonar.projectVersion", getVersionCode()
+        property "sonar.exclusions", "**/*.java,**/*.class"
 
         property "sonar.junit.reportPaths", "build/test-results/testDebugUnitTest"
         property "sonar.androidLint.reportPaths", "build/reports/lint-results-debug.xml"
