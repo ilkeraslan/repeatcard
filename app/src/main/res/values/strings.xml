@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">Repeatcard</string>
     <string name="flashcard_title_text">Flashcard Title</string>
     <string name="title_home">HOME</string>
     <string name="title_directories">DIRECTORIES</string>
