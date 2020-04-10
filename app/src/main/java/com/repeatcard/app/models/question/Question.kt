@@ -1,9 +1,6 @@
-package com.repeatcard.app.models
+package com.repeatcard.app.models.question
 
 data class Question(val id: Int, val imageUri: String, val correctAnswer: String, val description: String?) {
-    var option1: String = ""
-    var option2: String = ""
-    var option3: String = ""
-    var option4: String = ""
+    val options = mutableListOf<String>()
     var selectedAnswer: String? = null
 }
