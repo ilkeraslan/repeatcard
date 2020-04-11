@@ -16,3 +16,8 @@ object Versions {
     const val koin = "2.1.3"
     const val lifecycle_version = "2.2.0-rc03"
 }
+
+@Suppress("unused")
+object Libs {
+    const val gson = "com.google.code.gson:gson:2.8.6"
+}

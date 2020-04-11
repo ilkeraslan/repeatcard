@@ -16,7 +16,7 @@ const val MIN_CARD_NUMBER_FOR_QUIZ = 4
 sealed class QuizEvent {
     object GetResults : QuizEvent()
     object Load : QuizEvent()
-    data class SelectOption(val id: Int, val option: String) : QuizEvent()
+    data class SelectOption(val id: Int, val option: String?) : QuizEvent()
 }
 
 sealed class QuizState {
@@ -46,7 +46,11 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun getResults() {
-        state.postValue(QuizState.Results(selectedOptions))
+        if (selectedOptions.isEmpty()) {
+            state.postValue(QuizState.Error(NullPointerException("No result yet!")))
+        } else {
+            state.postValue(QuizState.Results(selectedOptions))
+        }
     }
 
     private fun loadContent() = viewModelScope.launch {
@@ -76,7 +80,7 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    private fun selectOption(id: Int, option: String) {
-        selectedOptions[id] = option
+    private fun selectOption(id: Int, option: String?) {
+        selectedOptions[id] = if(option.isNullOrEmpty()) "No answer" else option
     }
 }
