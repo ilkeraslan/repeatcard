@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.repeatcard.app.R
-import com.repeatcard.app.models.Question
+import com.repeatcard.app.models.question.Question
 
 class QuizAdapter(private val clickListener: QuizListener) : ListAdapter<Question, QuizSliderViewHolder>(QuestionDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizSliderViewHolder {
@@ -53,10 +53,10 @@ class QuizSliderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         if (question.imageUri != "No image") {
             Glide.with(this.itemView.context).load(question.imageUri).into(image)
         }
-        option1.text = question.option1
-        option2.text = question.option2
-        option3.text = question.option3
-        option4.text = question.option4
+        option1.text = question.options.component1()
+        option2.text = question.options.component2()
+        option3.text = question.options.component3()
+        option4.text = question.options.component4()
     }
 }
 
