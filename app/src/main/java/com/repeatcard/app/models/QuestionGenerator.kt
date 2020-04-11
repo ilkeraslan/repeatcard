@@ -5,9 +5,8 @@ import com.repeatcard.app.models.question.Question
 class QuestionGenerator {
 
     companion object {
-        private val questionsGenerated = mutableListOf<Question>()
-
         fun generate(questions: MutableList<Question>): List<Question> {
+            val questionsGenerated = mutableListOf<Question>()
             questions.forEach { question ->
 
                 // Create a temporary list that doesn't contain the question that we are generating
@@ -23,9 +22,15 @@ class QuestionGenerator {
                     }
                 }
 
+                // Shuffle options
+                question.options.shuffle()
+
                 // Add the generated question to the final list
                 questionsGenerated.add(question)
             }
+
+            // Shuffle generated questions
+            questionsGenerated.shuffle()
 
             return questionsGenerated
         }

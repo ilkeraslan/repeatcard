@@ -63,16 +63,12 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
                     correctAnswer = flashcard.title,
                     description = flashcard.description
                 )
-                question.options.add(flashcard.title)
                 questions.add(question)
             }
         }
 
         // Generate questions with random options
         val generatedQuestions = QuestionGenerator.generate(questions)
-/*        for (generatedQuestion in generatedQuestions) {
-            Log.d("Question", generatedQuestion.toString())
-        }*/
 
         // Post Success if exist MIN_CARD_NUMBER_FOR_QUIZ else Error
         state.postValue(if (generatedQuestions.size >= MIN_CARD_NUMBER_FOR_QUIZ) QuizState.Success(generatedQuestions) else QuizState.Error(NullPointerException()))

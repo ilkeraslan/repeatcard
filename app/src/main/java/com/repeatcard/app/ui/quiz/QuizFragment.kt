@@ -26,7 +26,14 @@ class QuizFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(QuizViewModel::class.java)
+        viewModel.send(QuizEvent.Load)
         setUpViews()
+        observe()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.send(QuizEvent.Load)
         observe()
     }
 
