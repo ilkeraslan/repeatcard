@@ -1,7 +1,6 @@
 package com.repeatcard.app.ui.quiz
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -71,7 +70,10 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         val generatedQuestions = QuestionGenerator.generate(questions)
 
         // Post Success if exist MIN_CARD_NUMBER_FOR_QUIZ else Error
-        state.postValue(if (generatedQuestions.size >= MIN_CARD_NUMBER_FOR_QUIZ) QuizState.Success(generatedQuestions) else QuizState.Error(NullPointerException()))
+        state.postValue(
+            if (generatedQuestions.size >= MIN_CARD_NUMBER_FOR_QUIZ) QuizState.Success(generatedQuestions)
+            else QuizState.Error(NullPointerException())
+        )
     }
 
     private fun selectOption(id: Int, option: String) {

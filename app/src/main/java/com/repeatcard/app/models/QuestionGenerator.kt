@@ -2,37 +2,37 @@ package com.repeatcard.app.models
 
 import com.repeatcard.app.models.question.Question
 
-class QuestionGenerator {
+private const val OPTION_COUNT = 4
 
-    companion object {
-        fun generate(questions: MutableList<Question>): List<Question> {
-            val questionsGenerated = mutableListOf<Question>()
-            questions.forEach { question ->
+object QuestionGenerator {
 
-                // Create a temporary list that doesn't contain the question that we are generating
-                val temporaryList = questions.filter { temporaryQuestion -> temporaryQuestion != question }
+    fun generate(questions: MutableList<Question>): List<Question> {
+        val questionsGenerated = mutableListOf<Question>()
+        questions.forEach { question ->
 
-                // Shuffle the temporaryList to create randomness
-                temporaryList.shuffled()
+            // Create a temporary list that doesn't contain the question that we are generating
+            val temporaryList = questions.filter { temporaryQuestion -> temporaryQuestion != question }
 
-                temporaryList.forEach { otherQuestion ->
-                    // If the question we are producing doesn't have the otherQuestion title among it's options, add it as an option
-                    if (question.options.size < 4 && !question.options.contains(otherQuestion.correctAnswer)) {
-                        question.options.add(otherQuestion.correctAnswer)
-                    }
+            // Shuffle the temporaryList to create randomness
+            temporaryList.shuffled()
+
+            temporaryList.forEach { otherQuestion ->
+                // If the question we are producing doesn't have the otherQuestion title among it's options, add it as an option
+                if (question.options.size < OPTION_COUNT && !question.options.contains(otherQuestion.correctAnswer)) {
+                    question.options.add(otherQuestion.correctAnswer)
                 }
-
-                // Shuffle options
-                question.options.shuffle()
-
-                // Add the generated question to the final list
-                questionsGenerated.add(question)
             }
 
-            // Shuffle generated questions
-            questionsGenerated.shuffle()
+            // Shuffle options
+            question.options.shuffle()
 
-            return questionsGenerated
+            // Add the generated question to the final list
+            questionsGenerated.add(question)
         }
+
+        // Shuffle generated questions
+        questionsGenerated.shuffle()
+
+        return questionsGenerated
     }
 }
