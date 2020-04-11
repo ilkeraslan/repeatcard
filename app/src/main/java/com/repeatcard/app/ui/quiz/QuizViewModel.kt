@@ -81,6 +81,6 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun selectOption(id: Int, option: String?) {
-        selectedOptions[id] = if(option.isNullOrEmpty()) "No answer" else option
+        selectedOptions[id] = if (option.isNullOrEmpty()) "No answer" else option
     }
 }

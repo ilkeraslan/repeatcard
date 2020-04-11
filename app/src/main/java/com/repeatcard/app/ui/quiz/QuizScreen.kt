@@ -59,8 +59,8 @@ class QuizScreen : AppCompatActivity() {
             if (viewPager.currentItem < 0) finish() else viewPager.currentItem--
         }
         nextButton.setOnClickListener {
-            if(hasSelectedAnOption) {
-               viewModel.send(QuizEvent.SelectOption(viewPager.currentItem, lastSelectedOption?.text.toString()))
+            if (hasSelectedAnOption) {
+                viewModel.send(QuizEvent.SelectOption(viewPager.currentItem, lastSelectedOption?.text.toString()))
                 hasSelectedAnOption = false
             } else {
                 viewModel.send(QuizEvent.SelectOption(viewPager.currentItem, null))
