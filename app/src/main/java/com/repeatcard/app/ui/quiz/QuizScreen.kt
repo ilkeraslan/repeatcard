@@ -59,11 +59,13 @@ class QuizScreen : AppCompatActivity() {
             if (viewPager.currentItem < 0) finish() else viewPager.currentItem--
         }
         nextButton.setOnClickListener {
+            val question = adapter.currentList[viewPager.currentItem]
+
             if (hasSelectedAnOption) {
-                viewModel.send(QuizEvent.SelectOption(viewPager.currentItem, lastSelectedOption?.text.toString()))
+                viewModel.send(QuizEvent.SelectOption(question, lastSelectedOption?.text.toString()))
                 hasSelectedAnOption = false
             } else {
-                viewModel.send(QuizEvent.SelectOption(viewPager.currentItem, null))
+                viewModel.send(QuizEvent.SelectOption(question, null))
             }
 
             if (viewPager.currentItem == adapter.itemCount - 1) {

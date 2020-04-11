@@ -4,21 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.repeatcard.app.R
+import com.repeatcard.app.models.question.Question
 
 class ResultsAfterQuiz : AppCompatActivity() {
 
-    private lateinit var resultsQuestionNumber: TextView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var resultsAdapter: ResultsAdapter
     private lateinit var resultsViewModel: ResultsViewModel
 
     companion object {
         private const val BUNDLE_QUESTIONS_LIST = "BUNDLE_QUESTIONS_LIST"
 
-        fun getIntent(context: Context, results: HashMap<Int, String?>, gson: Gson): Intent =
+        fun getIntent(context: Context, results: List<Question>, gson: Gson): Intent =
             Intent(context, ResultsAfterQuiz::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(BUNDLE_QUESTIONS_LIST, gson.toJson(results))
@@ -37,17 +40,16 @@ class ResultsAfterQuiz : AppCompatActivity() {
     }
 
     private fun setViews() {
-        resultsQuestionNumber = findViewById(R.id.results_question_number_text)
+        recyclerView = findViewById(R.id.recyclerView_results)
+        recyclerView.layoutManager = LinearLayoutManager(applicationContext)
+        resultsAdapter = ResultsAdapter()
+        recyclerView.adapter = resultsAdapter
     }
 
     private fun observe() {
         resultsViewModel.state.observe(this, Observer { state ->
             when (state) {
-                is ResultState.Success -> {
-                    state.results.keys.forEach { key ->
-                        Log.d("SELECTED AFTER CONVERSION: ".plus(key.toString()), state.results[key].toString())
-                    }
-                }
+                is ResultState.Success -> resultsAdapter.submitList(state.results)
             }
         })
     }

@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.flashcard.FlashcardRepository
-import com.repeatcard.app.models.QuestionGenerator
 import com.repeatcard.app.models.question.Question
+import com.repeatcard.app.models.question.QuestionGenerator
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.launch
 
@@ -16,19 +16,19 @@ const val MIN_CARD_NUMBER_FOR_QUIZ = 4
 sealed class QuizEvent {
     object GetResults : QuizEvent()
     object Load : QuizEvent()
-    data class SelectOption(val id: Int, val option: String?) : QuizEvent()
+    data class SelectOption(val question: Question, val option: String?) : QuizEvent()
 }
 
 sealed class QuizState {
     data class Error(val error: Throwable) : QuizState()
     data class Success(val questions: List<Question>) : QuizState()
-    data class Results(val results: HashMap<Int, String?>) : QuizState()
+    data class Results(val results: List<Question>) : QuizState()
 }
 
 class QuizViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: FlashcardRepository
-    private val selectedOptions = hashMapOf<Int, String?>()
+    private val generatedQuestions = mutableListOf<Question>()
     var state: MutableLiveData<QuizState> = MutableLiveData()
 
     init {
@@ -41,16 +41,12 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         when (event) {
             is QuizEvent.GetResults -> getResults()
             is QuizEvent.Load -> loadContent()
-            is QuizEvent.SelectOption -> selectOption(event.id, event.option)
+            is QuizEvent.SelectOption -> selectOption(event.question, event.option)
         }.exhaustive
     }
 
     private fun getResults() {
-        if (selectedOptions.isEmpty()) {
-            state.postValue(QuizState.Error(NullPointerException("No result yet!")))
-        } else {
-            state.postValue(QuizState.Results(selectedOptions))
-        }
+        state.postValue(QuizState.Results(generatedQuestions))
     }
 
     private fun loadContent() = viewModelScope.launch {
@@ -71,7 +67,8 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         // Generate questions with random options
-        val generatedQuestions = QuestionGenerator.generate(questions)
+        generatedQuestions.clear()
+        generatedQuestions.addAll(QuestionGenerator.generate(questions))
 
         // Post Success if exist MIN_CARD_NUMBER_FOR_QUIZ else Error
         state.postValue(
@@ -80,7 +77,11 @@ class QuizViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    private fun selectOption(id: Int, option: String?) {
-        selectedOptions[id] = if (option.isNullOrEmpty()) "No answer" else option
+    private fun selectOption(question: Question, option: String?) {
+        if (option.isNullOrEmpty()) {
+            question.selectedAnswer = null
+        } else {
+            question.selectedAnswer = option
+        }
     }
 }

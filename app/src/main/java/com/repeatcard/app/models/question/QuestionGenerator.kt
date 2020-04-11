@@ -1,6 +1,4 @@
-package com.repeatcard.app.models
-
-import com.repeatcard.app.models.question.Question
+package com.repeatcard.app.models.question
 
 private const val OPTION_COUNT = 4
 
