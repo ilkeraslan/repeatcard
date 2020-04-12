@@ -1,7 +1,6 @@
 package com.repeatcard.app.ui.quiz
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Button
@@ -11,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.google.gson.Gson
 import com.repeatcard.app.R
+import com.repeatcard.app.ui.results.ResultsScreen
 import com.repeatcard.app.ui.util.exhaustive
 
 class QuizScreen : AppCompatActivity() {
@@ -23,6 +24,7 @@ class QuizScreen : AppCompatActivity() {
     private lateinit var viewPager: ViewPager2
     private lateinit var viewModel: QuizViewModel
     private var lastSelectedOption: TextView? = null
+    private var hasSelectedAnOption = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +43,7 @@ class QuizScreen : AppCompatActivity() {
                 selectedView.setBackgroundColor(resources.getColor(R.color.colorYellow))
                 otherViews.forEach { unselectedView -> unselectedView.setBackgroundColor(0) }
                 lastSelectedOption = selectedView
+                hasSelectedAnOption = true
             }
         })
         closeButton = findViewById(R.id.closeQuizButton)
@@ -56,10 +59,18 @@ class QuizScreen : AppCompatActivity() {
             if (viewPager.currentItem < 0) finish() else viewPager.currentItem--
         }
         nextButton.setOnClickListener {
-            viewModel.send(QuizEvent.SelectOption(viewPager.currentItem, lastSelectedOption?.text.toString()))
+            val question = adapter.currentList[viewPager.currentItem]
+
+            if (hasSelectedAnOption) {
+                viewModel.send(QuizEvent.SelectOption(question, lastSelectedOption?.text.toString()))
+                hasSelectedAnOption = false
+            } else {
+                viewModel.send(QuizEvent.SelectOption(question, null))
+            }
+
             if (viewPager.currentItem == adapter.itemCount - 1) {
                 viewModel.send(QuizEvent.GetResults)
-                finish()
+                observe()
             } else {
                 viewPager.currentItem++
             }
@@ -73,10 +84,8 @@ class QuizScreen : AppCompatActivity() {
 
                 if (viewPager.currentItem == 0) {
                     previousButton.visibility = INVISIBLE
-                    nextButton.visibility = VISIBLE
                 } else {
                     previousButton.visibility = VISIBLE
-                    nextButton.visibility = VISIBLE
                 }
             }
         })
@@ -93,16 +102,11 @@ class QuizScreen : AppCompatActivity() {
                     adapter.submitList(state.questions)
                     adapter.notifyDataSetChanged()
                 }
-                is QuizState.Results -> printResults(state.results)
+                is QuizState.Results -> {
+                    startActivity(ResultsScreen.getIntent(applicationContext, state.results, gson = Gson()))
+                    finish()
+                }
             }.exhaustive
         })
-    }
-
-    private fun printResults(results: HashMap<Int, String?>) {
-        if (results.isEmpty()) {
-            Log.d("SELECTED: ", "NO OPTION SELECTED")
-        } else {
-            results.keys.forEach { key -> Log.d("SELECTED: ".plus(key.toString()), results[key].toString()) }
-        }
     }
 }

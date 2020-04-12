@@ -6,6 +6,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.jakewharton.threetenabp.AndroidThreeTen
+import timber.log.Timber
+
+private const val TAG_LOGGING = "REPEATCARD"
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,5 +31,12 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize date library
         AndroidThreeTen.init(this)
+
+        setupLogging()
+    }
+
+    private fun setupLogging() {
+        Timber.plant(Timber.DebugTree())
+        Timber.tag(TAG_LOGGING)
     }
 }

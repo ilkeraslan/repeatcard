@@ -1,1 +1,0 @@
-/home/ilker/AndroidStudioProjects/repeatcard/buildSrc/build/classes/kotlin/main/Versions.class

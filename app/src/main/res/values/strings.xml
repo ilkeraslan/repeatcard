@@ -22,4 +22,7 @@
     <string name="take_a_quiz">TAKE A QUIZ</string>
     <string name="logs">LOGS</string>
     <string name="no_flashcard_yet">NO FLASHCARD YET!</string>
+    <string name="correct_answer">Correct answer</string>
+    <string name="your_answer">Your answer</string>
+    <string name="question_no">Question No</string>
 </resources>

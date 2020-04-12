@@ -1,3 +1,14 @@
-/build
-.idea
+*.iml
 .gradle
+.vscode
+/local.properties
+**/.idea/
+!/.idea/encodings.xml
+!/.idea/codeStyles/
+
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+/app/release
