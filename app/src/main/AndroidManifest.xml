@@ -43,6 +43,8 @@
         <activity
             android:name=".ui.quiz.QuizScreen"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.results.ResultsScreen" />
+        <activity android:name=".ui.question.QuestionDetailScreen" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

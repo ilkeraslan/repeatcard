@@ -33,7 +33,6 @@ class QuizFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.send(QuizEvent.Load)
         observe()
     }
 
