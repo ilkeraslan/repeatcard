@@ -9,8 +9,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
@@ -22,6 +20,7 @@ import io.reactivex.disposables.Disposables
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import timber.log.Timber
 
 const val GALLERY_IMAGE_URI = "com.repeatcard.app.GALLERY_URI"
 
@@ -145,8 +144,7 @@ class GalleryPicker : AppCompatActivity() {
     }
 
     private fun showError(error: Throwable?) {
-        Toast.makeText(this, getString(R.string.error_loading_image), Toast.LENGTH_LONG).show()
-        Log.d("Error", error.toString())
+        Timber.d(error.toString())
     }
 }
 
