@@ -3,7 +3,6 @@ package com.repeatcard.app.ui.flashcardadd
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View.INVISIBLE
 import android.widget.Button
 import android.widget.EditText

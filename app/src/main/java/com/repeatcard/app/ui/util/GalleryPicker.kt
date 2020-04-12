@@ -17,10 +17,10 @@ import com.yalantis.ucrop.UCrop
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import timber.log.Timber
 
 const val GALLERY_IMAGE_URI = "com.repeatcard.app.GALLERY_URI"
 
