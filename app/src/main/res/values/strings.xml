@@ -25,4 +25,5 @@
     <string name="correct_answer">Correct answer</string>
     <string name="your_answer">Your answer</string>
     <string name="question_no">Question No</string>
+    <string name="tap_to_add_image">TAP TO ADD IMAGE</string>
 </resources>

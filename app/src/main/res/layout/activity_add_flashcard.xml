@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddFlashcardActivity">
+    tools:context=".ui.flashcardadd.AddFlashcardActivity">
 
     <TextView
         android:id="@+id/flashcard_title"
@@ -59,15 +59,33 @@
         android:id="@+id/flashcard_select_image"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorAccent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@color/colorLightGrey"
+        android:foregroundGravity="center"
         app:layout_constraintBottom_toTopOf="@+id/flashcard_save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flashcard_description_editText" />
+
+    <TextView
+        android:id="@+id/textTapToSelectImage"
+        style="@style/text_size"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/tap_to_add_image"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/flashcard_select_image"
+        app:layout_constraintEnd_toEndOf="@+id/flashcard_select_image"
+        app:layout_constraintStart_toStartOf="@+id/flashcard_select_image"
+        app:layout_constraintTop_toTopOf="@+id/flashcard_select_image" />
 
     <Button
         android:id="@+id/flashcard_save_button"

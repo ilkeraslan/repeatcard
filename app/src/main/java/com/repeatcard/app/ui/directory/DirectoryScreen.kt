@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.repeatcard.app.AddFlashcardActivity
+import com.repeatcard.app.ui.flashcardadd.AddFlashcardActivity
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
 import com.repeatcard.app.ui.home.FlashcardEvent

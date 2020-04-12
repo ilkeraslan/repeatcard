@@ -9,8 +9,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
@@ -19,6 +17,7 @@ import com.yalantis.ucrop.UCrop
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -145,8 +144,7 @@ class GalleryPicker : AppCompatActivity() {
     }
 
     private fun showError(error: Throwable?) {
-        Toast.makeText(this, getString(R.string.error_loading_image), Toast.LENGTH_LONG).show()
-        Log.d("Error", error.toString())
+        Timber.d(error.toString())
     }
 }
 
