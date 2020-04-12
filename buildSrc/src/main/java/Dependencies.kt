@@ -20,4 +20,5 @@ object Versions {
 @Suppress("unused")
 object Libs {
     const val gson = "com.google.code.gson:gson:2.8.6"
+    const val timber = "com.jakewharton.timber:timber:4.7.1"
 }

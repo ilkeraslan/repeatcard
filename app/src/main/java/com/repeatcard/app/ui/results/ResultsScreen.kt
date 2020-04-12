@@ -10,18 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.repeatcard.app.R
 import com.repeatcard.app.models.question.Question
+import com.repeatcard.app.ui.question.QuestionDetailScreen
+import timber.log.Timber
 
-class ResultsAfterQuiz : AppCompatActivity() {
+class ResultsScreen : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var resultsAdapter: ResultsAdapter
     private lateinit var resultsViewModel: ResultsViewModel
+    private lateinit var resultListener: ResultListener
 
     companion object {
         private const val BUNDLE_QUESTIONS_LIST = "BUNDLE_QUESTIONS_LIST"
 
         fun getIntent(context: Context, results: List<Question>, gson: Gson): Intent =
-            Intent(context, ResultsAfterQuiz::class.java)
+            Intent(context, ResultsScreen::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(BUNDLE_QUESTIONS_LIST, gson.toJson(results))
     }
@@ -41,7 +44,13 @@ class ResultsAfterQuiz : AppCompatActivity() {
     private fun setViews() {
         recyclerView = findViewById(R.id.recyclerView_results)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        resultsAdapter = ResultsAdapter()
+        resultListener = object : ResultListener {
+            override fun showResultDetails(question: Question) {
+                QuestionDetailScreen.openScreen(applicationContext, question, Gson())
+                Timber.d("Clicked question")
+            }
+        }
+        resultsAdapter = ResultsAdapter(resultListener)
         recyclerView.adapter = resultsAdapter
     }
 

@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
 import com.repeatcard.app.R
-import com.repeatcard.app.ui.results.ResultsAfterQuiz
+import com.repeatcard.app.ui.results.ResultsScreen
 import com.repeatcard.app.ui.util.exhaustive
 
 class QuizScreen : AppCompatActivity() {
@@ -103,7 +103,7 @@ class QuizScreen : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
                 is QuizState.Results -> {
-                    startActivity(ResultsAfterQuiz.getIntent(applicationContext, state.results, gson = Gson()))
+                    startActivity(ResultsScreen.getIntent(applicationContext, state.results, gson = Gson()))
                     finish()
                 }
             }.exhaustive

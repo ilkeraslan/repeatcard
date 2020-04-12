@@ -103,6 +103,9 @@ dependencies {
 
     // Gson
     implementation Libs.gson
+
+    // Timber
+    implementation Libs.timber
 }
 
 sonarqube {
