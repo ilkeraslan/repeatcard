@@ -20,12 +20,14 @@ class ResultsAdapter : ListAdapter<Question, ResultsViewHolder>(AnswerDiffUtil()
 
     override fun onBindViewHolder(holder: ResultsViewHolder, position: Int) {
         val question = getItem(position)
+        holder.questionNumber.text = (position + 1).toString()
         holder.questionText.text = question.correctAnswer
         holder.answerText.text = if (question.selectedAnswer.isNullOrEmpty()) "No answer" else question.selectedAnswer
     }
 }
 
 class ResultsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    val questionNumber: TextView = view.findViewById(R.id.questionNumberResultRow)
     val questionText: TextView = view.findViewById(R.id.questionTextResultRow)
     val answerText: TextView = view.findViewById(R.id.answerTextResultRow)
 }
