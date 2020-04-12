@@ -18,10 +18,10 @@ Each Flashcard has an image, a title and an optional description which enables a
 - [x] User can review flashcards.
 - [x] User can see the flashcard details clicking on it.
 - [x] User can take a quiz if has at least 4 Flashcards with title-description-image.
-- [ ] User can see a list of questions with an image.
+- [x] User can see a list of questions with an image.
+- [x] User can see the results after a quiz.
+- [x] User can see the details of a result card clicking on it.
 - [ ] User can modify a Flashcard.
-- [ ] User can create flashcard sets which contain similar types.
-- [ ] User can see `Wrong Answer` feedback when the answer is not correct.
 - [ ] User can search for a specific flashcard using a `Search Bar`.
 - [ ] User sees a flashcard as `Not learned` if not changed and vice versa.
 - [ ] User can mark a flashcard as learned.
