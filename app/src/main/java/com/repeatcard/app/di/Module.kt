@@ -1,5 +1,6 @@
 package com.repeatcard.app.di
 
+import com.repeatcard.app.ui.AppNavigator
 import com.repeatcard.app.ui.directories.DirectoriesViewModel
 import com.repeatcard.app.ui.directory.DirectoryViewModel
 import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailViewModel
@@ -19,7 +20,7 @@ val androidComponents = module {
 }
 
 val appComponents = module {
-
+    single { AppNavigator(get()) }
 }
 
 @ExperimentalCoroutinesApi

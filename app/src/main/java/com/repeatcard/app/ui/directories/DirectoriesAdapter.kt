@@ -1,6 +1,5 @@
 package com.repeatcard.app.ui.directories
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.INVISIBLE
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.repeatcard.app.R
 import com.repeatcard.app.db.directory.Directory
-import com.repeatcard.app.ui.directory.DirectoryScreen
 
 class DirectoriesAdapter(private val clickListener: DirectoriesListener) :
     ListAdapter<Directory, DirectoriesViewHolder>(DirectoriesDiffUtil()) {
@@ -31,13 +29,7 @@ class DirectoriesAdapter(private val clickListener: DirectoriesListener) :
         // Set delete button to invisible if default directory
         holder.directoryDelete.visibility = if (holder.directory.text == DEFAULT_DIRECTORY_NAME) INVISIBLE else VISIBLE
 
-        holder.directoryView.setOnClickListener {
-            DirectoryScreen.openDirectoryScreen(
-                holder.directory.context as Activity,
-                directory.id
-            )
-        }
-
+        holder.directoryView.setOnClickListener { clickListener.directoryClicked(directory.id) }
         holder.directoryDelete.setOnClickListener { clickListener.itemDeleted(directory.id) }
     }
 }
@@ -50,6 +42,7 @@ class DirectoriesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 interface DirectoriesListener {
     fun itemDeleted(id: Int)
+    fun directoryClicked(id: Int)
 }
 
 class DirectoriesDiffUtil : DiffUtil.ItemCallback<Directory>() {

@@ -1,8 +1,8 @@
 package com.repeatcard.app.ui.directories
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.directory.Directory
@@ -24,7 +24,7 @@ sealed class DirectoriesState {
     data class Success(val directories: List<Directory>) : DirectoriesState()
 }
 
-class DirectoriesViewModel(application: Application) : AndroidViewModel(application) {
+class DirectoriesViewModel(context: Context) : ViewModel() {
 
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
@@ -32,8 +32,8 @@ class DirectoriesViewModel(application: Application) : AndroidViewModel(applicat
     var directoriesState: MutableLiveData<DirectoriesState> = MutableLiveData()
 
     init {
-        val directoriesDao = FlashcardDatabase.getDatabase(application).directoryDao()
-        val flashcardDao = FlashcardDatabase.getDatabase(application).flashcardDao()
+        val directoriesDao = FlashcardDatabase.getDatabase(context).directoryDao()
+        val flashcardDao = FlashcardDatabase.getDatabase(context).flashcardDao()
         repository = FlashcardDirectoryRepository(directoriesDao)
         flashcardRepository = FlashcardRepository(flashcardDao)
         loadContent()

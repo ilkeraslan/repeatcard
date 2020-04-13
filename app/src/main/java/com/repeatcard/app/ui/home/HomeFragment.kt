@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.repeatcard.app.R
@@ -23,13 +22,15 @@ import com.repeatcard.app.ui.notifications.NotificationEvent
 import com.repeatcard.app.ui.notifications.NotificationsViewModel
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
 
 class HomeFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private lateinit var directoriesViewModel: DirectoriesViewModel
-    private lateinit var homeViewModel: HomeViewModel
+    private val notificationsViewModel: NotificationsViewModel by inject()
+    private val directoriesViewModel: DirectoriesViewModel by inject()
+    private val homeViewModel: HomeViewModel by inject()
+
     private lateinit var homeAdapter: HomeAdapter
     private lateinit var homeListener: HomeListener
     private lateinit var recyclerView: RecyclerView
@@ -42,16 +43,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViewModels()
         setUpRecyclerView()
         observeViewModel()
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun setupViewModels() {
-        directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
     }
 
     @ExperimentalCoroutinesApi

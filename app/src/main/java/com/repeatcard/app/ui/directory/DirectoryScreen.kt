@@ -1,6 +1,7 @@
 package com.repeatcard.app.ui.directory
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View.INVISIBLE
@@ -53,9 +54,9 @@ class DirectoryScreen : AppCompatActivity() {
     private lateinit var review: FloatingActionButton
 
     companion object {
-        fun openDirectoryScreen(startingActivity: Activity, directoryId: Int) {
-            val intent = Intent(startingActivity, DirectoryScreen::class.java).putExtra(BUNDLE_TAG_DIRECTORY_ID, directoryId)
-            startingActivity.startActivity(intent)
+        fun openDirectoryScreen(context: Context, directoryId: Int) {
+            val intent = Intent(context, DirectoryScreen::class.java).putExtra(BUNDLE_TAG_DIRECTORY_ID, directoryId)
+            context.startActivity(intent)
         }
     }
 
