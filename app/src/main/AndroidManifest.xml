@@ -45,6 +45,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ui.results.ResultsScreen" />
         <activity android:name=".ui.question.QuestionDetailScreen" />
+        <activity android:name=".ui.flashcardedit.EditFlashcardScreen" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

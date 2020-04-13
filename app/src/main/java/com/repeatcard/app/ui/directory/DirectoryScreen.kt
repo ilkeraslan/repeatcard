@@ -18,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
 import com.repeatcard.app.ui.flashcardadd.AddFlashcardActivity
+import com.repeatcard.app.ui.flashcardedit.EditFlashcardScreen
 import com.repeatcard.app.ui.home.FlashcardEvent
 import com.repeatcard.app.ui.home.HomeViewModel
 import com.repeatcard.app.ui.notifications.NotificationEvent
@@ -97,6 +98,10 @@ class DirectoryScreen : AppCompatActivity() {
         directoryListener = object : DirectoryListener {
             override fun itemDeleted(id: Int) {
                 alertToDelete(id)
+            }
+
+            override fun itemEdit(id: Int) {
+                EditFlashcardScreen.openScreen(applicationContext, id)
             }
         }
         adapter = DirectoryAdapter(directoryListener)

@@ -29,11 +29,9 @@ class DirectoryAdapter(private val clickListener: DirectoryListener) :
         holder.bind(flashcard)
 
         holder.delete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
+        holder.edit.setOnClickListener { clickListener.itemEdit(flashcard.id) }
         holder.flashcardTitle.setOnClickListener {
-            FlashcardDetailActivity.openFlashcardDetailActivity(
-                holder.flashcardTitle.context as Activity,
-                flashcard.id
-            )
+            FlashcardDetailActivity.openFlashcardDetailActivity(holder.flashcardTitle.context as Activity, flashcard.id)
         }
     }
 }
@@ -41,6 +39,7 @@ class DirectoryAdapter(private val clickListener: DirectoryListener) :
 class DirectoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val flashcardImage: ImageView = view.findViewById(R.id.imageViewDirectoryRow)
     val flashcardTitle: TextView = view.findViewById(R.id.textViewDirectoryRow)
+    val edit: Button = view.findViewById(R.id.editDirectoryRow)
     val delete: Button = view.findViewById(R.id.deleteButtonDirectoryRow)
 
     fun bind(flashcard: Flashcard) {
@@ -57,6 +56,7 @@ class DirectoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 interface DirectoryListener {
     fun itemDeleted(id: Int)
+    fun itemEdit(id: Int)
 }
 
 class DirectoryDiffUtil : DiffUtil.ItemCallback<Flashcard>() {
