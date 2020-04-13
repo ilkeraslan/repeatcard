@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -26,6 +25,9 @@ import com.repeatcard.app.ui.notifications.NotificationsViewModel
 import com.repeatcard.app.ui.review.FlashcardReviewScreen
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -36,10 +38,12 @@ const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
 class DirectoryScreen : AppCompatActivity() {
 
+    private var directoryId = 0
+
     @ExperimentalCoroutinesApi
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private lateinit var directoryViewModel: DirectoryViewModel
-    private lateinit var homeViewModel: HomeViewModel
+    private val notificationsViewModel: NotificationsViewModel by viewModel()
+    private val directoryViewModel: DirectoryViewModel by viewModel { parametersOf(directoryId) }
+    private val homeViewModel: HomeViewModel by inject()
 
     private lateinit var adapter: DirectoryAdapter
     private lateinit var directoryListener: DirectoryListener
@@ -47,8 +51,6 @@ class DirectoryScreen : AppCompatActivity() {
     private lateinit var noFlashcardText: TextView
     private lateinit var addFlashcard: FloatingActionButton
     private lateinit var review: FloatingActionButton
-
-    private var directoryId = 0
 
     companion object {
         fun openDirectoryScreen(startingActivity: Activity, directoryId: Int) {
@@ -64,7 +66,6 @@ class DirectoryScreen : AppCompatActivity() {
 
         directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
 
-        setViewModels()
         setUpRecyclerView()
         setUpViews()
         observe()
@@ -74,15 +75,6 @@ class DirectoryScreen : AppCompatActivity() {
         super.onResume()
         directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
         observe()
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun setViewModels() {
-        directoryViewModel = DirectoryViewModelFactory(application, directoryId).create(DirectoryViewModel::class.java)
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
-
-        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
     }
 
     private fun setUpViews() {

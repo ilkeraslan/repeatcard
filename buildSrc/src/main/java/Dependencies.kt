@@ -20,5 +20,7 @@ object Versions {
 @Suppress("unused")
 object Libs {
     const val gson = "com.google.code.gson:gson:2.8.6"
+    const val koin = "org.koin:koin-android:${Versions.koin}"
+    const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"
     const val timber = "com.jakewharton.timber:timber:4.7.1"
 }
