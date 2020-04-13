@@ -3,12 +3,14 @@ package com.repeatcard.app.ui.flashcardedit
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.INVISIBLE
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.repeatcard.app.R
 import timber.log.Timber
 
@@ -62,6 +64,21 @@ class EditFlashcardScreen : AppCompatActivity() {
         editFlashcardViewModel.state.observe(this, Observer { state ->
             when (state) {
                 is FlashcardEditState.Success -> {
+                    flashcardTitleEdit.setText(state.flashcard.title)
+                    flashcardTitleEdit.selectAll()
+                    flashcardTitleEdit.requestFocus()
+
+                    flashcardDescriptionEdit.setText(
+                        if (state.flashcard.description == "No description") null
+                        else state.flashcard.description
+                    )
+
+                    if (!state.flashcard.imageUri.isNullOrEmpty()) {
+                        Glide.with(this).load(state.flashcard.imageUri).into(flashcardImage)
+                        tapToAdd.visibility = INVISIBLE
+                        flashcardImage.background = null
+                    }
+
                     Timber.d("EDIT OK")
                 }
             }

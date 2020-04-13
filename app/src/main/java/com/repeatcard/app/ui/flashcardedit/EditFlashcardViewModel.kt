@@ -3,7 +3,6 @@ package com.repeatcard.app.ui.flashcardedit
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.flashcard.Flashcard
@@ -38,8 +37,6 @@ class EditFlashcardViewModel(application: Application) : AndroidViewModel(applic
         val flashcardToEdit = flashcardRepository.getFlashcard(id)
 
         // Do editing
-
-
         state.postValue(FlashcardEditState.Success(flashcardToEdit))
     }
 }
