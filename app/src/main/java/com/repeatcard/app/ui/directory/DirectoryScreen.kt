@@ -62,12 +62,18 @@ class DirectoryScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.directory_layout)
 
-        this.directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
+        directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
 
         setViewModels()
-        observe()
         setUpRecyclerView()
         setUpViews()
+        observe()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
+        observe()
     }
 
     @ExperimentalCoroutinesApi
@@ -165,10 +171,12 @@ class DirectoryScreen : AppCompatActivity() {
         dialogBuilder.create().show()
 
         directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
+        adapter.notifyDataSetChanged()
     }
 
     private fun showFlashcards(flashcards: List<Flashcard>) {
         noFlashcardText.visibility = INVISIBLE
         adapter.submitList(flashcards)
+        adapter.notifyDataSetChanged()
     }
 }
