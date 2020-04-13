@@ -1,5 +1,6 @@
 package com.repeatcard.app.ui.flashcardedit
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.repeatcard.app.R
+import com.repeatcard.app.ui.util.GalleryPicker
+import com.repeatcard.app.ui.util.exhaustive
 import timber.log.Timber
 
 class EditFlashcardScreen : AppCompatActivity() {
@@ -28,6 +31,7 @@ class EditFlashcardScreen : AppCompatActivity() {
 
     companion object {
         private const val FLASHCARD_ID = "FLASHCARD_ID"
+        private const val SELECT_IMAGE_INTENT = 2000
 
         fun openScreen(startingContext: Context, flashcardId: Int) {
             val intent = Intent(startingContext, EditFlashcardScreen::class.java)
@@ -47,7 +51,7 @@ class EditFlashcardScreen : AppCompatActivity() {
         observe()
 
         val flashcardId = intent.extras!!.getInt(FLASHCARD_ID)
-        editFlashcardViewModel.send(FlashcardEditEvent.Edit(flashcardId))
+        editFlashcardViewModel.send(FlashcardEditEvent.GetCurrentValues(flashcardId))
     }
 
     private fun setViews() {
@@ -64,24 +68,55 @@ class EditFlashcardScreen : AppCompatActivity() {
         editFlashcardViewModel.state.observe(this, Observer { state ->
             when (state) {
                 is FlashcardEditState.Success -> {
-                    flashcardTitleEdit.setText(state.flashcard.title)
-                    flashcardTitleEdit.selectAll()
-                    flashcardTitleEdit.requestFocus()
-
-                    flashcardDescriptionEdit.setText(
-                        if (state.flashcard.description == "No description") null
-                        else state.flashcard.description
-                    )
-
-                    if (!state.flashcard.imageUri.isNullOrEmpty()) {
-                        Glide.with(this).load(state.flashcard.imageUri).into(flashcardImage)
-                        tapToAdd.visibility = INVISIBLE
-                        flashcardImage.background = null
+                    setCurrentValues(state)
+                    flashcardImage.setOnClickListener {
+                        startActivityForResult(GalleryPicker.getIntent(this), SELECT_IMAGE_INTENT)
                     }
-
-                    Timber.d("EDIT OK")
+                    flashcardSaveButton.setOnClickListener {
+                        editFlashcardViewModel.send(
+                            FlashcardEditEvent.Edit(
+                                state.flashcard.id,
+                                flashcardTitleEdit.text.toString(),
+                                flashcardDescriptionEdit.text.toString(),
+                                imageUri
+                            )
+                        )
+                    }
                 }
-            }
+                FlashcardEditState.UpdateSuccess -> finish()
+            }.exhaustive
         })
+    }
+
+    private fun setCurrentValues(state: FlashcardEditState.Success) {
+        flashcardTitleEdit.setText(state.flashcard.title)
+        flashcardTitleEdit.selectAll()
+        flashcardTitleEdit.requestFocus()
+
+        flashcardDescriptionEdit.setText(
+            if (state.flashcard.description == "No description") null
+            else state.flashcard.description
+        )
+
+        if (!state.flashcard.imageUri.isNullOrEmpty()) {
+            Glide.with(this).load(state.flashcard.imageUri).into(flashcardImage)
+            tapToAdd.visibility = INVISIBLE
+            flashcardImage.background = null
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == SELECT_IMAGE_INTENT && resultCode == Activity.RESULT_OK && data != null) {
+            imageUri = data.data.toString()
+            Timber.d(imageUri.toString())
+
+            // Load the image
+            Glide.with(this).load(imageUri).into(flashcardImage)
+
+            tapToAdd.visibility = INVISIBLE
+            flashcardImage.background = null
+        }
     }
 }
