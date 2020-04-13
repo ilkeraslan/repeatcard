@@ -1,6 +1,5 @@
 package com.repeatcard.app.ui.quiz
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +8,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.repeatcard.app.R
+import com.repeatcard.app.ui.AppNavigator
 import com.repeatcard.app.ui.util.exhaustive
+import org.koin.android.ext.android.inject
 
 class QuizFragment : Fragment() {
 
+    private val viewModel: QuizViewModel by inject()
+    private val navigator: AppNavigator by inject()
+
     private lateinit var startQuiz: Button
-    private lateinit var viewModel: QuizViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.quiz_fragment, container, false)
@@ -25,7 +27,6 @@ class QuizFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(QuizViewModel::class.java)
         viewModel.send(QuizEvent.Load)
         setUpViews()
         observe()
@@ -49,10 +50,7 @@ class QuizFragment : Fragment() {
                     }
                 }
                 is QuizState.Success -> {
-                    startQuiz.setOnClickListener {
-                        val intent = Intent(activity, QuizScreen::class.java)
-                        startActivity(intent)
-                    }
+                    startQuiz.setOnClickListener { navigator.goToQuiz() }
                 }
                 is QuizState.Results -> {
                     startQuiz.setOnClickListener {

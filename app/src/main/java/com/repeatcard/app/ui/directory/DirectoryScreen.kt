@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.ui.flashcardadd.AddFlashcardActivity
+import com.repeatcard.app.ui.flashcardadd.AddFlashcardScreen
 import com.repeatcard.app.ui.flashcardedit.EditFlashcardScreen
 import com.repeatcard.app.ui.home.FlashcardEvent
 import com.repeatcard.app.ui.home.HomeViewModel
@@ -42,7 +42,7 @@ class DirectoryScreen : AppCompatActivity() {
     private var directoryId = 0
 
     @ExperimentalCoroutinesApi
-    private val notificationsViewModel: NotificationsViewModel by viewModel()
+    private val notificationsViewModel: NotificationsViewModel by inject()
     private val directoryViewModel: DirectoryViewModel by viewModel { parametersOf(directoryId) }
     private val homeViewModel: HomeViewModel by inject()
 
@@ -85,7 +85,7 @@ class DirectoryScreen : AppCompatActivity() {
         noFlashcardText.visibility = INVISIBLE
 
         addFlashcard.setOnClickListener {
-            val intent = Intent(this, AddFlashcardActivity::class.java)
+            val intent = Intent(this, AddFlashcardScreen::class.java)
             startActivityForResult(intent, ADD_FLASHCARD_INTENT)
         }
     }

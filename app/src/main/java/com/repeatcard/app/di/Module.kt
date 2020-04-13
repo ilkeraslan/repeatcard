@@ -26,7 +26,7 @@ val appComponents = module {
 @ExperimentalCoroutinesApi
 val viewModels = module {
     viewModel { DirectoriesViewModel(get()) }
-    viewModel { (id: Int) -> DirectoryViewModel(get(), id) }
+    viewModel { (id: Int) -> DirectoryViewModel(context = get(), directoryId = id) }
     viewModel { FlashcardDetailViewModel(get()) }
     viewModel { EditFlashcardViewModel(get()) }
     viewModel { HomeViewModel(get()) }

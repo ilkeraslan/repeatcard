@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity"
         tools:targetApi="n">
         <activity
-            android:name=".ui.flashcardadd.AddFlashcardActivity"
+            android:name=".ui.flashcardadd.AddFlashcardScreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.util.GalleryPicker"

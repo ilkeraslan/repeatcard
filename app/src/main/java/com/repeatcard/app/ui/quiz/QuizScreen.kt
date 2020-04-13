@@ -1,5 +1,7 @@
 package com.repeatcard.app.ui.quiz
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
@@ -8,29 +10,36 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
 import com.repeatcard.app.R
 import com.repeatcard.app.ui.results.ResultsScreen
 import com.repeatcard.app.ui.util.exhaustive
+import org.koin.android.ext.android.inject
 
 class QuizScreen : AppCompatActivity() {
+
+    private val viewModel: QuizViewModel by inject()
 
     private lateinit var adapter: QuizAdapter
     private lateinit var closeButton: Button
     private lateinit var nextButton: Button
     private lateinit var previousButton: Button
     private lateinit var viewPager: ViewPager2
-    private lateinit var viewModel: QuizViewModel
     private var lastSelectedOption: TextView? = null
     private var hasSelectedAnOption = false
+
+    companion object {
+        fun openScreen(context: Context) {
+            val intent = Intent(context, QuizScreen::class.java)
+            context.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz)
 
-        viewModel = ViewModelProvider(this).get(QuizViewModel::class.java)
         observe()
         setupViews()
         setupClickListeners()
