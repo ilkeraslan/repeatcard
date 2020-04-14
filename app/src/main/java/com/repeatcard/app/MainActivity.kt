@@ -9,6 +9,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.repeatcard.app.di.androidComponents
 import com.repeatcard.app.di.appComponents
 import com.repeatcard.app.di.viewModels
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -19,6 +20,7 @@ private const val TAG_LOGGING = "REPEATCARD"
 
 class MainActivity : AppCompatActivity() {
 
+    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,11 +39,17 @@ class MainActivity : AppCompatActivity() {
         setupDI()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
     private fun setupLogging() {
         Timber.plant(Timber.DebugTree())
         Timber.tag(TAG_LOGGING)
     }
 
+    @ExperimentalCoroutinesApi
     private fun setupDI() {
         startKoin {
             androidLogger()
