@@ -1,14 +1,11 @@
 package com.repeatcard.app
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.multidex.MultiDexApplication
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.repeatcard.app.di.androidComponents
 import com.repeatcard.app.di.appComponents
 import com.repeatcard.app.di.viewModels
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -17,22 +14,12 @@ import timber.log.Timber
 
 private const val TAG_LOGGING = "REPEATCARD"
 
-class MainActivity : AppCompatActivity() {
+class RepeatcardApplication : MultiDexApplication() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val host: NavHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val navController = host.navController
-
-        navView.setupWithNavController(navController)
-        navView.setOnNavigationItemReselectedListener { /* do nothing */ }
-
-        // Initialize date library
+    @ExperimentalCoroutinesApi
+    override fun onCreate() {
+        super.onCreate()
         AndroidThreeTen.init(this)
-
         setupLogging()
         setupDI()
     }
@@ -42,10 +29,11 @@ class MainActivity : AppCompatActivity() {
         Timber.tag(TAG_LOGGING)
     }
 
+    @ExperimentalCoroutinesApi
     private fun setupDI() {
         startKoin {
             androidLogger()
-            androidContext(this@MainActivity)
+            androidContext(this@RepeatcardApplication)
 
             val appSetupModule = module { single { BuildConfig.DEBUG } }
 
