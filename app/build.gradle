@@ -53,6 +53,11 @@ android {
 }
 
 dependencies {
+    implementation Libs.date
+    implementation Libs.google_material
+    implementation Libs.lifecycle_extensions
+    implementation Libs.lifecycle_viewmodel
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -67,17 +72,12 @@ dependencies {
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.1'
-    implementation 'com.google.android.material:material:1.1.0-beta02'
 
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     implementation "androidx.room:room-ktx:$rootProject.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
-
-    // Lifecycle components
-    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
-    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
 
     // ViewModel Kotlin support
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
@@ -89,8 +89,6 @@ dependencies {
     implementation "com.google.android.material:material:$rootProject.materialVersion"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
-    // Date
-    implementation "com.jakewharton.threetenabp:threetenabp:1.2.2"
 
     // Image
     implementation "com.github.yalantis:ucrop:2.2.4"

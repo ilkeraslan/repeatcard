@@ -19,11 +19,12 @@ buildscript {
 
     }
     dependencies {
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.7.0"
-        classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jacoco:org.jacoco.core:0.8.4"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
+        classpath BuildLibs.detekt
+        classpath BuildLibs.gradle_android
+        classpath BuildLibs.gradle_versions
+        classpath BuildLibs.kotlin_plugin
+        classpath BuildLibs.jacoco
+        classpath BuildLibs.sonarqube
     }
     ext.getVersionCode = {
         if (System.getenv('BITRISE_BUILD_NUMBER') != null)
