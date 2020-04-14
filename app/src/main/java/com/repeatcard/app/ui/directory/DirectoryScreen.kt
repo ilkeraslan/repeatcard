@@ -1,6 +1,7 @@
 package com.repeatcard.app.ui.directory
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View.INVISIBLE
@@ -11,13 +12,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.ui.flashcardadd.AddFlashcardActivity
+import com.repeatcard.app.ui.flashcardadd.AddFlashcardScreen
 import com.repeatcard.app.ui.flashcardedit.EditFlashcardScreen
 import com.repeatcard.app.ui.home.FlashcardEvent
 import com.repeatcard.app.ui.home.HomeViewModel
@@ -26,6 +26,9 @@ import com.repeatcard.app.ui.notifications.NotificationsViewModel
 import com.repeatcard.app.ui.review.FlashcardReviewScreen
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -36,10 +39,12 @@ const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
 class DirectoryScreen : AppCompatActivity() {
 
+    private var directoryId = 0
+
     @ExperimentalCoroutinesApi
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private lateinit var directoryViewModel: DirectoryViewModel
-    private lateinit var homeViewModel: HomeViewModel
+    private val notificationsViewModel: NotificationsViewModel by inject()
+    private val directoryViewModel: DirectoryViewModel by viewModel { parametersOf(directoryId) }
+    private val homeViewModel: HomeViewModel by inject()
 
     private lateinit var adapter: DirectoryAdapter
     private lateinit var directoryListener: DirectoryListener
@@ -48,12 +53,10 @@ class DirectoryScreen : AppCompatActivity() {
     private lateinit var addFlashcard: FloatingActionButton
     private lateinit var review: FloatingActionButton
 
-    private var directoryId = 0
-
     companion object {
-        fun openDirectoryScreen(startingActivity: Activity, directoryId: Int) {
-            val intent = Intent(startingActivity, DirectoryScreen::class.java).putExtra(BUNDLE_TAG_DIRECTORY_ID, directoryId)
-            startingActivity.startActivity(intent)
+        fun openDirectoryScreen(context: Context, directoryId: Int) {
+            val intent = Intent(context, DirectoryScreen::class.java).putExtra(BUNDLE_TAG_DIRECTORY_ID, directoryId)
+            context.startActivity(intent)
         }
     }
 
@@ -64,7 +67,6 @@ class DirectoryScreen : AppCompatActivity() {
 
         directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
 
-        setViewModels()
         setUpRecyclerView()
         setUpViews()
         observe()
@@ -76,15 +78,6 @@ class DirectoryScreen : AppCompatActivity() {
         observe()
     }
 
-    @ExperimentalCoroutinesApi
-    private fun setViewModels() {
-        directoryViewModel = DirectoryViewModelFactory(application, directoryId).create(DirectoryViewModel::class.java)
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
-
-        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
-    }
-
     private fun setUpViews() {
         noFlashcardText = findViewById(R.id.noFlashcardText)
         addFlashcard = findViewById(R.id.add_flashcard_to_directory)
@@ -92,7 +85,7 @@ class DirectoryScreen : AppCompatActivity() {
         noFlashcardText.visibility = INVISIBLE
 
         addFlashcard.setOnClickListener {
-            val intent = Intent(this, AddFlashcardActivity::class.java)
+            val intent = Intent(this, AddFlashcardScreen::class.java)
             startActivityForResult(intent, ADD_FLASHCARD_INTENT)
         }
     }

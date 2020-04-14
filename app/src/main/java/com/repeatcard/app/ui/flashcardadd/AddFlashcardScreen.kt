@@ -16,7 +16,7 @@ import timber.log.Timber
 
 const val SELECT_IMAGE_INTENT = 2000
 
-class AddFlashcardActivity : AppCompatActivity() {
+class AddFlashcardScreen : AppCompatActivity() {
 
     private lateinit var flashcardTitle: TextView
     private lateinit var flashcardDescription: TextView

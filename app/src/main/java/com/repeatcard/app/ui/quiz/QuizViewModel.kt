@@ -1,8 +1,8 @@
 package com.repeatcard.app.ui.quiz
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.flashcard.FlashcardRepository
@@ -25,14 +25,14 @@ sealed class QuizState {
     data class Results(val results: List<Question>) : QuizState()
 }
 
-class QuizViewModel(application: Application) : AndroidViewModel(application) {
+class QuizViewModel(context: Context) : ViewModel() {
 
     private val repository: FlashcardRepository
     private val generatedQuestions = mutableListOf<Question>()
     var state: MutableLiveData<QuizState> = MutableLiveData()
 
     init {
-        val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
+        val flashcardsDao = FlashcardDatabase.getDatabase(context).flashcardDao()
         repository = FlashcardRepository(flashcardsDao)
         loadContent()
     }

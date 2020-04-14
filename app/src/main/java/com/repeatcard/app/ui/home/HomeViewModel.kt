@@ -1,8 +1,8 @@
 package com.repeatcard.app.ui.home
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.directory.FlashcardDirectoryRepository
@@ -23,15 +23,15 @@ sealed class FlashcardState {
     data class Success(val flashcards: List<Flashcard>) : FlashcardState()
 }
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class HomeViewModel(context: Context) : ViewModel() {
 
     private val repository: FlashcardRepository
     private val directoryRepository: FlashcardDirectoryRepository
     var state: MutableLiveData<FlashcardState> = MutableLiveData()
 
     init {
-        val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
-        val directoryDao = FlashcardDatabase.getDatabase(application).directoryDao()
+        val flashcardsDao = FlashcardDatabase.getDatabase(context).flashcardDao()
+        val directoryDao = FlashcardDatabase.getDatabase(context).directoryDao()
         repository = FlashcardRepository(flashcardsDao)
         directoryRepository = FlashcardDirectoryRepository(directoryDao)
         loadContent()

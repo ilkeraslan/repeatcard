@@ -10,16 +10,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.repeatcard.app.R
 import com.repeatcard.app.db.directory.Directory
+import com.repeatcard.app.ui.AppNavigator
 import com.repeatcard.app.ui.notifications.NotificationEvent
 import com.repeatcard.app.ui.notifications.NotificationsViewModel
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -29,8 +30,10 @@ const val ADD_DIRECTORY_INTENT = 3000
 class DirectoriesFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
-    private lateinit var notificationsViewModel: NotificationsViewModel
-    private lateinit var directoriesViewModel: DirectoriesViewModel
+    private val notificationsViewModel: NotificationsViewModel by inject()
+    private val directoriesViewModel: DirectoriesViewModel by inject()
+    private val navigator: AppNavigator by inject()
+
     private lateinit var directoriesAdapter: DirectoriesAdapter
     private lateinit var directoriesListener: DirectoriesListener
     private lateinit var recyclerView: RecyclerView
@@ -43,7 +46,6 @@ class DirectoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViewModels()
         setupRecyclerView()
         setupViews()
         observeViewModel()
@@ -57,15 +59,13 @@ class DirectoriesFragment : Fragment() {
             override fun itemDeleted(id: Int) {
                 alertToDelete(id)
             }
+
+            override fun directoryClicked(id: Int) {
+                navigator.goToDirectory(id)
+            }
         }
         directoriesAdapter = DirectoriesAdapter(directoriesListener)
         recyclerView.adapter = directoriesAdapter
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun setupViewModels() {
-        directoriesViewModel = ViewModelProvider(this).get(DirectoriesViewModel::class.java)
-        notificationsViewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
     }
 
     private fun setupViews() {
@@ -81,7 +81,8 @@ class DirectoriesFragment : Fragment() {
         directoriesViewModel.directoriesState.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is DirectoriesState.Success -> showDirectories(state.directories)
-                is DirectoriesState.Error -> { /* Do nothing here */ }
+                is DirectoriesState.Error -> { /* Do nothing here */
+                }
             }.exhaustive
         })
     }

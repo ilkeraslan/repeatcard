@@ -106,6 +106,10 @@ dependencies {
 
     // Timber
     implementation Libs.timber
+
+    //KOIN
+    implementation Libs.koin
+    implementation Libs.koinViewModel
 }
 
 sonarqube {

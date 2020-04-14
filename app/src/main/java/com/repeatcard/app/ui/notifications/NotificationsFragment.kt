@@ -9,17 +9,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.repeatcard.app.R
 import com.repeatcard.app.db.notification.Notification
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.koin.android.ext.android.inject
 
 class NotificationsFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
-    private lateinit var viewModel: NotificationsViewModel
+    private val viewModel: NotificationsViewModel by inject()
     private lateinit var recyclerView: RecyclerView
     private lateinit var notificationsAdapter: NotificationsAdapter
     private lateinit var notificationsListener: NotificationsListener
@@ -31,7 +31,6 @@ class NotificationsFragment : Fragment() {
     @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
         observe()
         setUpRecyclerView()

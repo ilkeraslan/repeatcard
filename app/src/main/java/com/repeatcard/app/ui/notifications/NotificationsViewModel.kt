@@ -1,8 +1,8 @@
 package com.repeatcard.app.ui.notifications
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.directory.Directory
@@ -34,13 +34,13 @@ sealed class NotificationState {
 }
 
 @ExperimentalCoroutinesApi
-class NotificationsViewModel(application: Application) : AndroidViewModel(application) {
+class NotificationsViewModel(context: Context) : ViewModel() {
 
     private val repository: NotificationRepository
     val state: MutableLiveData<NotificationState> = MutableLiveData()
 
     init {
-        val notificationsDao = FlashcardDatabase.getDatabase(application).notificationsDao()
+        val notificationsDao = FlashcardDatabase.getDatabase(context).notificationsDao()
         repository = NotificationRepository(notificationsDao)
         loadContent()
     }
