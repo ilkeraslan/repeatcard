@@ -31,7 +31,7 @@ class QuizScreen : AppCompatActivity() {
 
     companion object {
         fun openScreen(context: Context) {
-            val intent = Intent(context, QuizScreen::class.java)
+            val intent = Intent(context, QuizScreen::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
     }

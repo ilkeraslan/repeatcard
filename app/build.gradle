@@ -66,6 +66,7 @@ dependencies {
     implementation Libs.kotlin_stdlib
     implementation Libs.lifecycle_extensions
     implementation Libs.lifecycle_viewmodel
+    implementation Libs.multidex
     implementation Libs.navigation_fragment
     implementation Libs.navigation
     implementation Libs.room_runtime

@@ -44,6 +44,7 @@ object Libs {
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle_version}"
     const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle_version}"
+    const val multidex = "com.android.support:multidex:1.0.3"
     const val navigation = "androidx.navigation:navigation-ui-ktx:2.2.1"
     const val navigation_fragment = "androidx.navigation:navigation-fragment-ktx:2.2.1"
     const val room_compiler = "androidx.room:room-compiler:${Versions.roomVersion}"

@@ -55,7 +55,9 @@ class DirectoryScreen : AppCompatActivity() {
 
     companion object {
         fun openDirectoryScreen(context: Context, directoryId: Int) {
-            val intent = Intent(context, DirectoryScreen::class.java).putExtra(BUNDLE_TAG_DIRECTORY_ID, directoryId)
+            val intent = Intent(context, DirectoryScreen::class.java)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .putExtra(BUNDLE_TAG_DIRECTORY_ID, directoryId)
             context.startActivity(intent)
         }
     }
