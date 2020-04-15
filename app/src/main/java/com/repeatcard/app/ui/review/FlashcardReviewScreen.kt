@@ -11,20 +11,22 @@ import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.repeatcard.app.R
 import com.repeatcard.app.ui.directory.BUNDLE_TAG_DIRECTORY_ID
+import com.repeatcard.app.ui.directory.DirectoryEvent
 import com.repeatcard.app.ui.directory.DirectoryState
 import com.repeatcard.app.ui.directory.DirectoryViewModel
-import com.repeatcard.app.ui.directory.DirectoryViewModelFactory
 import com.repeatcard.app.ui.util.exhaustive
+import org.koin.android.ext.android.inject
 
 class FlashcardReviewScreen : AppCompatActivity() {
 
-    private lateinit var viewModel: DirectoryViewModel
+    private val viewModel: DirectoryViewModel by inject()
+
     private lateinit var reviewAdapter: FlashcardReviewAdapter
     private lateinit var closeButton: Button
     private lateinit var nextButton: Button
     private lateinit var previousButton: Button
     private lateinit var viewPager: ViewPager2
-    private var directoryId: Int = 0
+    private var directoryId = 1
 
     companion object {
         fun openReviewScreen(startingActivity: Activity, directoryId: Int) {
@@ -36,14 +38,12 @@ class FlashcardReviewScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.flashcard_review_layout)
-
-        this.directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
-
-        viewModel = DirectoryViewModelFactory(application, directoryId).create(DirectoryViewModel::class.java)
-        observe()
+        directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
+        viewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
         setupViews()
         setupClickListeners()
         setupOnPageChangeListener()
+        observe()
     }
 
     private fun observe() {

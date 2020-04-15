@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
@@ -66,17 +65,10 @@ class DirectoryScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.directory_layout)
-
         directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
-
+        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
         setUpRecyclerView()
         setUpViews()
-        observe()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
         observe()
     }
 
@@ -113,6 +105,7 @@ class DirectoryScreen : AppCompatActivity() {
         directoryViewModel.state.observe(this, Observer { state ->
             when (state) {
                 is DirectoryState.NoContent -> {
+                    adapter.notifyDataSetChanged()
                     noFlashcardText.visibility = VISIBLE
                     review.visibility = INVISIBLE
                 }
@@ -157,16 +150,15 @@ class DirectoryScreen : AppCompatActivity() {
         val dialogBuilder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.DirectoryTheme))
 
         dialogBuilder.setTitle("Are you sure you want to delete this?")
-        dialogBuilder.setPositiveButton("Yes") { dialog, which ->
+        dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
+            dialog.dismiss()
             homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
             notificationsViewModel.send(NotificationEvent.DeleteFlashcard(id))
-            Toast.makeText(this.applicationContext, "Deleted flashcard.", Toast.LENGTH_SHORT).show()
+            directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId))
+            adapter.notifyDataSetChanged()
         }
-        dialogBuilder.setNegativeButton("No") { dialog, which -> dialog.cancel() }
+        dialogBuilder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
         dialogBuilder.create().show()
-
-        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
-        adapter.notifyDataSetChanged()
     }
 
     private fun showFlashcards(flashcards: List<Flashcard>) {

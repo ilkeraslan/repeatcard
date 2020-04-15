@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 sealed class DirectoryEvent {
     data class GetDirectoryContent(val directoryId: Int) : DirectoryEvent()
+    data class CardDeleted(val directoryId: Int) : DirectoryEvent()
 }
 
 sealed class DirectoryState {
@@ -31,12 +32,12 @@ class DirectoryViewModel(context: Context, directoryId: Int) : ViewModel() {
         val flashcardDao = FlashcardDatabase.getDatabase(context).flashcardDao()
         directoryRepository = FlashcardDirectoryRepository(directoriesDao)
         flashcardRepository = FlashcardRepository(flashcardDao)
-        getDirectoryContent(directoryId)
     }
 
     fun send(event: DirectoryEvent) {
         when (event) {
             is DirectoryEvent.GetDirectoryContent -> getDirectoryContent(event.directoryId)
+            is DirectoryEvent.CardDeleted -> getDirectoryContent(event.directoryId)
         }.exhaustive
     }
 
