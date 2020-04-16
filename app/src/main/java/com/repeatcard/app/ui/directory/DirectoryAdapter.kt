@@ -15,8 +15,7 @@ import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
 import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailActivity
 
-class DirectoryAdapter(private val clickListener: DirectoryListener) :
-    ListAdapter<Flashcard, DirectoryViewHolder>(DirectoryDiffUtil()) {
+class DirectoryAdapter(private val clickListener: DirectoryListener) : ListAdapter<Flashcard, DirectoryViewHolder>(DirectoryDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DirectoryViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -27,9 +26,8 @@ class DirectoryAdapter(private val clickListener: DirectoryListener) :
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
         val flashcard = getItem(position)
         holder.bind(flashcard)
-
-        holder.delete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
-        holder.edit.setOnClickListener { clickListener.itemEdit(flashcard.id) }
+        holder.delete.setOnClickListener { clickListener.itemDeleted(flashcard) }
+        holder.edit.setOnClickListener { clickListener.itemEdit(flashcard) }
         holder.flashcardTitle.setOnClickListener {
             FlashcardDetailActivity.openFlashcardDetailActivity(holder.flashcardTitle.context as Activity, flashcard.id)
         }
@@ -49,14 +47,13 @@ class DirectoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
                 else flashcard.imageUri
             )
             .into(flashcardImage)
-
         flashcardTitle.text = flashcard.title
     }
 }
 
 interface DirectoryListener {
-    fun itemDeleted(id: Int)
-    fun itemEdit(id: Int)
+    fun itemDeleted(flashcard: Flashcard)
+    fun itemEdit(flashcard: Flashcard)
 }
 
 class DirectoryDiffUtil : DiffUtil.ItemCallback<Flashcard>() {

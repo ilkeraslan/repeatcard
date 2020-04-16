@@ -18,8 +18,6 @@ import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
 import com.repeatcard.app.ui.flashcardadd.AddFlashcardScreen
 import com.repeatcard.app.ui.flashcardedit.EditFlashcardScreen
-import com.repeatcard.app.ui.home.FlashcardEvent
-import com.repeatcard.app.ui.home.HomeViewModel
 import com.repeatcard.app.ui.review.FlashcardReviewScreen
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,7 +36,6 @@ class DirectoryScreen : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     private val directoryViewModel: DirectoryViewModel by inject()
-    private val homeViewModel: HomeViewModel by inject()
 
     private lateinit var adapter: DirectoryAdapter
     private lateinit var directoryListener: DirectoryListener
@@ -84,12 +81,12 @@ class DirectoryScreen : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerViewDirectory)
         recyclerView.layoutManager = LinearLayoutManager(this.applicationContext)
         directoryListener = object : DirectoryListener {
-            override fun itemDeleted(id: Int) {
-                alertToDelete(id)
+            override fun itemDeleted(flashcard: Flashcard) {
+                alertToDelete(flashcard)
             }
 
-            override fun itemEdit(id: Int) {
-                EditFlashcardScreen.openScreen(applicationContext, id)
+            override fun itemEdit(flashcard: Flashcard) {
+                EditFlashcardScreen.openScreen(applicationContext, flashcard.id)
             }
         }
         adapter = DirectoryAdapter(directoryListener)
@@ -100,18 +97,8 @@ class DirectoryScreen : AppCompatActivity() {
     private fun observe() {
         directoryViewModel.state.observe(this, Observer { state ->
             when (state) {
-                is DirectoryState.NoContent -> {
-                    adapter.notifyDataSetChanged()
-                    noFlashcardText.visibility = VISIBLE
-                    review.visibility = INVISIBLE
-                }
-                is DirectoryState.HasContent -> {
-                    showFlashcards(state.flashcards)
-                    review.visibility = VISIBLE
-                    review.setOnClickListener {
-                        FlashcardReviewScreen.openReviewScreen(this, this.directoryId)
-                    }
-                }
+                is DirectoryState.NoContent -> showNoContent(state.flashcards)
+                is DirectoryState.HasContent -> showFlashcards(state.flashcards)
             }.exhaustive
         })
     }
@@ -135,29 +122,35 @@ class DirectoryScreen : AppCompatActivity() {
                 directoryId = directoryId,
                 imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
             )
-            homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
             directoryViewModel.send(DirectoryEvent.CardAdded(directoryId, flashcard))
         }
     }
 
     @ExperimentalCoroutinesApi
-    private fun alertToDelete(id: Int) {
+    private fun alertToDelete(flashcard: Flashcard) {
         val dialogBuilder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.DirectoryTheme))
 
         dialogBuilder.setTitle("Are you sure you want to delete this?")
         dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
             dialog.dismiss()
-            homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
-            directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId))
-            adapter.notifyDataSetChanged()
+            directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId, flashcard))
         }
         dialogBuilder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
         dialogBuilder.create().show()
     }
 
-    private fun showFlashcards(flashcards: List<Flashcard>) {
-        noFlashcardText.visibility = INVISIBLE
+    private fun showNoContent(flashcards: List<Flashcard>) {
         adapter.submitList(flashcards)
         adapter.notifyDataSetChanged()
+        noFlashcardText.visibility = VISIBLE
+        review.visibility = INVISIBLE
+    }
+
+    private fun showFlashcards(flashcards: List<Flashcard>) {
+        adapter.submitList(flashcards)
+        adapter.notifyDataSetChanged()
+        noFlashcardText.visibility = INVISIBLE
+        review.visibility = VISIBLE
+        review.setOnClickListener { FlashcardReviewScreen.openReviewScreen(this, this.directoryId) }
     }
 }
