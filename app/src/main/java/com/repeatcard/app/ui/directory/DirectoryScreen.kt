@@ -20,14 +20,10 @@ import com.repeatcard.app.ui.flashcardadd.AddFlashcardScreen
 import com.repeatcard.app.ui.flashcardedit.EditFlashcardScreen
 import com.repeatcard.app.ui.home.FlashcardEvent
 import com.repeatcard.app.ui.home.HomeViewModel
-import com.repeatcard.app.ui.notifications.NotificationEvent
-import com.repeatcard.app.ui.notifications.NotificationsViewModel
 import com.repeatcard.app.ui.review.FlashcardReviewScreen
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.parameter.parametersOf
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -38,11 +34,10 @@ const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
 class DirectoryScreen : AppCompatActivity() {
 
-    private var directoryId = 0
+    private var directoryId = 1
 
     @ExperimentalCoroutinesApi
-    private val notificationsViewModel: NotificationsViewModel by inject()
-    private val directoryViewModel: DirectoryViewModel by viewModel { parametersOf(directoryId) }
+    private val directoryViewModel: DirectoryViewModel by inject()
     private val homeViewModel: HomeViewModel by inject()
 
     private lateinit var adapter: DirectoryAdapter
@@ -65,11 +60,11 @@ class DirectoryScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.directory_layout)
+        observe()
         directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
         directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
         setUpRecyclerView()
         setUpViews()
-        observe()
     }
 
     private fun setUpViews() {
@@ -101,6 +96,7 @@ class DirectoryScreen : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
+    @ExperimentalCoroutinesApi
     private fun observe() {
         directoryViewModel.state.observe(this, Observer { state ->
             when (state) {
@@ -140,8 +136,7 @@ class DirectoryScreen : AppCompatActivity() {
                 imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
             )
             homeViewModel.send(FlashcardEvent.AddFlashcard(flashcard))
-            notificationsViewModel.send(NotificationEvent.AddFlashcard(flashcard))
-            directoryViewModel.send(DirectoryEvent.GetDirectoryContent(this.directoryId))
+            directoryViewModel.send(DirectoryEvent.CardAdded(directoryId, flashcard))
         }
     }
 
@@ -153,7 +148,6 @@ class DirectoryScreen : AppCompatActivity() {
         dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
             dialog.dismiss()
             homeViewModel.send(FlashcardEvent.DeleteFlashcard(id))
-            notificationsViewModel.send(NotificationEvent.DeleteFlashcard(id))
             directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId))
             adapter.notifyDataSetChanged()
         }
