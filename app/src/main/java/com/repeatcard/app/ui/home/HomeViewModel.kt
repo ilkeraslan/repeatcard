@@ -39,10 +39,7 @@ class HomeViewModel(context: Context) : ViewModel() {
 
     fun send(event: FlashcardEvent) {
         when (event) {
-            is FlashcardEvent.AddFlashcard -> {
-                insert(flashcard = event.flashcard)
-                loadContent()
-            }
+            is FlashcardEvent.AddFlashcard -> insert(event.flashcard)
             is FlashcardEvent.AddToDirectory -> addFlashcardToDirectory(event.id, event.directoryId)
             is FlashcardEvent.DeleteAll -> deleteAll()
             is FlashcardEvent.DeleteFlashcard -> deleteFlashcard(event.id)

@@ -8,35 +8,47 @@ import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.directory.FlashcardDirectoryRepository
 import com.repeatcard.app.db.flashcard.Flashcard
 import com.repeatcard.app.db.flashcard.FlashcardRepository
+import com.repeatcard.app.db.notification.Notification
+import com.repeatcard.app.db.notification.NotificationRepository
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.launch
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
 sealed class DirectoryEvent {
     data class GetDirectoryContent(val directoryId: Int) : DirectoryEvent()
+    data class CardDeleted(val directoryId: Int, val flashcard: Flashcard) : DirectoryEvent()
+    data class CardAdded(val directoryId: Int, val flashcard: Flashcard) : DirectoryEvent()
 }
 
 sealed class DirectoryState {
     data class HasContent(val flashcards: List<Flashcard>) : DirectoryState()
-    object NoContent : DirectoryState()
+    data class NoContent(val flashcards: List<Flashcard>) : DirectoryState()
 }
 
-class DirectoryViewModel(context: Context, directoryId: Int) : ViewModel() {
+class DirectoryViewModel(context: Context) : ViewModel() {
 
     private val directoryRepository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
+    private val logsRepository: NotificationRepository
     var state: MutableLiveData<DirectoryState> = MutableLiveData()
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(context).directoryDao()
         val flashcardDao = FlashcardDatabase.getDatabase(context).flashcardDao()
+        val logsDao = FlashcardDatabase.getDatabase(context).notificationsDao()
         directoryRepository = FlashcardDirectoryRepository(directoriesDao)
         flashcardRepository = FlashcardRepository(flashcardDao)
-        getDirectoryContent(directoryId)
+        logsRepository = NotificationRepository(logsDao)
     }
 
     fun send(event: DirectoryEvent) {
         when (event) {
             is DirectoryEvent.GetDirectoryContent -> getDirectoryContent(event.directoryId)
+            is DirectoryEvent.CardAdded -> addCard(event.directoryId, event.flashcard)
+            is DirectoryEvent.CardDeleted -> deleteCard(event.directoryId, event.flashcard)
         }.exhaustive
     }
 
@@ -44,9 +56,32 @@ class DirectoryViewModel(context: Context, directoryId: Int) : ViewModel() {
         val directoryContent = flashcardRepository.getFlashcardsForDirectory(directoryId)
 
         if (directoryContent.isEmpty()) {
-            state.postValue(DirectoryState.NoContent)
+            state.postValue(DirectoryState.NoContent(listOf()))
         } else {
             state.postValue(DirectoryState.HasContent(directoryContent))
         }
+    }
+
+    private fun addCard(directoryId: Int, flashcard: Flashcard) = viewModelScope.launch {
+        flashcardRepository.insert(flashcard)
+        logsRepository.insertNotification(createNotification("Added new flashcard"))
+        getDirectoryContent(directoryId)
+    }
+
+    private fun deleteCard(directoryId: Int, flashcard: Flashcard) = viewModelScope.launch {
+        flashcardRepository.deleteFlashcard(flashcard.id)
+        logsRepository.insertNotification(createNotification("Deleted flashcard"))
+        getDirectoryContent(directoryId)
+    }
+
+    private fun createNotification(title: String): Notification {
+        return Notification(
+            notificationId = 0,
+            notificationTitle = title,
+            notificationType = "flashcard",
+            creationDate = OffsetDateTime.now().format(
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM).withZone(ZoneId.systemDefault())
+            )
+        )
     }
 }
