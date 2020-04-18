@@ -8,8 +8,14 @@ import com.repeatcard.app.db.FlashcardDatabase
 import com.repeatcard.app.db.directory.Directory
 import com.repeatcard.app.db.directory.FlashcardDirectoryRepository
 import com.repeatcard.app.db.flashcard.FlashcardRepository
+import com.repeatcard.app.db.notification.Notification
+import com.repeatcard.app.db.notification.NotificationRepository
 import com.repeatcard.app.ui.util.exhaustive
 import kotlinx.coroutines.launch
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
 const val DEFAULT_DIRECTORY_NAME = "Miscellaneous"
 
@@ -28,15 +34,17 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
 
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
+    private val logsRepository: NotificationRepository
     val allDirectories = MutableLiveData<List<Directory>>()
     var directoriesState: MutableLiveData<DirectoriesState> = MutableLiveData()
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(context).directoryDao()
         val flashcardDao = FlashcardDatabase.getDatabase(context).flashcardDao()
+        val logsDao = FlashcardDatabase.getDatabase(context).notificationsDao()
         repository = FlashcardDirectoryRepository(directoriesDao)
         flashcardRepository = FlashcardRepository(flashcardDao)
-        loadContent()
+        logsRepository = NotificationRepository(logsDao)
     }
 
     fun send(event: DirectoriesEvent) {
@@ -57,6 +65,7 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
             }
         }
         repository.deleteDirectory(id)
+        logsRepository.insertNotification(createNotification("Deleted directory"))
         loadContent()
     }
 
@@ -68,7 +77,10 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
             if (existingDirectory.title == directory.title) canAddDirectory = false
         }
 
-        if (canAddDirectory) repository.addDirectory(directory)
+        if (canAddDirectory) {
+            repository.addDirectory(directory)
+            logsRepository.insertNotification(createNotification("Added directory"))
+        }
         loadContent()
     }
 
@@ -82,5 +94,16 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
             allDirectories.postValue(repository.getDirectories())
         }
         directoriesState.postValue(DirectoriesState.Success(repository.getDirectories()))
+    }
+
+    private fun createNotification(title: String): Notification {
+        return Notification(
+            notificationId = 0,
+            notificationTitle = title,
+            notificationType = "directory",
+            creationDate = OffsetDateTime.now().format(
+                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM).withZone(ZoneId.systemDefault())
+            )
+        )
     }
 }

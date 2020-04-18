@@ -129,7 +129,6 @@ class DirectoryScreen : AppCompatActivity() {
     @ExperimentalCoroutinesApi
     private fun alertToDelete(flashcard: Flashcard) {
         val dialogBuilder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.DirectoryTheme))
-
         dialogBuilder.setTitle("Are you sure you want to delete this?")
         dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
             dialog.dismiss()
