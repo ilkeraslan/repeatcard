@@ -64,6 +64,12 @@ class DirectoryScreen : AppCompatActivity() {
         setUpViews()
     }
 
+    @ExperimentalCoroutinesApi
+    override fun onResume() {
+        super.onResume()
+        directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
+    }
+
     private fun setUpViews() {
         noFlashcardText = findViewById(R.id.noFlashcardText)
         addFlashcard = findViewById(R.id.add_flashcard_to_directory)

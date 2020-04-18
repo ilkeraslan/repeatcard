@@ -47,7 +47,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.state.observe(this, Observer { state ->
             when (state) {
-                is FlashcardDetailState.Error -> showError(state.error)
+                is FlashcardDetailState.Error -> showError()
                 is FlashcardDetailState.Success -> showFlashcard(state.flashcard)
             }.exhaustive
         })
@@ -73,7 +73,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
             .into(detailImage)
     }
 
-    private fun showError(error: Throwable) {
+    private fun showError() {
         Timber.e(Error())
         Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
     }
