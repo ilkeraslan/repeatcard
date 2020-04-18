@@ -15,11 +15,12 @@ import com.bumptech.glide.Glide
 import com.repeatcard.app.R
 import com.repeatcard.app.ui.util.GalleryPicker
 import com.repeatcard.app.ui.util.exhaustive
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class EditFlashcardScreen : AppCompatActivity() {
 
-    private lateinit var editFlashcardViewModel: EditFlashcardViewModel
+    private val editFlashcardViewModel: EditFlashcardViewModel by inject()
     private lateinit var flashcardTitle: TextView
     private lateinit var flashcardDescription: TextView
     private lateinit var flashcardTitleEdit: EditText
@@ -28,6 +29,7 @@ class EditFlashcardScreen : AppCompatActivity() {
     private lateinit var flashcardImage: ImageView
     private lateinit var tapToAdd: TextView
     private var imageUri: String? = null
+    private var flashcardId = 0
 
     companion object {
         private const val FLASHCARD_ID = "FLASHCARD_ID"
@@ -37,7 +39,6 @@ class EditFlashcardScreen : AppCompatActivity() {
             val intent = Intent(startingContext, EditFlashcardScreen::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 .putExtra(FLASHCARD_ID, flashcardId)
-
             startingContext.startActivity(intent)
         }
     }
@@ -45,13 +46,10 @@ class EditFlashcardScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_flashcard)
-
-        editFlashcardViewModel = EditFlashcardViewModel(this.application)
-        setViews()
         observe()
-
-        val flashcardId = intent.extras!!.getInt(FLASHCARD_ID)
+        flashcardId = intent.extras!!.getInt(FLASHCARD_ID)
         editFlashcardViewModel.send(FlashcardEditEvent.GetCurrentValues(flashcardId))
+        setViews()
     }
 
     private fun setViews() {
@@ -75,10 +73,10 @@ class EditFlashcardScreen : AppCompatActivity() {
                     flashcardSaveButton.setOnClickListener {
                         editFlashcardViewModel.send(
                             FlashcardEditEvent.Edit(
-                                state.flashcard.id,
-                                flashcardTitleEdit.text.toString(),
-                                flashcardDescriptionEdit.text.toString(),
-                                imageUri
+                                id = state.flashcard.id,
+                                title = flashcardTitleEdit.text.toString(),
+                                description = flashcardDescriptionEdit.text.toString(),
+                                imageUri = imageUri
                             )
                         )
                     }
@@ -92,7 +90,6 @@ class EditFlashcardScreen : AppCompatActivity() {
         flashcardTitleEdit.setText(state.flashcard.title)
         flashcardTitleEdit.selectAll()
         flashcardTitleEdit.requestFocus()
-
         flashcardDescriptionEdit.setText(
             if (state.flashcard.description == "No description") null
             else state.flashcard.description
@@ -111,10 +108,7 @@ class EditFlashcardScreen : AppCompatActivity() {
         if (requestCode == SELECT_IMAGE_INTENT && resultCode == Activity.RESULT_OK && data != null) {
             imageUri = data.data.toString()
             Timber.d(imageUri.toString())
-
-            // Load the image
             Glide.with(this).load(imageUri).into(flashcardImage)
-
             tapToAdd.visibility = INVISIBLE
             flashcardImage.background = null
         }
