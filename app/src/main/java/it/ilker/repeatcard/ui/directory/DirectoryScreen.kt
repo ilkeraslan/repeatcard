@@ -14,12 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.repeatcard.app.ui.util.exhaustive
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcardadd.AddFlashcardScreen
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
 import it.ilker.repeatcard.ui.review.FlashcardReviewScreen
+import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 import org.threeten.bp.OffsetDateTime

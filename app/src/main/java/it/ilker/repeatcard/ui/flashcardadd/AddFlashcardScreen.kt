@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import it.ilker.repeatcard.ui.util.GalleryPicker
 import it.ilker.repeatcard.R
+import it.ilker.repeatcard.ui.util.GalleryPicker
 import timber.log.Timber
 
 const val SELECT_IMAGE_INTENT = 2000

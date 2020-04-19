@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.quiz
+package it.ilker.repeatcard.ui.quiz
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.models.question.QuestionGenerator
-import com.repeatcard.app.ui.util.exhaustive
+import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.launch
 
 const val MIN_CARD_NUMBER_FOR_QUIZ = 4

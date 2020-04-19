@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui
+package it.ilker.repeatcard.ui
 
 import android.content.Context
 import it.ilker.repeatcard.ui.directory.DirectoryScreen

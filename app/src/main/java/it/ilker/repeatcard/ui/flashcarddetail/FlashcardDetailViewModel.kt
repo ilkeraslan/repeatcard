@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.flashcarddetail
+package it.ilker.repeatcard.ui.flashcarddetail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
-import com.repeatcard.app.ui.util.exhaustive
+import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.launch
 
 sealed class FlashcardDetailEvent {

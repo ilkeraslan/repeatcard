@@ -12,19 +12,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
-import com.repeatcard.app.ui.util.CROPPED_IMAGE_NAME
-import com.repeatcard.app.ui.util.GALLERY_IMAGE_NAME
-import com.repeatcard.app.ui.util.ImageSaver
-import com.repeatcard.app.ui.util.InternalImageSaver
 import com.yalantis.ucrop.UCrop
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import it.ilker.repeatcard.R
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import timber.log.Timber
 
 const val GALLERY_IMAGE_URI = "it.ilker.repeatcard.GALLERY_URI"
 

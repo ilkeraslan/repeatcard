@@ -12,12 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.Gson
-import com.repeatcard.app.ui.quiz.QuizEvent
-import com.repeatcard.app.ui.quiz.QuizState
-import com.repeatcard.app.ui.quiz.QuizViewModel
-import it.ilker.repeatcard.ui.results.ResultsScreen
-import com.repeatcard.app.ui.util.exhaustive
 import it.ilker.repeatcard.R
+import it.ilker.repeatcard.ui.results.ResultsScreen
+import it.ilker.repeatcard.ui.util.exhaustive
 import org.koin.android.ext.android.inject
 
 class QuizScreen : AppCompatActivity() {

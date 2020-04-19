@@ -9,12 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
+import it.ilker.repeatcard.R
+import it.ilker.repeatcard.ui.directory.BUNDLE_TAG_DIRECTORY_ID
 import it.ilker.repeatcard.ui.directory.DirectoryEvent
 import it.ilker.repeatcard.ui.directory.DirectoryState
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
-import com.repeatcard.app.ui.util.exhaustive
-import it.ilker.repeatcard.R
-import it.ilker.repeatcard.ui.directory.BUNDLE_TAG_DIRECTORY_ID
+import it.ilker.repeatcard.ui.util.exhaustive
 import org.koin.android.ext.android.inject
 
 class FlashcardReviewScreen : AppCompatActivity() {

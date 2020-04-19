@@ -8,12 +8,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.ui.question.QuestionDetailScreen
-import com.repeatcard.app.ui.results.ResultEvent
-import com.repeatcard.app.ui.results.ResultState
-import com.repeatcard.app.ui.results.ResultsViewModel
-import it.ilker.repeatcard.R
 import timber.log.Timber
 
 class ResultsScreen : AppCompatActivity() {

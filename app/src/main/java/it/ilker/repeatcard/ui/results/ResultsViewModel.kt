@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.results
+package it.ilker.repeatcard.ui.results
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

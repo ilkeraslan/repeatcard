@@ -10,12 +10,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import it.ilker.repeatcard.db.flashcard.Flashcard
-import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailEvent
-import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailState
-import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailViewModel
-import com.repeatcard.app.ui.util.exhaustive
 import it.ilker.repeatcard.R
+import it.ilker.repeatcard.db.flashcard.Flashcard
+import it.ilker.repeatcard.ui.util.exhaustive
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 

@@ -10,8 +10,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import it.ilker.repeatcard.db.directory.Directory
 import it.ilker.repeatcard.R
+import it.ilker.repeatcard.db.directory.Directory
 
 class DirectoriesAdapter(private val clickListener: DirectoriesListener) :
     ListAdapter<Directory, DirectoriesViewHolder>(DirectoriesDiffUtil()) {

@@ -12,12 +12,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.repeatcard.app.ui.flashcardedit.EditFlashcardViewModel
-import com.repeatcard.app.ui.flashcardedit.FlashcardEditEvent
-import com.repeatcard.app.ui.flashcardedit.FlashcardEditState
-import com.repeatcard.app.ui.util.exhaustive
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.util.GalleryPicker
+import it.ilker.repeatcard.ui.util.exhaustive
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 

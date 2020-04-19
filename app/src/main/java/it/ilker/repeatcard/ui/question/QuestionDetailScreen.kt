@@ -8,11 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
-import it.ilker.repeatcard.models.question.Question
-import com.repeatcard.app.ui.question.QuestionEvent
-import com.repeatcard.app.ui.question.QuestionState
-import com.repeatcard.app.ui.question.QuestionViewModel
 import it.ilker.repeatcard.R
+import it.ilker.repeatcard.models.question.Question
 
 class QuestionDetailScreen : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.question
+package it.ilker.repeatcard.ui.question
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

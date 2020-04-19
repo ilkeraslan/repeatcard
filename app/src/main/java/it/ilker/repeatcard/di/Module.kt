@@ -1,15 +1,15 @@
 package it.ilker.repeatcard.di
 
-import com.repeatcard.app.ui.AppNavigator
+import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.directories.DirectoriesViewModel
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
-import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailViewModel
-import com.repeatcard.app.ui.flashcardedit.EditFlashcardViewModel
+import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailViewModel
+import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardViewModel
 import it.ilker.repeatcard.ui.home.HomeViewModel
 import it.ilker.repeatcard.ui.logs.LogsViewModel
-import com.repeatcard.app.ui.question.QuestionViewModel
-import com.repeatcard.app.ui.quiz.QuizViewModel
-import com.repeatcard.app.ui.results.ResultsViewModel
+import it.ilker.repeatcard.ui.question.QuestionViewModel
+import it.ilker.repeatcard.ui.quiz.QuizViewModel
+import it.ilker.repeatcard.ui.results.ResultsViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel

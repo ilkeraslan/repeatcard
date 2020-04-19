@@ -8,12 +8,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.repeatcard.app.ui.AppNavigator
-import com.repeatcard.app.ui.quiz.QuizEvent
-import com.repeatcard.app.ui.quiz.QuizState
-import com.repeatcard.app.ui.quiz.QuizViewModel
-import com.repeatcard.app.ui.util.exhaustive
 import it.ilker.repeatcard.R
+import it.ilker.repeatcard.ui.AppNavigator
+import it.ilker.repeatcard.ui.util.exhaustive
 import org.koin.android.ext.android.inject
 
 class QuizFragment : Fragment() {

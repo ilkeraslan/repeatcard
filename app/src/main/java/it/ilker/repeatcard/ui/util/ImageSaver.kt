@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.util
+package it.ilker.repeatcard.ui.util
 
 import android.content.Context
 import android.graphics.Bitmap
