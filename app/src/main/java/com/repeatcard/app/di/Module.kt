@@ -6,7 +6,7 @@ import com.repeatcard.app.ui.directory.DirectoryViewModel
 import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailViewModel
 import com.repeatcard.app.ui.flashcardedit.EditFlashcardViewModel
 import com.repeatcard.app.ui.home.HomeViewModel
-import com.repeatcard.app.ui.notifications.NotificationsViewModel
+import com.repeatcard.app.ui.logs.LogsViewModel
 import com.repeatcard.app.ui.question.QuestionViewModel
 import com.repeatcard.app.ui.quiz.QuizViewModel
 import com.repeatcard.app.ui.results.ResultsViewModel
@@ -30,7 +30,7 @@ val viewModels = module {
     viewModel { FlashcardDetailViewModel(get()) }
     viewModel { EditFlashcardViewModel(get()) }
     viewModel { HomeViewModel(get()) }
-    viewModel { NotificationsViewModel(get()) }
+    viewModel { LogsViewModel(get()) }
     viewModel { QuestionViewModel(get()) }
     viewModel { QuizViewModel(get()) }
     viewModel { ResultsViewModel(get()) }

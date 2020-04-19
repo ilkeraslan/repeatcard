@@ -1,4 +1,4 @@
-package com.repeatcard.app.ui.notifications
+package com.repeatcard.app.ui.logs
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,34 +11,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.repeatcard.app.R
 import com.repeatcard.app.db.notification.Notification
 
-class NotificationsAdapter(private val clickListener: NotificationsListener) : ListAdapter<Notification, NotificationsViewHolder>(NotificationsDiffUtil()) {
+class LogsAdapter(private val clickListener: LogsListener) : ListAdapter<Notification, LogsViewHolder>(LogsDiffUtil()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationsViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.notification_row, parent, false)
-        return NotificationsViewHolder(cellForRow)
+        return LogsViewHolder(cellForRow)
     }
 
-    override fun onBindViewHolder(holder: NotificationsViewHolder, position: Int) {
-        val notification = getItem(position)
-        holder.title.text = notification.notificationTitle
-        holder.date.text = notification.creationDate
-
-        holder.cancel.setOnClickListener { clickListener.itemDeleted(notification.notificationId) }
+    override fun onBindViewHolder(holder: LogsViewHolder, position: Int) {
+        val log = getItem(position)
+        holder.title.text = log.notificationTitle
+        holder.date.text = log.creationDate
+        holder.cancel.setOnClickListener { clickListener.itemDeleted(log.notificationId) }
     }
 }
 
-class NotificationsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class LogsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     val cancel: ImageView = view.findViewById(R.id.imageView_notification_row)
     val title: TextView = view.findViewById(R.id.titleText_notification_row)
     val date: TextView = view.findViewById(R.id.dateText_notification_row)
 }
 
-interface NotificationsListener {
+interface LogsListener {
     fun itemDeleted(id: Int)
 }
 
-class NotificationsDiffUtil : DiffUtil.ItemCallback<Notification>() {
+class LogsDiffUtil : DiffUtil.ItemCallback<Notification>() {
     override fun areItemsTheSame(oldItem: Notification, newItem: Notification): Boolean {
         return oldItem.notificationId == newItem.notificationId
     }
