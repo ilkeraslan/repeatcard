@@ -1,11 +1,10 @@
-package com.repeatcard.app.ui.notifications
+package com.repeatcard.app.ui.logs
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,13 +15,13 @@ import com.repeatcard.app.db.notification.Notification
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
-class NotificationsFragment : Fragment() {
+class LogsScreen : Fragment() {
 
     @ExperimentalCoroutinesApi
-    private val viewModel: NotificationsViewModel by inject()
+    private val viewModel: LogsViewModel by inject()
     private lateinit var recyclerView: RecyclerView
-    private lateinit var notificationsAdapter: NotificationsAdapter
-    private lateinit var notificationsListener: NotificationsListener
+    private lateinit var logsAdapter: LogsAdapter
+    private lateinit var logsListener: LogsListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.notifications_fragment, container, false)
@@ -31,8 +30,8 @@ class NotificationsFragment : Fragment() {
     @ExperimentalCoroutinesApi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         observe()
+        viewModel.send(LogEvent.Load)
         setUpRecyclerView()
         setUpViews()
     }
@@ -41,13 +40,13 @@ class NotificationsFragment : Fragment() {
     private fun setUpRecyclerView() {
         recyclerView = requireActivity().findViewById(R.id.recyclerView_notifications)
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        notificationsListener = object : NotificationsListener {
+        logsListener = object : LogsListener {
             override fun itemDeleted(id: Int) {
                 alertToDelete(id)
             }
         }
-        notificationsAdapter = NotificationsAdapter(notificationsListener)
-        recyclerView.adapter = notificationsAdapter
+        logsAdapter = LogsAdapter(logsListener)
+        recyclerView.adapter = logsAdapter
     }
 
     @ExperimentalCoroutinesApi
@@ -60,49 +59,44 @@ class NotificationsFragment : Fragment() {
     private fun observe() {
         viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is NotificationState.Error -> showError()
-                is NotificationState.Success -> showNotifications(state.notifications)
+                is LogState.Error -> showError()
+                is LogState.Success -> showLogs(state.notifications)
             }
         })
     }
 
     private fun showError() {
-        notificationsAdapter.notifyDataSetChanged()
-        Toast.makeText(context, "No notification yet!", Toast.LENGTH_SHORT).show()
+        logsAdapter.submitList(listOf())
+        logsAdapter.notifyDataSetChanged()
     }
 
     @ExperimentalCoroutinesApi
-    private fun showNotifications(notifications: List<Notification>) {
-        notificationsAdapter.submitList(notifications)
+    private fun showLogs(notifications: List<Notification>) {
+        logsAdapter.submitList(notifications)
+        logsAdapter.notifyDataSetChanged()
     }
 
     @ExperimentalCoroutinesApi
     private fun alertToDelete() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-
         dialogBuilder.setTitle("Are you sure you want to delete ALL?")
-
-        dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            viewModel.send(NotificationEvent.DeleteAll)
-            Toast.makeText(context, "Deleted all.", Toast.LENGTH_SHORT).show()
+        dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
+            dialog.dismiss()
+            viewModel.send(LogEvent.DeleteAll)
         }
-
-        dialogBuilder.setNegativeButton("No") { dialog, which -> viewModel.send(NotificationEvent.Load) }
+        dialogBuilder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
         dialogBuilder.create().show()
     }
 
     @ExperimentalCoroutinesApi
     private fun alertToDelete(id: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
-
         dialogBuilder.setTitle("Delete this notification?")
-
-        dialogBuilder.setPositiveButton("Yes") { dialog, which ->
-            viewModel.send(NotificationEvent.DeleteNotification(id))
-            Toast.makeText(context, "Deleted notification.", Toast.LENGTH_SHORT).show()
+        dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
+            dialog.dismiss()
+            viewModel.send(LogEvent.DeleteLog(id))
         }
-
-        dialogBuilder.setNegativeButton("No") { dialog, which -> viewModel.send(NotificationEvent.Load) }
+        dialogBuilder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
         dialogBuilder.create().show()
     }
 }

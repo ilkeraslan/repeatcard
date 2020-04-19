@@ -1,16 +1,17 @@
 package com.repeatcard.app.ui.home
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.repeatcard.app.R
 import com.repeatcard.app.db.flashcard.Flashcard
-import com.repeatcard.app.ui.flashcarddetail.FlashcardDetailActivity
 
 class HomeAdapter(private val clickListener: HomeListener) : ListAdapter<Flashcard, HomeViewHolder>(FlashcardsDiffUtil()) {
 
@@ -22,32 +23,29 @@ class HomeAdapter(private val clickListener: HomeListener) : ListAdapter<Flashca
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val flashcard = getItem(position)
-        holder.flashcard.text = flashcard.title
-
-        holder.flashcard.setOnClickListener {
-            FlashcardDetailActivity.openFlashcardDetailActivity(
-                holder.flashcard.context as Activity,
-                flashcard.id
-            )
-        }
-
-        holder.addFlashcardToDirectory.setOnClickListener {
-            clickListener.addFlashcardToDirectory(flashcard.id)
-        }
-
-        holder.flashcardDelete.setOnClickListener { clickListener.itemDeleted(flashcard.id) }
+        holder.bind(flashcard)
+        holder.layout.setOnClickListener { clickListener.cardClicked(flashcard) }
     }
 }
 
 class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val flashcard: TextView = view.findViewById(R.id.textViewHomeRow)
-    val addFlashcardToDirectory: View = view.findViewById(R.id.addToDirectoryButtonHomeRow)
-    val flashcardDelete: View = view.findViewById(R.id.deleteButtonHomeRow)
+    val layout: ConstraintLayout = view.findViewById(R.id.home_row)
+    private val flashcardTitle: TextView = view.findViewById(R.id.textViewHomeRow)
+    private val flashcardImage: ImageView = view.findViewById(R.id.imageViewHomeRow)
+
+    fun bind(flashcard: Flashcard) {
+        Glide.with(this.itemView.context)
+            .load(
+                if (flashcard.imageUri.isNullOrEmpty()) this.itemView.context.getDrawable(R.drawable.photography)
+                else flashcard.imageUri
+            )
+            .into(flashcardImage)
+        flashcardTitle.text = flashcard.title
+    }
 }
 
 interface HomeListener {
-    fun itemDeleted(id: Int)
-    fun addFlashcardToDirectory(id: Int)
+    fun cardClicked(flashcard: Flashcard)
 }
 
 class FlashcardsDiffUtil : DiffUtil.ItemCallback<Flashcard>() {

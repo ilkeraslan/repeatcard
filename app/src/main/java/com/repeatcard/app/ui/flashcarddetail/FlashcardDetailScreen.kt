@@ -1,6 +1,6 @@
 package com.repeatcard.app.ui.flashcarddetail
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -29,9 +29,9 @@ class FlashcardDetailActivity : AppCompatActivity() {
     private var flashcardId = 0
 
     companion object {
-        fun openFlashcardDetailActivity(startingActivity: Activity, flashcardId: Int) {
-            val intent = Intent(startingActivity, FlashcardDetailActivity::class.java).putExtra(BUNDLE_TAG_FLASHCARD_ID, flashcardId)
-            startingActivity.startActivity(intent)
+        fun openFlashcardDetailActivity(context: Context, flashcardId: Int) {
+            val intent = Intent(context, FlashcardDetailActivity::class.java).putExtra(BUNDLE_TAG_FLASHCARD_ID, flashcardId)
+            context.startActivity(intent)
         }
     }
 

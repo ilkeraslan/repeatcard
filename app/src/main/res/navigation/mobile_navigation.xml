@@ -48,7 +48,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.repeatcard.app.ui.notifications.NotificationsFragment"
+        android:name="com.repeatcard.app.ui.logs.LogsScreen"
         android:label="@string/logs"
         tools:layout="@layout/notifications_fragment"/>
 
