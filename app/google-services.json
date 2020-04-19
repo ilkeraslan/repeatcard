@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "211066483779",
+    "firebase_url": "https://repeatcard.firebaseio.com",
+    "project_id": "repeatcard",
+    "storage_bucket": "repeatcard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211066483779:android:dbacde9e35fe312236d0f6",
+        "android_client_info": {
+          "package_name": "it.ilker.repeatcard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "211066483779-g9ddcrdeh58irs40i5iu6teefa9i31ks.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.ilker.repeatcard",
+            "certificate_hash": "386eb4a55a81038db41a47e4c94b1e4d60de9a06"
+          }
+        },
+        {
+          "client_id": "211066483779-st07k8eshamuufqddk9lvn2sf3tbdeo1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnU2UepsmHkDn7laJklb-1NxsoqmF4wco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "211066483779-st07k8eshamuufqddk9lvn2sf3tbdeo1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

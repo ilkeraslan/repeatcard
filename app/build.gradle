@@ -2,7 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: "org.sonarqube"
+apply plugin: 'org.sonarqube'
+apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.gms.google-services'
 
 apply from: '../scripts/detekt_setup.gradle'
 apply from: '../scripts/jacoco_setup.gradle'
@@ -26,11 +28,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        debug {
+/*        debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "[DEV] Repeatcard"
             testCoverageEnabled true
-        }
+        }*/
         release {
             resValue "string", "app_name", "Repeatcard"
             minifyEnabled false
@@ -91,6 +93,11 @@ dependencies {
     // Glide
     implementation Libs.glide
     kapt Libs.glide
+
+    // Firebase
+    implementation Libs.firebase_ads
+    implementation Libs.firebase_analytics
+    implementation Libs.firebase_crashlytics
 }
 
 sonarqube {
