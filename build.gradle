@@ -11,6 +11,8 @@ buildscript {
     }
     dependencies {
         classpath BuildLibs.detekt
+        classpath BuildLibs.firebase_crashlytics
+        classpath BuildLibs.google_services
         classpath BuildLibs.gradle_android
         classpath BuildLibs.gradle_versions
         classpath BuildLibs.kotlin_plugin
