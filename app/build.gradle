@@ -28,11 +28,11 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-/*        debug {
+        debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "[DEV] Repeatcard"
             testCoverageEnabled true
-        }*/
+        }
         release {
             resValue "string", "app_name", "Repeatcard"
             minifyEnabled false
