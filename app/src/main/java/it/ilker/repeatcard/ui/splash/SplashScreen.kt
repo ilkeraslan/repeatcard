@@ -13,6 +13,10 @@ class SplashScreen : AppCompatActivity() {
 
     private val navigator: AppNavigator by inject()
 
+    companion object {
+        private const val DELAY = 2000L
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
@@ -24,6 +28,6 @@ class SplashScreen : AppCompatActivity() {
         Handler().postDelayed(Runnable {
             navigator.goToMain()
             finish()
-        }, 2000L)
+        }, Companion.DELAY)
     }
 }
