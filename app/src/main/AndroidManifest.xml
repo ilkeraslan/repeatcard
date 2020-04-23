@@ -31,12 +31,15 @@
         <activity
             android:name=".ui.review.FlashcardReviewScreen"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.main.MainScreen">
+        <activity
+            android:name=".ui.splash.SplashScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.main.MainScreen" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait" />
