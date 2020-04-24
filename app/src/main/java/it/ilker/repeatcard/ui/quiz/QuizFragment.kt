@@ -3,15 +3,18 @@ package it.ilker.repeatcard.ui.quiz
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.exhaustive
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 
 class QuizFragment : Fragment() {
 
@@ -19,6 +22,7 @@ class QuizFragment : Fragment() {
     private val navigator: AppNavigator by inject()
 
     private lateinit var startQuiz: Button
+    private lateinit var feedbackText: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.quiz_fragment, container, false)
@@ -26,10 +30,9 @@ class QuizFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.send(QuizEvent.Load)
-        setUpViews()
         observe()
+        setUpViews(view)
+        viewModel.send(QuizEvent.Load)
     }
 
     override fun onResume() {
@@ -37,27 +40,25 @@ class QuizFragment : Fragment() {
         observe()
     }
 
-    private fun setUpViews() {
-        startQuiz = requireActivity().findViewById(R.id.startQuiz)
+    private fun setUpViews(view: View) {
+        startQuiz = view.findViewById(R.id.startQuiz)
+        feedbackText = view.findViewById(R.id.quizFeedbackText)
     }
 
     private fun observe() {
         viewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
-                is QuizState.Error -> {
-                    startQuiz.setOnClickListener {
-                        Toast.makeText(this.context, "You should have 4 Flashcards with a title-description-image.", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                is QuizState.Error -> showError()
                 is QuizState.Success -> {
+                    feedbackText.visibility = INVISIBLE
                     startQuiz.setOnClickListener { navigator.goToQuiz() }
                 }
-                is QuizState.Results -> {
-                    startQuiz.setOnClickListener {
-                        Toast.makeText(this.context, "Results", Toast.LENGTH_SHORT).show()
-                    }
-                }
+                is QuizState.Results -> Timber.d("Results")
             }.exhaustive
         })
+    }
+
+    private fun showError() {
+        feedbackText.visibility = VISIBLE
     }
 }
