@@ -52,7 +52,7 @@ class BaseScreen : Fragment() {
 
         when (index) {
             SCREEN_1 -> setView(text, resources.getColor(R.color.colorGreen))
-            SCREEN_2 -> setView(text, resources.getColor(R.color.colorYellow))
+            SCREEN_2 -> setView(text, resources.getColor(R.color.colorBlue))
             SCREEN_3 -> setView(text, resources.getColor(R.color.colorPurple))
             SCREEN_4 -> setView(text, resources.getColor(R.color.colorRed))
             SCREEN_5 -> setView(text, resources.getColor(R.color.colorPrimaryDark))

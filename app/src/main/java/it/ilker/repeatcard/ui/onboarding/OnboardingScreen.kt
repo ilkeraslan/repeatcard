@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.button.MaterialButton
 import com.jem.liquidswipe.LiquidSwipeViewPager
 import com.rd.PageIndicatorView
 import it.ilker.repeatcard.R
@@ -19,9 +19,9 @@ class OnboardingScreen : AppCompatActivity() {
     private val navigator: AppNavigator by inject()
 
     private lateinit var adapter: OnboardingAdapter
-    private lateinit var next: Button
+    private lateinit var next: MaterialButton
     private lateinit var pageIndicator: PageIndicatorView
-    private lateinit var previous: Button
+    private lateinit var previous: MaterialButton
     private lateinit var viewPager: LiquidSwipeViewPager
 
     companion object {
