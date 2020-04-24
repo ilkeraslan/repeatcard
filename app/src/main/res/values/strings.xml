@@ -29,4 +29,6 @@
     <string name="latest_cards">Latest cards</string>
     <string name="splash_image">Splash Image</string>
     <string name="repeatcard">REPEATCARD by @Dement0</string>
+    <string name="previous">PREVIOUS</string>
+    <string name="next">NEXT</string>
 </resources>
