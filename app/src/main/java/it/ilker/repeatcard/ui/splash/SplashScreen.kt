@@ -26,8 +26,8 @@ class SplashScreen : AppCompatActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         Handler().postDelayed(Runnable {
-            navigator.goToMain()
+            navigator.goToOnboarding()
             finish()
-        }, Companion.DELAY)
+        }, DELAY)
     }
 }

@@ -27,9 +27,9 @@
         app:piv_interactiveAnimation="true"
         app:piv_selectedColor="@color/colorPurple"
         app:piv_unselectedColor="@color/colorGrey"
-        app:piv_viewPager="@id/onboardingViewpager"/>
+        app:piv_viewPager="@id/onboardingViewpager" />
 
-    <TextView
+    <Button
         android:id="@+id/onboardingPrevious"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <Button
         android:id="@+id/onboardingNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
