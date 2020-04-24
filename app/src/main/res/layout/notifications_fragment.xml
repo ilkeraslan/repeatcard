@@ -30,5 +30,6 @@
         android:background="@color/colorRed"
         android:text="@string/delete_all"
         android:textColor="@color/colorWhite"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
