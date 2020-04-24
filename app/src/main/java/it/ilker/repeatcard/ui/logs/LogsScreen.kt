@@ -3,6 +3,8 @@ package it.ilker.repeatcard.ui.logs
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -22,18 +24,19 @@ class LogsScreen : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var logsAdapter: LogsAdapter
     private lateinit var logsListener: LogsListener
+    private lateinit var delete: Button
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.notifications_fragment, container, false)
     }
 
     @ExperimentalCoroutinesApi
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         observe()
         viewModel.send(LogEvent.Load)
+        setUpViews(view)
         setUpRecyclerView()
-        setUpViews()
     }
 
     @ExperimentalCoroutinesApi
@@ -50,9 +53,9 @@ class LogsScreen : Fragment() {
     }
 
     @ExperimentalCoroutinesApi
-    private fun setUpViews() {
-        val deleteAll: Button = requireActivity().findViewById(R.id.deleteAllNotifications)
-        deleteAll.setOnClickListener { alertToDelete() }
+    private fun setUpViews(view: View) {
+        delete = view.findViewById(R.id.deleteAllNotifications)
+        delete.setOnClickListener { alertToDelete() }
     }
 
     @ExperimentalCoroutinesApi
@@ -66,12 +69,14 @@ class LogsScreen : Fragment() {
     }
 
     private fun showError() {
+        delete.visibility = INVISIBLE
         logsAdapter.submitList(listOf())
         logsAdapter.notifyDataSetChanged()
     }
 
     @ExperimentalCoroutinesApi
     private fun showLogs(notifications: List<Notification>) {
+        delete.visibility = VISIBLE
         logsAdapter.submitList(notifications)
         logsAdapter.notifyDataSetChanged()
     }
