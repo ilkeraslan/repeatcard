@@ -49,6 +49,9 @@
         <activity android:name=".ui.results.ResultsScreen" />
         <activity android:name=".ui.question.QuestionDetailScreen" />
         <activity android:name=".ui.flashcardedit.EditFlashcardScreen" />
+        <activity
+            android:name=".ui.onboarding.OnboardingScreen"
+            android:theme="@style/Theme.MaterialComponents"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"

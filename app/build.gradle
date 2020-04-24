@@ -55,11 +55,12 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api Libs.coroutines
     implementation Libs.androidx_appcompat
     implementation Libs.androidx_kotlin_extensions
     implementation Libs.androidx_constraint
     implementation Libs.androidx_legacy_support
-    api Libs.coroutines
     implementation Libs.date
     implementation Libs.google_material
     implementation Libs.gson
@@ -73,11 +74,9 @@ dependencies {
     implementation Libs.navigation
     implementation Libs.room_runtime
     implementation Libs.room_ktx
-    kapt Libs.room_compiler
     implementation Libs.timber
     implementation Libs.viewpager2
-
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    kapt Libs.room_compiler
 
     // Test
     testImplementation TestLibs.junit
@@ -98,6 +97,11 @@ dependencies {
     implementation Libs.firebase_ads
     implementation Libs.firebase_analytics
     implementation Libs.firebase_crashlytics
+
+    // LiquidSwipe
+    implementation Libs.lottie
+    implementation Libs.liquidSwipe
+    implementation Libs.pageIndicator
 }
 
 sonarqube {
