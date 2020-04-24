@@ -8,6 +8,8 @@
 An Android app to create and memorize Flashcards.
 Each Flashcard has an image, a title and an optional description which enables a user to practice via scrolling.
 
+![Repeatcard](https://user-images.githubusercontent.com/33685811/80228663-9ba45d00-864f-11ea-8dd2-64a39253696b.png)
+
 ## User Stories
 
 - [x] User can create flashcards with a `title` and a `description`
