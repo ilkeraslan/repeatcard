@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.jem.liquidswipe.layout.LiquidSwipeConstraintLayout
 import it.ilker.repeatcard.R
-import timber.log.Timber
 
 class BaseScreen : Fragment() {
 
     private var index: Int = 0
     private var text: String = ""
-    private lateinit var screenText: TextView
+    private lateinit var screenTextView: TextView
+    private lateinit var screenLayout: LiquidSwipeConstraintLayout
 
     companion object {
         private const val ARG_ID = "index"
@@ -41,16 +42,25 @@ class BaseScreen : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.screen_onboarding_base, container, false).apply {
-            when (index) {
-                SCREEN_1 -> Timber.d("SCREEN-1")
-                SCREEN_2 -> Timber.d("SCREEN-2")
-                SCREEN_3 -> Timber.d("SCREEN-3")
-                SCREEN_4 -> Timber.d("SCREEN-4")
-                SCREEN_5 -> Timber.d("SCREEN-5")
-            }
+        return inflater.inflate(R.layout.screen_onboarding_base, container, false)
+    }
 
-            findViewById<TextView>(R.id.screenOnboardingBaseText).text = text
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        screenTextView = view.findViewById(R.id.screenOnboardingBaseText)
+        screenLayout = view.findViewById(R.id.screenOnboardingBaseLayout)
+
+        when (index) {
+            SCREEN_1 -> setView(text, resources.getColor(R.color.colorGreen))
+            SCREEN_2 -> setView(text, resources.getColor(R.color.colorYellow))
+            SCREEN_3 -> setView(text, resources.getColor(R.color.colorPurple))
+            SCREEN_4 -> setView(text, resources.getColor(R.color.colorRed))
+            SCREEN_5 -> setView(text, resources.getColor(R.color.colorPrimaryDark))
         }
+    }
+
+    private fun setView(text: String, color: Int) {
+        screenTextView.text = text
+        screenLayout.setBackgroundColor(color)
     }
 }
