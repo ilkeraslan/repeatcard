@@ -1,5 +1,7 @@
 package it.ilker.repeatcard.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -9,6 +11,13 @@ import it.ilker.repeatcard.R
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 class MainScreen : AppCompatActivity() {
+
+    companion object {
+        fun openScreen(context: Context) {
+            val intent = Intent(context, MainScreen::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        }
+    }
 
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
