@@ -27,6 +27,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        release {
+            storeFile file('../repeatcard-keys.jks')
+            keyAlias "key0"
+            storePassword APP_STORE_PASSWORD
+            keyPassword APP_KEY_PASSWORD
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -39,7 +49,7 @@ android {
             shrinkResources false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
     }
     packagingOptions {
