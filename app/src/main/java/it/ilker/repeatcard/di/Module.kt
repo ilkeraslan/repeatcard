@@ -10,6 +10,7 @@ import it.ilker.repeatcard.ui.logs.LogsViewModel
 import it.ilker.repeatcard.ui.question.QuestionViewModel
 import it.ilker.repeatcard.ui.quiz.QuizViewModel
 import it.ilker.repeatcard.ui.results.ResultsViewModel
+import it.ilker.repeatcard.ui.util.KeyValueStorageFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -17,6 +18,7 @@ import org.koin.dsl.module
 
 val androidComponents = module {
     single { androidContext().resources }
+    single { KeyValueStorageFactory.build(context = androidContext(), name = "repeatcard_prefs") }
 }
 
 val appComponents = module {

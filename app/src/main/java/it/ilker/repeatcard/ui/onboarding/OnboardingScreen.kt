@@ -12,11 +12,13 @@ import com.jem.liquidswipe.LiquidSwipeViewPager
 import com.rd.PageIndicatorView
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.AppNavigator
+import it.ilker.repeatcard.ui.util.KeyValueStorage
 import org.koin.android.ext.android.inject
 
 class OnboardingScreen : AppCompatActivity() {
 
     private val navigator: AppNavigator by inject()
+    private val prefs: KeyValueStorage by inject()
 
     private lateinit var adapter: OnboardingAdapter
     private lateinit var next: MaterialButton
@@ -66,6 +68,7 @@ class OnboardingScreen : AppCompatActivity() {
 
         next.setOnClickListener {
             if (viewPager.currentItem == adapter.count - 1) {
+                prefs.putBoolean("NEW USER", false)
                 navigator.goToMain()
                 finish()
             } else {
