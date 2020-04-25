@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/directory_row"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context=".ui.directory.DirectoryScreen">
 
     <ImageView
         android:id="@+id/imageViewDirectoryRow"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/card_image"
         android:textAlignment="viewStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,9 +27,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:textAlignment="textStart"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewDirectoryRow"
@@ -39,9 +40,9 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/ic_mode_edit_black_12dp"
         android:minWidth="24dip"
         android:minHeight="12dip"
@@ -51,17 +52,13 @@
 
     <Button
         android:id="@+id/deleteButtonDirectoryRow"
-        android:layout_width="wrap_content"
+        android:layout_width="32dp"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/ic_delete_black_12dp"
-        android:minWidth="24dip"
-        android:minHeight="12dip"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewDirectoryRow"
+        app:layout_constraintBottom_toBottomOf="@+id/editDirectoryRow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textViewDirectoryRow" />
+        app:layout_constraintTop_toTopOf="@+id/editDirectoryRow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
