@@ -33,6 +33,7 @@ android {
         release {
             keyAlias APP_KEYSTORE_ALIAS
             keyPassword APP_KEY_PASSWORD
+            storeFile file(System.getenv("HOME") + "/ilker/repeatcard-keys.jks")
             storePassword APP_STORE_PASSWORD
         }
     }
