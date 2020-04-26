@@ -33,7 +33,6 @@ android {
         release {
             keyAlias APP_KEYSTORE_ALIAS
             keyPassword APP_KEY_PASSWORD
-            // storeFile file(System.getenv("HOME") + "/ilker/repeatcard-keys.jks")
             storePassword APP_STORE_PASSWORD
         }
     }
@@ -50,7 +49,7 @@ android {
             shrinkResources false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
         }
     }
     packagingOptions {
