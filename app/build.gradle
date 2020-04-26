@@ -12,7 +12,8 @@ apply from: '../scripts/lint_setup.gradle'
 
 ext {
     APP_VERSION_CODE = getVersionCode()
-    APP_KEYSTORE_ALIAS = storeKeyAlias()
+    APP_KEYSTORE_ALIAS = getKeyAlias()
+    APP_STORE_KEY_FILE = storeKeyFile()
     APP_STORE_PASSWORD = storePassword()
     APP_KEY_PASSWORD = keyPassword()
 }
@@ -31,10 +32,9 @@ android {
 
     signingConfigs {
         release {
-            storeFile file(System.getenv("HOME") + "/ilker/repeatcard-keys.jks")
-            storeKeyAlias APP_KEYSTORE_ALIAS
-            storePassword APP_STORE_PASSWORD
+            keyAlias APP_KEYSTORE_ALIAS
             keyPassword APP_KEY_PASSWORD
+            storePassword APP_STORE_PASSWORD
         }
     }
 

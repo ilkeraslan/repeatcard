@@ -25,7 +25,14 @@ buildscript {
             return Integer.valueOf(Versions.versionCode)
     }
 
-    ext.storeKeyAlias = {
+    ext.storeKeyFile = {
+        if (System.getenv('BITRISEIO_ANDROID_KEYSTORE_URL') != null)
+            return System.getenv('BITRISEIO_ANDROID_KEYSTORE_URL')
+        else
+            return System.getenv("HOME") + "/ilker/repeatcard-keys.jks"
+    }
+
+    ext.getKeyAlias = {
         if (System.getenv('BITRISEIO_ANDROID_KEYSTORE_ALIAS') != null)
             return System.getenv('BITRISEIO_ANDROID_KEYSTORE_ALIAS')
         else
