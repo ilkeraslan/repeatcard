@@ -29,7 +29,7 @@ buildscript {
         if (System.getenv('BITRISEIO_ANDROID_KEYSTORE_URL') != null)
             return System.getenv('BITRISEIO_ANDROID_KEYSTORE_URL')
         else
-            return System.getenv('REPEATCARD_KEYSTORE_URL')
+            return file(System.getenv("home") + "/ilker/repeatcard-keys.jks")
     }
 
     ext.storeKeyAlias = {
