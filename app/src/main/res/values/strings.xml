@@ -35,10 +35,10 @@
     <string name="min_card_for_quiz">You should have at least 4 cards \nwith a title and image.</string>
 
     <string-array name="onboardingTexts">
-        <item>Create a directory</item>
-        <item>Inside the directory, create a card</item>
-        <item>Review your cards</item>
-        <item>Take a quiz, and see the results</item>
-        <item>See the logs</item>
+        <item>Create a directory to add flashcards. \nNo worries, you already have a default directory.</item>
+        <item>In a directory, create your flashcards.</item>
+        <item>Review flashcards of a specific directory.</item>
+        <item>Do you feel prepared? \nTake a quiz, and see the results.</item>
+        <item>See the logs screen to track your activity.</item>
     </string-array>
 </resources>
