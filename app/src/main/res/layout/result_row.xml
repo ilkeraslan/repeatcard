@@ -11,57 +11,76 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/colorGrey"
+        app:cardBackgroundColor="@color/colorLightGrey"
         app:cardCornerRadius="16dp">
 
-        <TextView
-            android:id="@+id/questionNumberTagResultRow"
-            android:layout_width="128dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/question_no"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/questionNumberResultRow"
-            android:layout_width="32dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="160dp" />
+            <TextView
+                android:id="@+id/questionNumberTagResultRow"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/question_no"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/questionTagResultRow"
-            android:layout_width="128dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/correct_answer"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/questionNumberResultRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/questionNumberTagResultRow"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/questionNumberTagResultRow"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/questionTextResultRow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="160dp"
-            android:layout_marginTop="32dp" />
+            <TextView
+                android:id="@+id/questionTagResultRow"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/questionNumberTagResultRow"
+                android:layout_alignStart="@id/questionNumberTagResultRow"
+                android:layout_marginTop="8dp"
+                android:text="@string/correct_answer"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/answerTagResultRow"
-            android:layout_width="128dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="64dp"
-            android:text="@string/your_answer"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/questionTextResultRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/questionNumberResultRow"
+                android:layout_alignBaseline="@id/questionTagResultRow"
+                android:layout_alignStart="@id/questionNumberResultRow"
+                android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/answerTextResultRow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="160dp"
-            android:layout_marginTop="64dp" />
+            <TextView
+                android:id="@+id/answerTagResultRow"
+                android:layout_width="192dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/questionTagResultRow"
+                android:layout_alignStart="@id/questionTagResultRow"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/your_answer"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/answerTextResultRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/questionTextResultRow"
+                android:layout_alignBaseline="@id/answerTagResultRow"
+                android:layout_alignStart="@id/questionTextResultRow"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

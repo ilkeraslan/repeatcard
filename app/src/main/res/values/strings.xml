@@ -21,7 +21,9 @@
     <string name="previous">PREVIOUS</string>
     <string name="take_a_quiz">TAKE A QUIZ</string>
     <string name="logs">LOGS</string>
+    <string name="no_flashcard_home">NO FLASHCARD YET. \nSELECT A DIRECTORY AND CREATE FLASHCARDS.</string>
     <string name="no_flashcard_yet">NO FLASHCARD YET. \nTAP + TO ADD ONE.</string>
+    <string name="no_log">NO LOGS YET.</string>
     <string name="correct_answer">Correct answer</string>
     <string name="your_answer">Your answer</string>
     <string name="question_no">Question No</string>
@@ -33,10 +35,10 @@
     <string name="min_card_for_quiz">You should have at least 4 cards \nwith a title and image.</string>
 
     <string-array name="onboardingTexts">
-        <item>Create a directory</item>
-        <item>Inside the directory, create a card</item>
-        <item>Review your cards</item>
-        <item>Take a quiz, and see the results</item>
-        <item>See the logs</item>
+        <item>Create a directory to add flashcards. \nNo worries, you already have a default directory.</item>
+        <item>In a directory, create your flashcards.</item>
+        <item>Review flashcards of a specific directory.</item>
+        <item>Do you feel prepared? \nTake a quiz, and see the results.</item>
+        <item>See the logs screen to track your activity.</item>
     </string-array>
 </resources>

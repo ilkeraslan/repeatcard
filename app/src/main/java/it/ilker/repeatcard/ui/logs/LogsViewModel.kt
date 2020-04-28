@@ -28,7 +28,7 @@ sealed class LogEvent {
 }
 
 sealed class LogState {
-    data class Error(val error: Throwable, val notifications: List<Notification>) : LogState()
+    object Error : LogState()
     data class Success(val notifications: List<Notification>) : LogState()
 }
 
@@ -79,7 +79,7 @@ class LogsViewModel(context: Context) : ViewModel() {
     private fun loadContent() = viewModelScope.launch {
         val notifications = repository.getNotifications()
         if (notifications.isEmpty()) {
-            state.postValue(LogState.Error(NullPointerException(), mutableListOf()))
+            state.postValue(LogState.Error)
         } else {
             state.postValue(LogState.Success(notifications))
         }

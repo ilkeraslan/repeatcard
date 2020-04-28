@@ -7,6 +7,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,6 +26,7 @@ class LogsScreen : Fragment() {
     private lateinit var logsAdapter: LogsAdapter
     private lateinit var logsListener: LogsListener
     private lateinit var delete: Button
+    private lateinit var noLogs: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.notifications_fragment, container, false)
@@ -54,6 +56,7 @@ class LogsScreen : Fragment() {
 
     @ExperimentalCoroutinesApi
     private fun setUpViews(view: View) {
+        noLogs = view.findViewById(R.id.noLogsText)
         delete = view.findViewById(R.id.deleteAllNotifications)
         delete.setOnClickListener { alertToDelete() }
     }
@@ -70,6 +73,7 @@ class LogsScreen : Fragment() {
 
     private fun showError() {
         delete.visibility = INVISIBLE
+        noLogs.visibility = VISIBLE
         logsAdapter.submitList(listOf())
         logsAdapter.notifyDataSetChanged()
     }
@@ -77,6 +81,7 @@ class LogsScreen : Fragment() {
     @ExperimentalCoroutinesApi
     private fun showLogs(notifications: List<Notification>) {
         delete.visibility = VISIBLE
+        noLogs.visibility = INVISIBLE
         logsAdapter.submitList(notifications)
         logsAdapter.notifyDataSetChanged()
     }
