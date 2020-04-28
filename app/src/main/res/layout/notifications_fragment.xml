@@ -6,6 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.logs.LogsScreen">
 
+    <TextView
+        android:id="@+id/noLogsText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/no_log"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView_notifications"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_notifications" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_notifications"
         android:layout_width="0dp"
