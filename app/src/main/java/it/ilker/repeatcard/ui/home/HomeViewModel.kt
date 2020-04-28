@@ -15,7 +15,7 @@ sealed class FlashcardEvent {
 }
 
 sealed class FlashcardState {
-    data class Error(val error: Throwable) : FlashcardState()
+    object Error : FlashcardState()
     data class Success(val flashcards: List<Flashcard>) : FlashcardState()
 }
 
@@ -37,6 +37,10 @@ class HomeViewModel(context: Context) : ViewModel() {
 
     private fun loadContent() = viewModelScope.launch {
         val allFlashcards = repository.getFlashcards()
-        state.postValue(FlashcardState.Success(allFlashcards))
+        if (allFlashcards.isEmpty()) {
+            state.postValue(FlashcardState.Error)
+        } else {
+            state.postValue(FlashcardState.Success(allFlashcards))
+        }
     }
 }

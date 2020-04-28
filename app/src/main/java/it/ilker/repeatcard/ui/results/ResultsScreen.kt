@@ -11,13 +11,14 @@ import com.google.gson.Gson
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.ui.question.QuestionDetailScreen
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class ResultsScreen : AppCompatActivity() {
 
+    private val resultsViewModel: ResultsViewModel by inject()
     private lateinit var recyclerView: RecyclerView
     private lateinit var resultsAdapter: ResultsAdapter
-    private lateinit var resultsViewModel: ResultsViewModel
     private lateinit var resultListener: ResultListener
 
     companion object {
@@ -32,13 +33,10 @@ class ResultsScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_results)
-
-        resultsViewModel = ResultsViewModel(Gson())
-        setViews()
         observe()
-
         val resultsAsJson = intent.extras!!.getString(BUNDLE_QUESTIONS_LIST)
         resultsViewModel.send(ResultEvent.SendResults(resultsAsJson!!))
+        setViews()
     }
 
     private fun setViews() {
@@ -57,8 +55,13 @@ class ResultsScreen : AppCompatActivity() {
     private fun observe() {
         resultsViewModel.state.observe(this, Observer { state ->
             when (state) {
-                is ResultState.Success -> resultsAdapter.submitList(state.results)
+                is ResultState.Success -> showSuccess(state.results)
             }
         })
+    }
+
+    private fun showSuccess(results: List<Question>) {
+        resultsAdapter.submitList(results)
+        resultsAdapter.notifyDataSetChanged()
     }
 }

@@ -14,8 +14,9 @@ sealed class ResultState {
     data class Success(val results: List<Question>) : ResultState()
 }
 
-class ResultsViewModel(private val gson: Gson) : ViewModel() {
+class ResultsViewModel : ViewModel() {
 
+    private val gson = Gson()
     private lateinit var results: List<Question>
     var state: MutableLiveData<ResultState> = MutableLiveData()
 

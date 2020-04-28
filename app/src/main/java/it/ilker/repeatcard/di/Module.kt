@@ -35,5 +35,5 @@ val viewModels = module {
     viewModel { LogsViewModel(get()) }
     viewModel { QuestionViewModel(get()) }
     viewModel { QuizViewModel(get()) }
-    viewModel { ResultsViewModel(get()) }
+    viewModel { ResultsViewModel() }
 }
