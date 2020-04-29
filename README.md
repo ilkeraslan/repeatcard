@@ -5,6 +5,7 @@
 ![Android CI](https://github.com/Dement0/repeatcard/workflows/Android%20CI/badge.svg)
 [![License](https://img.shields.io/github/license/dement0/repeatcard.svg)](LICENSE)
 
+
 An Android app to create and memorize Flashcards.
 Each Flashcard has an image, a title and an optional description which enables a user to practice via scrolling.
 
@@ -27,6 +28,12 @@ Each Flashcard has an image, a title and an optional description which enables a
 - [x] User can see the results after a quiz.
 - [x] User can see the details of a result card clicking on it.
 - [x] User can modify a Flashcard.
+
+## Download
+
+You can download the application from PlayStore.
+
+<a href="https://play.google.com/store/apps/details?id=it.ilker.repeatcard"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"/></a>
 
 ## Contributing
 
