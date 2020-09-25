@@ -12,6 +12,8 @@ import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.models.quizresult.QuizResult
 import it.ilker.repeatcard.ui.question.QuestionDetailScreen
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.stringify
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -28,7 +30,7 @@ class ResultsScreen : AppCompatActivity() {
         fun getIntent(context: Context, result: QuizResult, gson: Gson): Intent =
             Intent(context, ResultsScreen::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                .putExtra(BUNDLE_QUESTIONS_LIST, gson.toJson(result))
+                .putExtra(BUNDLE_QUESTIONS_LIST, Json.encodeToString(QuizResult.serializer(), result))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

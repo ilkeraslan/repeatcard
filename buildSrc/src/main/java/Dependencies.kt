@@ -14,7 +14,7 @@ object Versions {
     // 3rd party
     const val coroutines = "1.3.4"
     const val detekt = "1.7.4"
-    const val koin = "2.1.3"
+    const val koin = "2.2.0-alpha-1"
     const val lifecycle_version = "2.2.0"
     const val roomVersion = "2.2.5"
 }
@@ -27,6 +27,7 @@ object BuildLibs {
     const val google_services = "com.google.gms:google-services:4.3.3"
     const val jacoco = "org.jacoco:org.jacoco.core:0.8.4"
     const val kotlin_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+    const val kotlin_serialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
     const val sonarqube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
 }
 
@@ -46,6 +47,7 @@ object Libs {
     const val gson = "com.google.code.gson:gson:2.8.6"
     const val koin = "org.koin:koin-android:${Versions.koin}"
     const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"
+    const val kotlinx_serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle_version}"
     const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle_version}"

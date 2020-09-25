@@ -3,9 +3,9 @@ package it.ilker.repeatcard.ui.results
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.models.quizresult.QuizResult
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 sealed class ResultEvent {
     data class SendResults(val results: String) : ResultEvent()
@@ -24,9 +24,10 @@ class ResultsViewModel : ViewModel() {
     fun send(event: ResultEvent) {
         when (event) {
             is ResultEvent.SendResults -> {
-                val resultsToken = object : TypeToken<List<QuizResult>>() {}.type
-                result = gson.fromJson(event.results, resultsToken)
+/*                val resultsToken = object : TypeToken<List<QuizResult>>() {}.type
+                result = gson.fromJson(event.results, resultsToken)*/
 
+                result = Json.decodeFromString(event.results)
                 state.postValue(ResultState.Success(result))
             }
         }

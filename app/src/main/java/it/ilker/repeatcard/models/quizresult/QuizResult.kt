@@ -1,10 +1,11 @@
 package it.ilker.repeatcard.models.quizresult
 
 import it.ilker.repeatcard.models.question.Question
-import java.util.UUID
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class QuizResult(
-    val id: UUID,
+    val id: String,
     val questions: List<Question>,
     val correctAnswers: List<Question>,
     val wrongAnswers: List<Question>

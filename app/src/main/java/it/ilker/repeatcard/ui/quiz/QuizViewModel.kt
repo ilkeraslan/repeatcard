@@ -49,7 +49,7 @@ class QuizViewModel(context: Context) : ViewModel() {
     private fun getResults() {
         state.postValue(QuizState.Results(
             QuizResult(
-                id = UUID.randomUUID(),
+                id = UUID.randomUUID().toString(),
                 questions = generatedQuestions,
                 correctAnswers = generatedQuestions.filter { question -> question.selectedAnswer == question.correctAnswer },
                 wrongAnswers = generatedQuestions.filterNot { question -> question.selectedAnswer == question.correctAnswer }

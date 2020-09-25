@@ -14,6 +14,7 @@ buildscript {
         classpath BuildLibs.gradle_android
         classpath BuildLibs.gradle_versions
         classpath BuildLibs.kotlin_plugin
+        classpath BuildLibs.kotlin_serialization
         classpath BuildLibs.jacoco
         classpath BuildLibs.sonarqube
     }
