@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
+import it.ilker.repeatcard.models.quizresult.QuizResult
 import it.ilker.repeatcard.ui.question.QuestionDetailScreen
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -24,10 +25,10 @@ class ResultsScreen : AppCompatActivity() {
     companion object {
         private const val BUNDLE_QUESTIONS_LIST = "BUNDLE_QUESTIONS_LIST"
 
-        fun getIntent(context: Context, results: List<Question>, gson: Gson): Intent =
+        fun getIntent(context: Context, result: QuizResult, gson: Gson): Intent =
             Intent(context, ResultsScreen::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                .putExtra(BUNDLE_QUESTIONS_LIST, gson.toJson(results))
+                .putExtra(BUNDLE_QUESTIONS_LIST, gson.toJson(result))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,9 +46,9 @@ class ResultsScreen : AppCompatActivity() {
         resultListener = object : ResultListener {
             override fun showResultDetails(question: Question) {
                 QuestionDetailScreen.openScreen(applicationContext, question, Gson())
-                Timber.d("Clicked question")
             }
         }
+        
         resultsAdapter = ResultsAdapter(resultListener)
         recyclerView.adapter = resultsAdapter
     }
@@ -60,8 +61,8 @@ class ResultsScreen : AppCompatActivity() {
         })
     }
 
-    private fun showSuccess(results: List<Question>) {
-        resultsAdapter.submitList(results)
+    private fun showSuccess(result: QuizResult) {
+        resultsAdapter.submitList(result.questions)
         resultsAdapter.notifyDataSetChanged()
     }
 }

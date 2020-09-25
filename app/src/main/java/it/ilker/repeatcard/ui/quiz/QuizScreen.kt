@@ -111,7 +111,7 @@ class QuizScreen : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
                 is QuizState.Results -> {
-                    startActivity(ResultsScreen.getIntent(applicationContext, state.results, gson = Gson()))
+                    startActivity(ResultsScreen.getIntent(applicationContext, state.result, gson = Gson()))
                     finish()
                 }
             }.exhaustive
