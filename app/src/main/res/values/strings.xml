@@ -21,8 +21,9 @@
     <string name="previous">PREVIOUS</string>
     <string name="take_a_quiz">TAKE A QUIZ</string>
     <string name="logs">LOGS</string>
-    <string name="no_flashcard_home">NO FLASHCARD YET. \nSELECT A DIRECTORY AND CREATE FLASHCARDS.</string>
-    <string name="no_flashcard_yet">NO FLASHCARD YET. \nTAP + TO ADD ONE.</string>
+    <string name="home_screen_no_flashcard">NO FLASHCARD YET.\nSELECT A DIRECTORY AND CREATE FLASHCARDS.</string>
+    <string name="home_screen_no_quiz">LATEST QUIZ NOT FOUND.\nCHECK THE QUIZ TAB.</string>
+    <string name="no_flashcard_yet">NO FLASHCARD YET.\nTAP + TO ADD ONE.</string>
     <string name="no_log">NO LOGS YET.</string>
     <string name="correct_answer">Correct answer</string>
     <string name="your_answer">Your answer</string>
@@ -31,7 +32,7 @@
     <string name="latest_cards_title">Latest cards</string>
     <string name="latest_quiz_results_title">Latest quiz results</string>
     <string name="splash_image">Splash Image</string>
-    <string name="repeatcard">REPEATCARD by @Dement0</string>
+    <string name="repeatcard">REPEATCARD</string>
     <string name="card_image">CardImage</string>
     <string name="min_card_for_quiz">You should have at least 4 cards \nwith a title and image.</string>
 
