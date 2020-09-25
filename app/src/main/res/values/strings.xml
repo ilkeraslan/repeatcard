@@ -28,7 +28,8 @@
     <string name="your_answer">Your answer</string>
     <string name="question_no">Question No</string>
     <string name="tap_to_add_image">TAP TO ADD IMAGE</string>
-    <string name="latest_cards">Latest cards</string>
+    <string name="latest_cards_title">Latest cards</string>
+    <string name="latest_quiz_results_title">Latest quiz results</string>
     <string name="splash_image">Splash Image</string>
     <string name="repeatcard">REPEATCARD by @Dement0</string>
     <string name="card_image">CardImage</string>

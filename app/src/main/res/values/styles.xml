@@ -17,7 +17,7 @@
     <style name="text_style" parent="text_size">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/margin_top</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
     </style>
 
     <style name="review_text" parent="text_size">

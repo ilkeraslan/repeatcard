@@ -15,22 +15,23 @@ import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailActivity
 import it.ilker.repeatcard.ui.util.exhaustive
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
 class HomeScreen : Fragment() {
 
     private val homeViewModel: HomeViewModel by inject()
-    private lateinit var homeAdapter: HomeAdapter
-    private lateinit var homeListener: HomeListener
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var latestCardsAdapter: HomeAdapter
+    private lateinit var latestQuizResultsAdapter: HomeAdapter
+    private lateinit var latestCardsListener: HomeListener
+    private lateinit var latestCards: RecyclerView
+    private lateinit var latestQuizResults: RecyclerView
     private lateinit var noFlashcardText: TextView
+    private lateinit var noQuizResultText: TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
-    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
@@ -40,40 +41,48 @@ class HomeScreen : Fragment() {
     }
 
     private fun setupViews(view: View) {
-        noFlashcardText = view.findViewById(R.id.noFlashcardTextHome)
+        noFlashcardText = view.findViewById(R.id.no_cards)
+        noQuizResultText = view.findViewById(R.id.no_quiz)
+        noFlashcardText.visibility = VISIBLE
+        noQuizResultText.visibility = VISIBLE
     }
 
-    @ExperimentalCoroutinesApi
     private fun setupRecyclerView(view: View) {
-        recyclerView = view.findViewById(R.id.recyclerView_home)
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        homeListener = object : HomeListener {
+        latestCards = view.findViewById(R.id.latest_cards)
+        latestQuizResults = view.findViewById(R.id.latest_quiz_results)
+        latestCards.layoutManager = LinearLayoutManager(this.context)
+        latestQuizResults.layoutManager = LinearLayoutManager(this.context)
+
+        latestCardsListener = object : HomeListener {
             override fun cardClicked(flashcard: Flashcard) {
                 FlashcardDetailActivity.openFlashcardDetailActivity(view.context, flashcard.id)
             }
         }
-        homeAdapter = HomeAdapter(homeListener)
-        recyclerView.adapter = homeAdapter
+
+        latestCardsAdapter = HomeAdapter(latestCardsListener)
+        latestQuizResultsAdapter = HomeAdapter(latestCardsListener)
+        latestCards.adapter = latestCardsAdapter
+        latestQuizResults.adapter = latestQuizResultsAdapter
     }
 
     private fun observeViewModel() {
         homeViewModel.state.observe(viewLifecycleOwner, Observer { state ->
             when (state) {
                 is FlashcardState.Error -> showError()
-                is FlashcardState.Success -> showFlashcards(state.flashcards)
+                is FlashcardState.Success -> showResults(state.flashcards)
             }.exhaustive
         })
     }
 
     private fun showError() {
         noFlashcardText.visibility = VISIBLE
-        homeAdapter.submitList(listOf())
-        homeAdapter.notifyDataSetChanged()
+        latestCardsAdapter.submitList(listOf())
+        latestCardsAdapter.notifyDataSetChanged()
     }
 
-    private fun showFlashcards(flashcards: List<Flashcard>) {
+    private fun showResults(flashcards: List<Flashcard>) {
         noFlashcardText.visibility = INVISIBLE
-        homeAdapter.submitList(flashcards)
-        homeAdapter.notifyDataSetChanged()
+        latestCardsAdapter.submitList(flashcards)
+        latestCardsAdapter.notifyDataSetChanged()
     }
 }
