@@ -9,7 +9,6 @@ import it.ilker.repeatcard.db.directory.Directory
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.db.notification.Notification
 import it.ilker.repeatcard.db.notification.NotificationRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -32,7 +31,6 @@ sealed class LogState {
     data class Success(val notifications: List<Notification>) : LogState()
 }
 
-@ExperimentalCoroutinesApi
 class LogsViewModel(context: Context) : ViewModel() {
 
     private val repository: NotificationRepository
@@ -43,7 +41,6 @@ class LogsViewModel(context: Context) : ViewModel() {
         repository = NotificationRepository(logsDao)
     }
 
-    @ExperimentalCoroutinesApi
     fun send(event: LogEvent) {
         when (event) {
             is LogEvent.AddDirectory -> insert(createLog("Added new directory", "directory"))
@@ -69,13 +66,11 @@ class LogsViewModel(context: Context) : ViewModel() {
         )
     }
 
-    @ExperimentalCoroutinesApi
     fun insert(notification: Notification) = viewModelScope.launch {
         repository.insertNotification(notification)
         loadContent()
     }
 
-    @ExperimentalCoroutinesApi
     private fun loadContent() = viewModelScope.launch {
         val notifications = repository.getNotifications()
         if (notifications.isEmpty()) {

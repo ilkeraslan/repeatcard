@@ -16,6 +16,7 @@ import it.ilker.repeatcard.db.directory.Directory
     )],
     tableName = "flashcard_table"
 )
+
 data class Flashcard(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "flashcard_title") val title: String,

@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
-import com.google.gson.Gson
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.results.ResultsScreen
 import it.ilker.repeatcard.ui.util.exhaustive
@@ -111,7 +110,7 @@ class QuizScreen : AppCompatActivity() {
                     adapter.notifyDataSetChanged()
                 }
                 is QuizState.Results -> {
-                    startActivity(ResultsScreen.getIntent(applicationContext, state.results, gson = Gson()))
+                    startActivity(ResultsScreen.getIntent(applicationContext, state.result))
                     finish()
                 }
             }.exhaustive

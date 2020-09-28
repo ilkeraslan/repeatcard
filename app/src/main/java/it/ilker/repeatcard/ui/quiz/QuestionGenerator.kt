@@ -1,4 +1,6 @@
-package it.ilker.repeatcard.models.question
+package it.ilker.repeatcard.ui.quiz
+
+import it.ilker.repeatcard.models.question.Question
 
 private const val OPTION_COUNT = 4
 
