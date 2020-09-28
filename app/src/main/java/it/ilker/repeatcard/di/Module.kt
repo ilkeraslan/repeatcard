@@ -31,7 +31,7 @@ val viewModels = module {
     viewModel { EditFlashcardViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { LogsViewModel(get()) }
-    viewModel { QuestionViewModel(get()) }
+    viewModel { QuestionViewModel() }
     viewModel { QuizViewModel(get()) }
     viewModel { ResultsViewModel() }
 }

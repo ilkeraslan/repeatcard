@@ -77,7 +77,6 @@ dependencies {
     implementation Libs.androidx_legacy_support
     implementation Libs.date
     implementation Libs.google_material
-    implementation Libs.gson
     implementation Libs.koin
     implementation Libs.koinViewModel
     implementation Libs.kotlinx_serialization

@@ -44,7 +44,6 @@ object Libs {
     const val firebase_analytics = "com.google.firebase:firebase-analytics:17.2.2"
     const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics:17.0.0-beta01"
     const val google_material = "com.google.android.material:material:1.1.0-alpha07"
-    const val gson = "com.google.code.gson:gson:2.8.6"
     const val koin = "org.koin:koin-android:${Versions.koin}"
     const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"
     const val kotlinx_serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"

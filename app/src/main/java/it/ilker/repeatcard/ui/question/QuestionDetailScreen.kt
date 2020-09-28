@@ -7,22 +7,23 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
+import kotlinx.serialization.json.Json
+import org.koin.android.ext.android.inject
 
 class QuestionDetailScreen : AppCompatActivity() {
 
-    private lateinit var questionViewModel: QuestionViewModel
+    private val questionViewModel: QuestionViewModel by inject()
     private lateinit var questionImage: ImageView
 
     companion object {
         private const val QUESTION = "QUESTION"
 
-        fun openScreen(startingContext: Context, question: Question, gson: Gson) {
+        fun openScreen(startingContext: Context, question: Question) {
             val intent = Intent(startingContext, QuestionDetailScreen::class.java)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                .putExtra(QUESTION, gson.toJson(question))
+                .putExtra(QUESTION, Json.encodeToString(Question.serializer(), question))
 
             startingContext.startActivity(intent)
         }
@@ -32,7 +33,6 @@ class QuestionDetailScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_base)
 
-        questionViewModel = QuestionViewModel(Gson())
         setViews()
         observe()
 
