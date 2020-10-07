@@ -23,7 +23,7 @@ class LogsAdapter(private val clickListener: LogsListener) : ListAdapter<Notific
         val log = getItem(position)
         holder.title.text = log.notificationTitle
         holder.date.text = log.creationDate
-        holder.cancel.setOnClickListener { clickListener.itemDeleted(log.notificationId) }
+        holder.cancel.setOnClickListener { clickListener.itemDeleted(getItem(holder.adapterPosition).notificationId) }
     }
 }
 

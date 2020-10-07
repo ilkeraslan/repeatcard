@@ -25,7 +25,7 @@ class ResultsAdapter(private val clickListener: ResultListener) : ListAdapter<Qu
         holder.questionText.text = question.correctAnswer
         holder.answerText.text = if (question.selectedAnswer.isNullOrEmpty()) "No answer" else question.selectedAnswer
 
-        holder.card.setOnClickListener { clickListener.showResultDetails(question) }
+        holder.card.setOnClickListener { clickListener.showResultDetails(getItem(holder.adapterPosition)) }
     }
 }
 

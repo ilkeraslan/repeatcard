@@ -24,7 +24,7 @@ class HomeAdapter(private val clickListener: HomeListener) : ListAdapter<Flashca
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         val flashcard = getItem(position)
         holder.bind(flashcard)
-        holder.layout.setOnClickListener { clickListener.cardClicked(flashcard) }
+        holder.layout.setOnClickListener { clickListener.cardClicked(getItem(holder.adapterPosition)) }
     }
 }
 
