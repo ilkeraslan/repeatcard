@@ -21,12 +21,21 @@
 #-renamesourcefileattribute SourceFile
 
 # kotlinx.serialization
-#-keepattributes *Annotation*, InnerClasses
-#-dontnote kotlinx.serialization.SerializationKt
-#-keep,includedescriptorclasses class it.ilker.repeatcard.**$$serializer { *; }
-#-keepclassmembers class it.ilker.repeatcard.** {
-#    *** Companion;
-#}
+-keepattributes *Annotation*, InnerClasses
+-dontnote kotlinx.serialization.SerializationKt
+-keep,includedescriptorclasses class it.ilker.repeatcard.**$$serializer { *; }
+-keepclassmembers class it.ilker.repeatcard.** {
+    *** Companion;
+}
+
 #-keepclasseswithmembers class it.ilker.repeatcard.** {
 #    kotlinx.serialization.KSerializer serializer(...);
 #}
+
+#Ucrop rules
+-dontwarn com.yalantis.ucrop**
+-keep class com.yalantis.ucrop** { *; }
+-keep interface com.yalantis.ucrop** { *; }
+
+# Prevent crash with androidx.fragment.app.FragmentContainerView
+-keep class * extends androidx.fragment.app.Fragment{}
