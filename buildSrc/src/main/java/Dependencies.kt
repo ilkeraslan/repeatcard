@@ -42,7 +42,7 @@ object Libs {
     const val glide = "com.github.bumptech.glide:glide:4.11.0"
     const val firebase_ads = "com.google.firebase:firebase-ads:18.3.0"
     const val firebase_analytics = "com.google.firebase:firebase-analytics:17.2.2"
-    const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics:17.0.0-beta01"
+    const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics:17.2.2"
     const val google_material = "com.google.android.material:material:1.1.0-alpha07"
     const val koin = "org.koin:koin-android:${Versions.koin}"
     const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"
