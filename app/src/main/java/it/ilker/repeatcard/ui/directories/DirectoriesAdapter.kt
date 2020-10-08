@@ -23,14 +23,14 @@ class DirectoriesAdapter(private val clickListener: DirectoriesListener) :
     }
 
     override fun onBindViewHolder(holder: DirectoriesViewHolder, position: Int) {
-        val directory = getItem(position)
+        val directory = getItem(holder.adapterPosition)
         holder.directory.text = directory.title
 
         // Set delete button to invisible if default directory
         holder.directoryDelete.visibility = if (holder.directory.text == DEFAULT_DIRECTORY_NAME) INVISIBLE else VISIBLE
 
-        holder.directoryView.setOnClickListener { clickListener.directoryClicked(getItem(holder.adapterPosition).id) }
-        holder.directoryDelete.setOnClickListener { clickListener.itemDeleted(getItem(holder.adapterPosition).id) }
+        holder.directoryView.setOnClickListener { clickListener.directoryClicked(directory.id) }
+        holder.directoryDelete.setOnClickListener { clickListener.itemDeleted(directory.id) }
     }
 }
 

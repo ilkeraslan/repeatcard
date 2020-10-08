@@ -20,10 +20,10 @@ class LogsAdapter(private val clickListener: LogsListener) : ListAdapter<Notific
     }
 
     override fun onBindViewHolder(holder: LogsViewHolder, position: Int) {
-        val log = getItem(position)
+        val log = getItem(holder.adapterPosition)
         holder.title.text = log.notificationTitle
         holder.date.text = log.creationDate
-        holder.cancel.setOnClickListener { clickListener.itemDeleted(getItem(holder.adapterPosition).notificationId) }
+        holder.cancel.setOnClickListener { clickListener.itemDeleted(log.notificationId) }
     }
 }
 
