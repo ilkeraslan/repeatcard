@@ -24,7 +24,7 @@ class DirectoryAdapter(private val clickListener: DirectoryListener) : ListAdapt
     }
 
     override fun onBindViewHolder(holder: DirectoryViewHolder, position: Int) {
-        val flashcard = getItem(position)
+        val flashcard = getItem(holder.adapterPosition)
         holder.bind(flashcard)
         holder.delete.setOnClickListener { clickListener.itemDeleted(flashcard) }
         holder.edit.setOnClickListener { clickListener.itemEdit(flashcard) }
