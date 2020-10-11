@@ -9,7 +9,7 @@ object Versions {
     const val buildTools = "29.0.2"
     const val kotlin = "1.4.10"
     const val minSdk = 22
-    const val targetSdk = 30
+    const val targetSdk = 29
 
     // 3rd party
     const val coroutines = "1.3.4"
