@@ -2,8 +2,8 @@
 object Versions {
 
     //app
-    const val versionCode = 3 //used for local builds, CI uses codes used for published versions
-    const val versionName = "1.1.1"
+    const val versionCode = 4 //used for local builds, CI uses codes used for published versions
+    const val versionName = "1.1.2"
 
     // platform
     const val buildTools = "29.0.2"
