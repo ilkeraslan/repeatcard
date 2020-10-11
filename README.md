@@ -5,11 +5,10 @@
 ![Android CI](https://github.com/Dement0/repeatcard/workflows/Android%20CI/badge.svg)
 [![License](https://img.shields.io/github/license/dement0/repeatcard.svg)](LICENSE)
 
-
 An Android app to create and memorize Flashcards.
 Each Flashcard has an image, a title and an optional description which enables a user to practice via scrolling.
 
-![Repeatcard](https://user-images.githubusercontent.com/33685811/80228663-9ba45d00-864f-11ea-8dd2-64a39253696b.png)
+![Repeatcard](https://user-images.githubusercontent.com/33685811/95678688-85bf3000-0bce-11eb-95ed-22a83dc514a7.png)
 
 ## User Stories
 
@@ -37,4 +36,4 @@ You can download the application from PlayStore.
 
 ## Contributing
 
-Have an idea for improvement? Please file an issue or contact me on Twitter!
+Have an idea for improvement? Please file an issue or open a Pull Request! Contributions are welcome!
