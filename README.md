@@ -42,7 +42,8 @@ Would you like to work on an issue? Just ask for it to see if someone is already
 
 ## Contributors
 
-@IllusionFpv
-@mantas84
-@renanrbs
-@Kardelio
+Following the list of amazing people that contributed to this project in historical order:
+![@IllusionFpv](https://github.com/IllusionFpv)
+![@mantas84](https://github.com/mantas84)
+![@renanrbs](https://github.com/renanrbs)
+![@Kardelio](https://github.com/Kardelio)
