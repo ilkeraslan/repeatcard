@@ -6,7 +6,6 @@ import it.ilker.repeatcard.ui.directory.DirectoryViewModel
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailViewModel
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardViewModel
 import it.ilker.repeatcard.ui.home.HomeViewModel
-import it.ilker.repeatcard.ui.logs.LogsViewModel
 import it.ilker.repeatcard.ui.question.QuestionViewModel
 import it.ilker.repeatcard.ui.quiz.QuizViewModel
 import it.ilker.repeatcard.ui.results.ResultsViewModel
@@ -30,7 +29,6 @@ val viewModels = module {
     viewModel { FlashcardDetailViewModel(get()) }
     viewModel { EditFlashcardViewModel(get()) }
     viewModel { HomeViewModel(get()) }
-    viewModel { LogsViewModel(get()) }
     viewModel { QuestionViewModel() }
     viewModel { QuizViewModel(get()) }
     viewModel { ResultsViewModel() }

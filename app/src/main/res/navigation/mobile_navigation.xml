@@ -18,13 +18,6 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right" />
         <action
-            android:id="@+id/action_navigation_home_to_navigation_notifications"
-            app:destination="@id/navigation_notifications"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right" />
-        <action
             android:id="@+id/action_navigation_home_to_navigation_quiz"
             app:destination="@id/navigation_quiz"
             app:enterAnim="@android:anim/slide_in_left"
@@ -45,11 +38,5 @@
         android:name="it.ilker.repeatcard.ui.directories.DirectoriesFragment"
         android:label="@string/title_directories"
         tools:layout="@layout/directories_fragment"/>
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="it.ilker.repeatcard.ui.logs.LogsScreen"
-        android:label="@string/logs"
-        tools:layout="@layout/notifications_fragment"/>
 
 </navigation>

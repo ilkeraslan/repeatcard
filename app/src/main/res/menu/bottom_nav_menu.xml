@@ -16,9 +16,4 @@
         android:icon="@drawable/ic_quiz_24dp"
         android:title="@string/quiz" />
 
-    <item
-        android:id="@id/navigation_notifications"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/logs" />
-
 </menu>
