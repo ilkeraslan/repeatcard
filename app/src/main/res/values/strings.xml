@@ -35,6 +35,7 @@
     <string name="repeatcard">REPEATCARD</string>
     <string name="card_image">CardImage</string>
     <string name="min_card_for_quiz">You should have at least 4 cards \nwith a title and image.</string>
+    <string name="flashcard_invalid_error">Flashcards need to have a title and an image</string>
 
     <string-array name="onboardingTexts">
         <item>Create a directory to add flashcards. \nNo worries, you already have a default directory.</item>
