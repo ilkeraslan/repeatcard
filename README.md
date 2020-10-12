@@ -36,4 +36,14 @@ You can download the application from PlayStore.
 
 ## Contributing
 
-Have an idea for improvement? Please file an issue or open a Pull Request! Contributions are welcome!
+This app welcomes first time contributors with all levels of experience. 
+You don't like something or the app has a problem? Please file an issue!
+Would you like to work on an issue? Just ask for it to see if someone is already working on it or not. Afterwards, make a PR.
+
+## Contributors
+
+Following the list of amazing people that contributed to this project in historical order:
+- ![@IllusionFpv](https://github.com/IllusionFpv)
+- ![@mantas84](https://github.com/mantas84)
+- ![@renanrbs](https://github.com/renanrbs)
+- ![@Kardelio](https://github.com/Kardelio)
