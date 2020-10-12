@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View.INVISIBLE
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
@@ -46,32 +43,34 @@ class AddFlashcardScreen : AppCompatActivity() {
     }
 
     private fun setClickListeners() {
-        flashcardSaveButton.setOnClickListener { turnToMain() }
+        flashcardSaveButton.setOnClickListener {
+            if (isValid())
+                turnToMain()
+            else Toast.makeText(this, R.string.flashcard_invalid_error, Toast.LENGTH_SHORT).show()
+        }
         flashcardImage.setOnClickListener { selectImage() }
+    }
+
+    private fun isValid(): Boolean {
+        return !(flashcardTitleEdit.text.isNullOrEmpty() || imageUri == null)
     }
 
     private fun turnToMain() {
         val intentToMain = Intent()
-
-        if (flashcardTitleEdit.text.isNotEmpty()) {
-            intentToMain.putExtra(
-                "ADD_FLASHCARD_TITLE_RESULT",
-                flashcardTitleEdit.text.toString()
-            )
-            intentToMain.putExtra(
-                "ADD_FLASHCARD_DESCRIPTION_RESULT",
-                if (flashcardDescriptionEdit.text.isNullOrEmpty()) {
-                    "No description"
-                } else {
-                    flashcardDescriptionEdit.text.toString()
-                }
-            )
-            intentToMain.putExtra("ADD_FLASHCARD_IMAGE_RESULT", imageUri)
-            setResult(Activity.RESULT_OK, intentToMain)
-        } else {
-            setResult(Activity.RESULT_CANCELED)
-        }
-
+        intentToMain.putExtra(
+            "ADD_FLASHCARD_TITLE_RESULT",
+            flashcardTitleEdit.text.toString()
+        )
+        intentToMain.putExtra(
+            "ADD_FLASHCARD_DESCRIPTION_RESULT",
+            if (flashcardDescriptionEdit.text.isNullOrEmpty()) {
+                "No description"
+            } else {
+                flashcardDescriptionEdit.text.toString()
+            }
+        )
+        intentToMain.putExtra("ADD_FLASHCARD_IMAGE_RESULT", imageUri)
+        setResult(Activity.RESULT_OK, intentToMain)
         finish()
     }
 
