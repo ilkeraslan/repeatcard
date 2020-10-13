@@ -46,7 +46,7 @@ class QuizFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.state.observe(viewLifecycleOwner, Observer { state ->
+        viewModel.state.observe(viewLifecycleOwner, { state ->
             when (state) {
                 is QuizState.Error -> showError()
                 is QuizState.Success -> {
