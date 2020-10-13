@@ -4,6 +4,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Dement0_repeatcard&metric=alert_status)](https://sonarcloud.io/dashboard?id=Dement0_repeatcard)
 ![Android CI](https://github.com/Dement0/repeatcard/workflows/Android%20CI/badge.svg)
 [![License](https://img.shields.io/github/license/dement0/repeatcard.svg)](LICENSE)
+[![Discord](https://discord.com/api/guilds/765660376305500250/widget.png)](https://discord.gg/U4dYsfY)
 
 An Android app to create and memorize Flashcards.
 Each Flashcard has an image, a title and an optional description which enables a user to practice via scrolling.
@@ -39,6 +40,8 @@ You can download the application from PlayStore.
 This app welcomes first time contributors with all levels of experience. 
 You don't like something or the app has a problem? Please file an issue!
 Would you like to work on an issue? Just ask for it to see if someone is already working on it or not. Afterwards, make a PR.
+
+You can join the Discord channel to discuss or ask for further info: [![Discord](https://discord.com/api/guilds/765660376305500250/widget.png)](https://discord.gg/U4dYsfY)
 
 ## Contributors
 
