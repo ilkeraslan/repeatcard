@@ -2,12 +2,13 @@ package it.ilker.repeatcard.ui.flashcardedit
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -22,12 +23,14 @@ sealed class FlashcardEditEvent {
 sealed class FlashcardEditState {
     data class Success(val flashcard: Flashcard) : FlashcardEditState()
     object UpdateSuccess : FlashcardEditState()
+    object Initial : FlashcardEditState()
 }
 
+@ExperimentalCoroutinesApi
 class EditFlashcardViewModel(application: Application) : AndroidViewModel(application) {
 
     private val flashcardRepository: FlashcardRepository
-    var state: MutableLiveData<FlashcardEditState> = MutableLiveData()
+    var state = MutableStateFlow<FlashcardEditState>(FlashcardEditState.Initial)
 
     init {
         val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
@@ -43,7 +46,7 @@ class EditFlashcardViewModel(application: Application) : AndroidViewModel(applic
 
     private fun getCurrentValues(id: Int) = viewModelScope.launch {
         val flashcardToEdit = flashcardRepository.getFlashcard(id)
-        state.postValue(FlashcardEditState.Success(flashcardToEdit))
+        state.value = FlashcardEditState.Success(flashcardToEdit)
     }
 
     private fun updateValues(id: Int, title: String, description: String?, imageUri: String?) = viewModelScope.launch {
@@ -61,6 +64,6 @@ class EditFlashcardViewModel(application: Application) : AndroidViewModel(applic
         )
 
         flashcardRepository.updateFlashcard(newFlashcard)
-        state.postValue(FlashcardEditState.UpdateSuccess)
+        state.value = FlashcardEditState.UpdateSuccess
     }
 }

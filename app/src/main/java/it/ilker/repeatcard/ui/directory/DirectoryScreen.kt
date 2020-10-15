@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -21,6 +21,7 @@ import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
 import it.ilker.repeatcard.ui.review.FlashcardReviewScreen
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -101,12 +102,15 @@ class DirectoryScreen : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     private fun observe() {
-        directoryViewModel.state.observe(this, Observer { state ->
-            when (state) {
-                is DirectoryState.NoContent -> showNoContent(state.flashcards)
-                is DirectoryState.HasContent -> showFlashcards(state.flashcards)
-            }.exhaustive
-        })
+        lifecycleScope.launchWhenCreated {
+            directoryViewModel.state.collect { state ->
+                when (state) {
+                    is DirectoryState.Initial -> { }
+                    is DirectoryState.NoContent -> showNoContent(state.flashcards)
+                    is DirectoryState.HasContent -> showFlashcards(state.flashcards)
+                }.exhaustive
+            }
+        }
     }
 
     @ExperimentalCoroutinesApi

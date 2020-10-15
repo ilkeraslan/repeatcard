@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -17,6 +17,7 @@ import it.ilker.repeatcard.db.directory.Directory
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -76,12 +77,15 @@ class DirectoriesFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
     private fun observe() {
-        viewModel.directoriesState.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is DirectoriesState.Success -> showDirectories(state.directories)
-                is DirectoriesState.Error -> Timber.d(Error())
-            }.exhaustive
-        })
+        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+            viewModel.directoriesState.collect { state ->
+                when (state) {
+                    is DirectoriesState.Initial -> {}
+                    is DirectoriesState.Success -> showDirectories(state.directories)
+                    is DirectoriesState.Error -> Timber.d(Error())
+                }.exhaustive
+            }
+        }
     }
 
     @ExperimentalCoroutinesApi

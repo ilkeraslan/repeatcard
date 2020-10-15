@@ -4,16 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.models.quizresult.QuizResult
 import it.ilker.repeatcard.ui.question.QuestionDetailScreen
+import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.android.inject
 
+@ExperimentalCoroutinesApi
 class ResultsScreen : AppCompatActivity() {
 
     private val resultsViewModel: ResultsViewModel by inject()
@@ -53,11 +57,14 @@ class ResultsScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        resultsViewModel.state.observe(this, Observer { state ->
-            when (state) {
-                is ResultState.Success -> showSuccess(state.results)
+        lifecycleScope.launchWhenCreated {
+            resultsViewModel.state.collect { state ->
+                when (state) {
+                    is ResultState.Initial -> {}
+                    is ResultState.Success -> showSuccess(state.results)
+                }.exhaustive
             }
-        })
+        }
     }
 
     private fun showSuccess(result: QuizResult) {

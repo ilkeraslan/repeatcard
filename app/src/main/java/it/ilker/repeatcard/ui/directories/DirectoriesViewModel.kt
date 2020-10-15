@@ -1,7 +1,6 @@
 package it.ilker.repeatcard.ui.directories
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
@@ -11,6 +10,8 @@ import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.db.notification.Notification
 import it.ilker.repeatcard.db.notification.NotificationRepository
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -26,17 +27,19 @@ sealed class DirectoriesEvent {
 }
 
 sealed class DirectoriesState {
+    object Initial : DirectoriesState()
     data class Error(val error: Throwable) : DirectoriesState()
     data class Success(val directories: List<Directory>) : DirectoriesState()
 }
 
+@ExperimentalCoroutinesApi
 class DirectoriesViewModel(context: Context) : ViewModel() {
 
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     private val logsRepository: NotificationRepository
-    val allDirectories = MutableLiveData<List<Directory>>()
-    var directoriesState: MutableLiveData<DirectoriesState> = MutableLiveData()
+    val allDirectories = MutableStateFlow<List<Directory>>(emptyList())
+    var directoriesState = MutableStateFlow<DirectoriesState>(DirectoriesState.Initial)
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(context).directoryDao()
@@ -89,11 +92,11 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
         if (directories.isEmpty()) {
             val defaultDirectory = Directory(1, DEFAULT_DIRECTORY_NAME, null)
             repository.addDirectory(defaultDirectory)
-            allDirectories.postValue(listOf(defaultDirectory))
+            allDirectories.value = listOf(defaultDirectory)
         } else {
-            allDirectories.postValue(repository.getDirectories())
+            allDirectories.value = repository.getDirectories()
         }
-        directoriesState.postValue(DirectoriesState.Success(repository.getDirectories()))
+        directoriesState.value = DirectoriesState.Success(repository.getDirectories())
     }
 
     private fun createNotification(title: String): Notification {

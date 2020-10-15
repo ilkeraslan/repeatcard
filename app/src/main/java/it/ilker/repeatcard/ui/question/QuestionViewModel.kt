@@ -1,8 +1,9 @@
 package it.ilker.repeatcard.ui.question
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import it.ilker.repeatcard.models.question.Question
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -11,19 +12,21 @@ sealed class QuestionEvent {
 }
 
 sealed class QuestionState {
+    object Initial : QuestionState()
     data class Success(val question: Question) : QuestionState()
 }
 
+@ExperimentalCoroutinesApi
 class QuestionViewModel : ViewModel() {
 
     private lateinit var question: Question
-    var state: MutableLiveData<QuestionState> = MutableLiveData()
+    var state = MutableStateFlow<QuestionState>(QuestionState.Initial)
 
     fun send(event: QuestionEvent) {
         when (event) {
             is QuestionEvent.GetDetails -> {
                 question = Json.decodeFromString(event.questionString)
-                state.postValue(QuestionState.Success(question))
+                state.value = QuestionState.Success(question)
             }
         }
     }

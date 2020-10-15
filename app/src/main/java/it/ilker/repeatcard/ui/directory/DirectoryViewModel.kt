@@ -1,7 +1,6 @@
 package it.ilker.repeatcard.ui.directory
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
@@ -11,6 +10,8 @@ import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.db.notification.Notification
 import it.ilker.repeatcard.db.notification.NotificationRepository
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
@@ -24,16 +25,18 @@ sealed class DirectoryEvent {
 }
 
 sealed class DirectoryState {
+    object Initial : DirectoryState()
     data class HasContent(val flashcards: List<Flashcard>) : DirectoryState()
     data class NoContent(val flashcards: List<Flashcard>) : DirectoryState()
 }
 
+@ExperimentalCoroutinesApi
 class DirectoryViewModel(context: Context) : ViewModel() {
 
     private val directoryRepository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     private val logsRepository: NotificationRepository
-    var state: MutableLiveData<DirectoryState> = MutableLiveData()
+    var state = MutableStateFlow<DirectoryState>(DirectoryState.Initial)
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(context).directoryDao()
@@ -56,9 +59,9 @@ class DirectoryViewModel(context: Context) : ViewModel() {
         val directoryContent = flashcardRepository.getFlashcardsForDirectory(directoryId)
 
         if (directoryContent.isEmpty()) {
-            state.postValue(DirectoryState.NoContent(listOf()))
+            state.value = DirectoryState.NoContent(listOf())
         } else {
-            state.postValue(DirectoryState.HasContent(directoryContent))
+            state.value = DirectoryState.HasContent(directoryContent)
         }
     }
 
