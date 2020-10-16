@@ -18,14 +18,14 @@ sealed class FlashcardEvent {
 sealed class FlashcardState {
     object Error : FlashcardState()
     data class Success(val flashcards: List<Flashcard>) : FlashcardState()
-    object Initial : FlashcardState()
+    object Loading : FlashcardState()
 }
 
 @ExperimentalCoroutinesApi
 class HomeViewModel(context: Context) : ViewModel() {
 
     private val repository: FlashcardRepository
-    var state = MutableStateFlow<FlashcardState>(FlashcardState.Initial)
+    var state = MutableStateFlow<FlashcardState>(FlashcardState.Loading)
 
     init {
         val flashcardsDao = FlashcardDatabase.getDatabase(context).flashcardDao()

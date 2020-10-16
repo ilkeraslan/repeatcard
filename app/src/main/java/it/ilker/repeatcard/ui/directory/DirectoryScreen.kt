@@ -105,7 +105,7 @@ class DirectoryScreen : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             directoryViewModel.state.collect { state ->
                 when (state) {
-                    is DirectoryState.Initial -> { }
+                    is DirectoryState.Loading -> { }
                     is DirectoryState.NoContent -> showNoContent(state.flashcards)
                     is DirectoryState.HasContent -> showFlashcards(state.flashcards)
                 }.exhaustive

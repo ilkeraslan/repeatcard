@@ -80,7 +80,7 @@ class DirectoriesFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.directoriesState.collect { state ->
                 when (state) {
-                    is DirectoriesState.Initial -> {}
+                    is DirectoriesState.Loading -> {}
                     is DirectoriesState.Success -> showDirectories(state.directories)
                     is DirectoriesState.Error -> Timber.d(Error())
                 }.exhaustive

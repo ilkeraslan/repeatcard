@@ -53,7 +53,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             viewModel.state.collect { state ->
                 when (state) {
-                    is DirectoryState.Initial -> {}
+                    is DirectoryState.Loading -> {}
                     is DirectoryState.NoContent -> Toast.makeText(this@FlashcardReviewScreen, "error", Toast.LENGTH_SHORT).show()
                     is DirectoryState.HasContent -> reviewAdapter.submitList(state.flashcards)
                 }.exhaustive

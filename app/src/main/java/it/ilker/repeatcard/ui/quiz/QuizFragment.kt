@@ -52,7 +52,7 @@ class QuizFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             viewModel.state.collect { state ->
                 when (state) {
-                    is QuizState.Initial -> {}
+                    is QuizState.Loading -> {}
                     is QuizState.Error -> showError()
                     is QuizState.Success -> {
                         feedbackText.visibility = INVISIBLE

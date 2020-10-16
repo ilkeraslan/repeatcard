@@ -13,7 +13,7 @@ sealed class ResultEvent {
 }
 
 sealed class ResultState {
-    object Initial : ResultState()
+    object Loading : ResultState()
     data class Success(val results: QuizResult) : ResultState()
 }
 
@@ -21,7 +21,7 @@ sealed class ResultState {
 class ResultsViewModel : ViewModel() {
 
     private lateinit var result: QuizResult
-    var state = MutableStateFlow<ResultState>(ResultState.Initial)
+    var state = MutableStateFlow<ResultState>(ResultState.Loading)
 
     fun send(event: ResultEvent) {
         when (event) {

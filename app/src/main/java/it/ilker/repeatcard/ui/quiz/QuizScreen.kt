@@ -105,7 +105,7 @@ class QuizScreen : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             viewModel.state.collect { state ->
                 when (state) {
-                    is QuizState.Initial -> {}
+                    is QuizState.Loading -> {}
                     is QuizState.Error -> {
                         Toast.makeText(this@QuizScreen, "No question available.", Toast.LENGTH_SHORT).show()
                         finish()

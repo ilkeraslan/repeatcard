@@ -51,7 +51,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             viewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardDetailState.Initial -> {}
+                    is FlashcardDetailState.Loading -> {}
                     is FlashcardDetailState.Error -> showError()
                     is FlashcardDetailState.Success -> showFlashcard(state.flashcard)
                 }.exhaustive

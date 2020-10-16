@@ -76,7 +76,7 @@ class HomeScreen : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             homeViewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardState.Initial -> {}
+                    is FlashcardState.Loading -> {}
                     is FlashcardState.Error -> showError()
                     is FlashcardState.Success -> showResults(state.flashcards)
                 }.exhaustive

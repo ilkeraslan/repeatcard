@@ -69,7 +69,7 @@ class EditFlashcardScreen : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             editFlashcardViewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardEditState.Initial -> {}
+                    is FlashcardEditState.Loading -> {}
                     is FlashcardEditState.Success -> {
                         setCurrentValues(state)
                         flashcardImage.setOnClickListener {

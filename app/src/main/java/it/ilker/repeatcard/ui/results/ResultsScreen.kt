@@ -60,7 +60,7 @@ class ResultsScreen : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             resultsViewModel.state.collect { state ->
                 when (state) {
-                    is ResultState.Initial -> {}
+                    is ResultState.Loading -> {}
                     is ResultState.Success -> showSuccess(state.results)
                 }.exhaustive
             }

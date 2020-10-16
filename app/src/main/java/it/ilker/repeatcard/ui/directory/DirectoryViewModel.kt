@@ -25,7 +25,7 @@ sealed class DirectoryEvent {
 }
 
 sealed class DirectoryState {
-    object Initial : DirectoryState()
+    object Loading : DirectoryState()
     data class HasContent(val flashcards: List<Flashcard>) : DirectoryState()
     data class NoContent(val flashcards: List<Flashcard>) : DirectoryState()
 }
@@ -36,7 +36,7 @@ class DirectoryViewModel(context: Context) : ViewModel() {
     private val directoryRepository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     private val logsRepository: NotificationRepository
-    var state = MutableStateFlow<DirectoryState>(DirectoryState.Initial)
+    var state = MutableStateFlow<DirectoryState>(DirectoryState.Loading)
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(context).directoryDao()

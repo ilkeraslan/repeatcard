@@ -22,7 +22,7 @@ sealed class QuizEvent {
 }
 
 sealed class QuizState {
-    object Initial : QuizState()
+    object Loading : QuizState()
     data class Error(val error: Throwable) : QuizState()
     data class Success(val questions: List<Question>) : QuizState()
     data class Results(val result: QuizResult) : QuizState()
@@ -33,7 +33,7 @@ class QuizViewModel(context: Context) : ViewModel() {
 
     private val repository: FlashcardRepository
     private val generatedQuestions = mutableListOf<Question>()
-    var state = MutableStateFlow<QuizState>(QuizState.Initial)
+    var state = MutableStateFlow<QuizState>(QuizState.Loading)
 
     init {
         val flashcardsDao = FlashcardDatabase.getDatabase(context).flashcardDao()

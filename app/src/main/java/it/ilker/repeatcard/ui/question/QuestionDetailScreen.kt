@@ -53,7 +53,7 @@ class QuestionDetailScreen : AppCompatActivity() {
         lifecycleScope.launchWhenCreated {
             questionViewModel.state.collect { state ->
                 when (state) {
-                    is QuestionState.Initial -> {}
+                    is QuestionState.Loading -> {}
                     is QuestionState.Success -> {
                         Glide.with(this@QuestionDetailScreen)
                             .load(state.question.imageUri)

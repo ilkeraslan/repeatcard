@@ -21,16 +21,16 @@ sealed class FlashcardEditEvent {
 }
 
 sealed class FlashcardEditState {
+    object Loading : FlashcardEditState()
     data class Success(val flashcard: Flashcard) : FlashcardEditState()
     object UpdateSuccess : FlashcardEditState()
-    object Initial : FlashcardEditState()
 }
 
 @ExperimentalCoroutinesApi
 class EditFlashcardViewModel(application: Application) : AndroidViewModel(application) {
 
     private val flashcardRepository: FlashcardRepository
-    var state = MutableStateFlow<FlashcardEditState>(FlashcardEditState.Initial)
+    var state = MutableStateFlow<FlashcardEditState>(FlashcardEditState.Loading)
 
     init {
         val flashcardsDao = FlashcardDatabase.getDatabase(application).flashcardDao()
