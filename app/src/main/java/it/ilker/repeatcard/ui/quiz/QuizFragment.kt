@@ -9,13 +9,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 class QuizFragment : Fragment() {
 
     private val viewModel: QuizViewModel by inject()
@@ -46,16 +49,19 @@ class QuizFragment : Fragment() {
     }
 
     private fun observe() {
-        viewModel.state.observe(viewLifecycleOwner, { state ->
-            when (state) {
-                is QuizState.Error -> showError()
-                is QuizState.Success -> {
-                    feedbackText.visibility = INVISIBLE
-                    startQuiz.setOnClickListener { navigator.goToQuiz() }
-                }
-                is QuizState.Results -> Timber.d("Results")
-            }.exhaustive
-        })
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                when (state) {
+                    is QuizState.Loading -> {}
+                    is QuizState.Error -> showError()
+                    is QuizState.Success -> {
+                        feedbackText.visibility = INVISIBLE
+                        startQuiz.setOnClickListener { navigator.goToQuiz() }
+                    }
+                    is QuizState.Results -> Timber.d("Results")
+                }.exhaustive
+            }
+        }
     }
 
     private fun showError() {

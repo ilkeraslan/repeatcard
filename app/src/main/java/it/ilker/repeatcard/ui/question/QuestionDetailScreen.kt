@@ -5,13 +5,17 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
+import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.android.inject
 
+@ExperimentalCoroutinesApi
 class QuestionDetailScreen : AppCompatActivity() {
 
     private val questionViewModel: QuestionViewModel by inject()
@@ -46,14 +50,17 @@ class QuestionDetailScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        questionViewModel.state.observe(this, Observer { state ->
-            when (state) {
-                is QuestionState.Success -> {
-                    Glide.with(this)
-                        .load(state.question.imageUri)
-                        .into(questionImage)
-                }
+        lifecycleScope.launchWhenStarted {
+            questionViewModel.state.collect { state ->
+                when (state) {
+                    is QuestionState.Loading -> {}
+                    is QuestionState.Success -> {
+                        Glide.with(this@QuestionDetailScreen)
+                            .load(state.question.imageUri)
+                            .into(questionImage)
+                    }
+                }.exhaustive
             }
-        })
+        }
     }
 }

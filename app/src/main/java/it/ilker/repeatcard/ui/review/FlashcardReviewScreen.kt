@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.directory.BUNDLE_TAG_DIRECTORY_ID
@@ -15,8 +15,11 @@ import it.ilker.repeatcard.ui.directory.DirectoryEvent
 import it.ilker.repeatcard.ui.directory.DirectoryState
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
+@ExperimentalCoroutinesApi
 class FlashcardReviewScreen : AppCompatActivity() {
 
     private val viewModel: DirectoryViewModel by inject()
@@ -47,12 +50,15 @@ class FlashcardReviewScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        viewModel.state.observe(this, Observer { state ->
-            when (state) {
-                is DirectoryState.NoContent -> Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
-                is DirectoryState.HasContent -> reviewAdapter.submitList(state.flashcards)
-            }.exhaustive
-        })
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                when (state) {
+                    is DirectoryState.Loading -> {}
+                    is DirectoryState.NoContent -> Toast.makeText(this@FlashcardReviewScreen, "error", Toast.LENGTH_SHORT).show()
+                    is DirectoryState.HasContent -> reviewAdapter.submitList(state.flashcards)
+                }.exhaustive
+            }
+        }
     }
 
     private fun setupViews() {

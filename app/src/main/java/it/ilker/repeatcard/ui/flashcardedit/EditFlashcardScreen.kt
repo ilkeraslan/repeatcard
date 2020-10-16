@@ -10,14 +10,17 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.util.GalleryPicker
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
+@ExperimentalCoroutinesApi
 class EditFlashcardScreen : AppCompatActivity() {
 
     private val editFlashcardViewModel: EditFlashcardViewModel by inject()
@@ -63,27 +66,30 @@ class EditFlashcardScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        editFlashcardViewModel.state.observe(this, Observer { state ->
-            when (state) {
-                is FlashcardEditState.Success -> {
-                    setCurrentValues(state)
-                    flashcardImage.setOnClickListener {
-                        startActivityForResult(GalleryPicker.getIntent(this), SELECT_IMAGE_INTENT)
-                    }
-                    flashcardSaveButton.setOnClickListener {
-                        editFlashcardViewModel.send(
-                            FlashcardEditEvent.Edit(
-                                id = state.flashcard.id,
-                                title = flashcardTitleEdit.text.toString(),
-                                description = flashcardDescriptionEdit.text.toString(),
-                                imageUri = imageUri
+        lifecycleScope.launchWhenStarted {
+            editFlashcardViewModel.state.collect { state ->
+                when (state) {
+                    is FlashcardEditState.Loading -> {}
+                    is FlashcardEditState.Success -> {
+                        setCurrentValues(state)
+                        flashcardImage.setOnClickListener {
+                            startActivityForResult(GalleryPicker.getIntent(this@EditFlashcardScreen), SELECT_IMAGE_INTENT)
+                        }
+                        flashcardSaveButton.setOnClickListener {
+                            editFlashcardViewModel.send(
+                                FlashcardEditEvent.Edit(
+                                    id = state.flashcard.id,
+                                    title = flashcardTitleEdit.text.toString(),
+                                    description = flashcardDescriptionEdit.text.toString(),
+                                    imageUri = imageUri
+                                )
                             )
-                        )
+                        }
                     }
-                }
-                FlashcardEditState.UpdateSuccess -> finish()
-            }.exhaustive
-        })
+                    FlashcardEditState.UpdateSuccess -> finish()
+                }.exhaustive
+            }
+        }
     }
 
     private fun setCurrentValues(state: FlashcardEditState.Success) {

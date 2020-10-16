@@ -8,16 +8,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 private const val BUNDLE_TAG_FLASHCARD_ID: String = "BUNDLE_TAG_FLASHCARD_ID"
 
+@ExperimentalCoroutinesApi
 class FlashcardDetailActivity : AppCompatActivity() {
 
     private val viewModel: FlashcardDetailViewModel by inject()
@@ -45,12 +48,15 @@ class FlashcardDetailActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.state.observe(this, Observer { state ->
-            when (state) {
-                is FlashcardDetailState.Error -> showError()
-                is FlashcardDetailState.Success -> showFlashcard(state.flashcard)
-            }.exhaustive
-        })
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                when (state) {
+                    is FlashcardDetailState.Loading -> {}
+                    is FlashcardDetailState.Error -> showError()
+                    is FlashcardDetailState.Success -> showFlashcard(state.flashcard)
+                }.exhaustive
+            }
+        }
     }
 
     private fun setUpViews() {

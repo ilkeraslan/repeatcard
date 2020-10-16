@@ -8,15 +8,18 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailActivity
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
+@ExperimentalCoroutinesApi
 class HomeScreen : Fragment() {
 
     private val homeViewModel: HomeViewModel by inject()
@@ -28,7 +31,11 @@ class HomeScreen : Fragment() {
     private lateinit var noFlashcardText: TextView
     private lateinit var noQuizResultText: TextView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
@@ -66,12 +73,15 @@ class HomeScreen : Fragment() {
     }
 
     private fun observeViewModel() {
-        homeViewModel.state.observe(viewLifecycleOwner, Observer { state ->
-            when (state) {
-                is FlashcardState.Error -> showError()
-                is FlashcardState.Success -> showResults(state.flashcards)
-            }.exhaustive
-        })
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            homeViewModel.state.collect { state ->
+                when (state) {
+                    is FlashcardState.Loading -> {}
+                    is FlashcardState.Error -> showError()
+                    is FlashcardState.Success -> showResults(state.flashcards)
+                }.exhaustive
+            }
+        }
     }
 
     private fun showError() {
