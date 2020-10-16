@@ -77,7 +77,7 @@ class DirectoriesFragment : Fragment() {
 
     @ExperimentalCoroutinesApi
     private fun observe() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.directoriesState.collect { state ->
                 when (state) {
                     is DirectoriesState.Loading -> {}

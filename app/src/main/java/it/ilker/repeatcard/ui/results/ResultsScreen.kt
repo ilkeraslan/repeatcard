@@ -57,7 +57,7 @@ class ResultsScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             resultsViewModel.state.collect { state ->
                 when (state) {
                     is ResultState.Loading -> {}

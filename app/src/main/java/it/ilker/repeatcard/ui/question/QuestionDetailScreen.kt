@@ -50,7 +50,7 @@ class QuestionDetailScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             questionViewModel.state.collect { state ->
                 when (state) {
                     is QuestionState.Loading -> {}

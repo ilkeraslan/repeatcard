@@ -73,7 +73,7 @@ class HomeScreen : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             homeViewModel.state.collect { state ->
                 when (state) {
                     is FlashcardState.Loading -> {}

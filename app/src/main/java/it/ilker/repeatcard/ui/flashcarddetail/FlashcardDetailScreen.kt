@@ -48,7 +48,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
                     is FlashcardDetailState.Loading -> {}

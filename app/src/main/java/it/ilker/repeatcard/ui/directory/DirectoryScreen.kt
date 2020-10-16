@@ -102,7 +102,7 @@ class DirectoryScreen : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     private fun observe() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             directoryViewModel.state.collect { state ->
                 when (state) {
                     is DirectoryState.Loading -> { }

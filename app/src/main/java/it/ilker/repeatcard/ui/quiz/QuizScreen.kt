@@ -102,7 +102,7 @@ class QuizScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
                     is QuizState.Loading -> {}

@@ -66,7 +66,7 @@ class EditFlashcardScreen : AppCompatActivity() {
     }
 
     private fun observe() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launchWhenStarted {
             editFlashcardViewModel.state.collect { state ->
                 when (state) {
                     is FlashcardEditState.Loading -> {}
