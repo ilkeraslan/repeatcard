@@ -11,7 +11,7 @@ import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 const val MIN_CARD_NUMBER_FOR_QUIZ = 4
 
