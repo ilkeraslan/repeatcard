@@ -94,6 +94,7 @@ class HomeScreen : Fragment() {
     private fun showError() {
         progress_circular.visibility = GONE
         noFlashcardText.visibility = VISIBLE
+        noQuizResultText.visibility = VISIBLE
         latestCardsAdapter.submitList(listOf())
         latestCardsAdapter.notifyDataSetChanged()
     }
