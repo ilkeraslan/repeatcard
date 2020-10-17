@@ -3,8 +3,7 @@ package it.ilker.repeatcard.ui.quiz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -14,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.results.ResultsScreen
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.activity_quiz.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -105,12 +105,14 @@ class QuizScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is QuizState.Loading -> {}
+                    is QuizState.Loading -> showLoading()
                     is QuizState.Error -> {
                         Toast.makeText(this@QuizScreen, "No question available.", Toast.LENGTH_SHORT).show()
                         finish()
                     }
                     is QuizState.Success -> {
+                        progress_circular.visibility = GONE
+                        content_group.visibility = VISIBLE
                         adapter.submitList(state.questions)
                         adapter.notifyDataSetChanged()
                     }
@@ -121,5 +123,10 @@ class QuizScreen : AppCompatActivity() {
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoading() {
+        progress_circular.visibility = VISIBLE
+        content_group.visibility = INVISIBLE
     }
 }
