@@ -105,7 +105,10 @@ class QuizScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is QuizState.Loading -> showLoading()
+                    is QuizState.Loading -> {
+                        progress_circular.visibility = VISIBLE
+                        content_group.visibility = INVISIBLE
+                    }
                     is QuizState.Error -> {
                         Toast.makeText(this@QuizScreen, "No question available.", Toast.LENGTH_SHORT).show()
                         finish()
@@ -125,8 +128,4 @@ class QuizScreen : AppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
-        progress_circular.visibility = VISIBLE
-        content_group.visibility = INVISIBLE
-    }
 }
