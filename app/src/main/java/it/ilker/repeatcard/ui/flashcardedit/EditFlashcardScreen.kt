@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.INVISIBLE
+import android.view.View.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.util.GalleryPicker
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.activity_add_flashcard.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -69,8 +70,10 @@ class EditFlashcardScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             editFlashcardViewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardEditState.Loading -> {}
+                    is FlashcardEditState.Loading -> showLoading()
                     is FlashcardEditState.Success -> {
+                        progress_circular.visibility = GONE
+                        content_group.visibility = VISIBLE
                         setCurrentValues(state)
                         flashcardImage.setOnClickListener {
                             startActivityForResult(GalleryPicker.getIntent(this@EditFlashcardScreen), SELECT_IMAGE_INTENT)
@@ -90,6 +93,11 @@ class EditFlashcardScreen : AppCompatActivity() {
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoading() {
+        progress_circular.visibility = VISIBLE
+        content_group.visibility = INVISIBLE
     }
 
     private fun setCurrentValues(state: FlashcardEditState.Success) {
