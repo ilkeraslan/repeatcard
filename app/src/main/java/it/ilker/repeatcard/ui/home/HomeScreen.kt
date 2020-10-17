@@ -3,8 +3,7 @@ package it.ilker.repeatcard.ui.home
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -15,6 +14,7 @@ import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailActivity
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.home_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -76,7 +76,7 @@ class HomeScreen : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             homeViewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardState.Loading -> {}
+                    is FlashcardState.Loading -> showLoader()
                     is FlashcardState.Error -> showError()
                     is FlashcardState.Success -> showResults(state.flashcards)
                 }.exhaustive
@@ -84,14 +84,24 @@ class HomeScreen : Fragment() {
         }
     }
 
+    private fun showLoader() {
+        progress_circular.visibility = VISIBLE
+        noFlashcardText.visibility = INVISIBLE
+        noQuizResultText.visibility = INVISIBLE
+
+    }
+
     private fun showError() {
+        progress_circular.visibility = GONE
         noFlashcardText.visibility = VISIBLE
         latestCardsAdapter.submitList(listOf())
         latestCardsAdapter.notifyDataSetChanged()
     }
 
     private fun showResults(flashcards: List<Flashcard>) {
+        progress_circular.visibility = GONE
         noFlashcardText.visibility = INVISIBLE
+        noQuizResultText.visibility = INVISIBLE
         latestCardsAdapter.submitList(flashcards)
         latestCardsAdapter.notifyDataSetChanged()
     }
