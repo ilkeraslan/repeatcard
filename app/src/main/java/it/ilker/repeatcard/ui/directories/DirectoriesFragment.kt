@@ -2,6 +2,7 @@ package it.ilker.repeatcard.ui.directories
 
 import android.app.Activity
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.directory.Directory
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.directories_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -80,12 +82,19 @@ class DirectoriesFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.directoriesState.collect { state ->
                 when (state) {
-                    is DirectoriesState.Loading -> {}
+                    is DirectoriesState.Loading -> showLoading()
                     is DirectoriesState.Success -> showDirectories(state.directories)
                     is DirectoriesState.Error -> Timber.d(Error())
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoading() {
+        content_group.visibility = View.INVISIBLE
+        progress_circular.visibility = View.VISIBLE
+
+
     }
 
     @ExperimentalCoroutinesApi
@@ -115,6 +124,8 @@ class DirectoriesFragment : Fragment() {
     }
 
     private fun showDirectories(directories: List<Directory>) {
+        progress_circular.visibility = View.GONE
+        content_group.visibility = View.VISIBLE
         directoriesAdapter.submitList(directories)
         directoriesAdapter.notifyDataSetChanged()
     }
