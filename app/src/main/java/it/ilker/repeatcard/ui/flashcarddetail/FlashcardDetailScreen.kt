@@ -2,7 +2,9 @@ package it.ilker.repeatcard.ui.flashcarddetail
 
 import android.content.Context
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,6 +15,7 @@ import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.flashcard_detail_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -51,12 +54,18 @@ class FlashcardDetailActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardDetailState.Loading -> {}
+                    is FlashcardDetailState.Loading -> showLoading()
                     is FlashcardDetailState.Error -> showError()
                     is FlashcardDetailState.Success -> showFlashcard(state.flashcard)
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoading() {
+        progress_circular.visibility = View.VISIBLE
+        content_group.visibility = View.INVISIBLE
+
     }
 
     private fun setUpViews() {
@@ -68,6 +77,8 @@ class FlashcardDetailActivity : AppCompatActivity() {
     }
 
     private fun showFlashcard(flashcard: Flashcard) {
+        progress_circular.visibility = View.GONE
+        content_group.visibility = View.VISIBLE
         detailTitle.text = flashcard.title
         detailDescription.text = flashcard.description
 
@@ -80,6 +91,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
     }
 
     private fun showError() {
+        progress_circular.visibility = View.GONE
         Timber.e(Error())
         Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show()
     }
