@@ -3,6 +3,7 @@ package it.ilker.repeatcard.ui.question
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.activity_quiz_base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.serialization.json.Json
@@ -53,8 +55,10 @@ class QuestionDetailScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             questionViewModel.state.collect { state ->
                 when (state) {
-                    is QuestionState.Loading -> {}
+                    is QuestionState.Loading -> showLoading()
                     is QuestionState.Success -> {
+                        progress_circular.visibility = View.GONE
+                        content_group.visibility = View.VISIBLE
                         Glide.with(this@QuestionDetailScreen)
                             .load(state.question.imageUri)
                             .into(questionImage)
@@ -62,5 +66,11 @@ class QuestionDetailScreen : AppCompatActivity() {
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoading() {
+        progress_circular.visibility = View.VISIBLE
+        content_group.visibility = View.INVISIBLE
+
     }
 }
