@@ -15,6 +15,7 @@ import it.ilker.repeatcard.ui.directory.DirectoryEvent
 import it.ilker.repeatcard.ui.directory.DirectoryState
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.flashcard_review_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -53,9 +54,16 @@ class FlashcardReviewScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is DirectoryState.Loading -> {}
+                    is DirectoryState.Loading -> {
+                        progress_circular.visibility = View.VISIBLE
+                        content_group.visibility = View.INVISIBLE
+                    }
                     is DirectoryState.NoContent -> Toast.makeText(this@FlashcardReviewScreen, "error", Toast.LENGTH_SHORT).show()
-                    is DirectoryState.HasContent -> reviewAdapter.submitList(state.flashcards)
+                    is DirectoryState.HasContent -> {
+                        progress_circular.visibility = View.GONE
+                        content_group.visibility = View.VISIBLE
+                        reviewAdapter.submitList(state.flashcards)
+                    }
                 }.exhaustive
             }
         }
