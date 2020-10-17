@@ -3,8 +3,7 @@ package it.ilker.repeatcard.ui.quiz
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
-import android.view.View.VISIBLE
+import android.view.View.*
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -13,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.quiz_fragment.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -52,9 +52,11 @@ class QuizFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is QuizState.Loading -> {}
+                    is QuizState.Loading -> showLoading()
                     is QuizState.Error -> showError()
                     is QuizState.Success -> {
+                        progress_circular.visibility = VISIBLE
+                        startQuiz.visibility = VISIBLE
                         feedbackText.visibility = INVISIBLE
                         startQuiz.setOnClickListener { navigator.goToQuiz() }
                     }
@@ -64,7 +66,14 @@ class QuizFragment : Fragment() {
         }
     }
 
+    private fun showLoading() {
+        progress_circular.visibility = VISIBLE
+        feedbackText.visibility = INVISIBLE
+        startQuiz.visibility = INVISIBLE
+    }
+
     private fun showError() {
+        progress_circular.visibility = GONE
         feedbackText.visibility = VISIBLE
     }
 }
