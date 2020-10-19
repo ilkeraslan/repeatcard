@@ -55,7 +55,7 @@ class QuestionDetailScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             questionViewModel.state.collect { state ->
                 when (state) {
-                    is QuestionState.Loading -> showLoading()
+                    is QuestionState.Loading -> showLoader()
                     is QuestionState.Success -> {
                         progress_circular.visibility = View.GONE
                         content_group.visibility = View.VISIBLE
@@ -68,9 +68,8 @@ class QuestionDetailScreen : AppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
+    private fun showLoader() {
         progress_circular.visibility = View.VISIBLE
         content_group.visibility = View.INVISIBLE
-
     }
 }

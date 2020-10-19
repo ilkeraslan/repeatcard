@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.View.*
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -76,7 +75,7 @@ class DirectoryScreen : AppCompatActivity() {
         noFlashcardText = findViewById(R.id.noFlashcardText)
         addFlashcard = findViewById(R.id.add_flashcard_to_directory)
         review = findViewById(R.id.reviewButton)
-        noFlashcardText.visibility = INVISIBLE
+        noFlashcardText.visibility = View.INVISIBLE
 
         addFlashcard.setOnClickListener {
             val intent = Intent(this, AddFlashcardScreen::class.java)
@@ -106,7 +105,7 @@ class DirectoryScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             directoryViewModel.state.collect { state ->
                 when (state) {
-                    is DirectoryState.Loading -> showLoading()
+                    is DirectoryState.Loading -> showLoader()
                     is DirectoryState.NoContent -> showNoContent(state.flashcards)
                     is DirectoryState.HasContent -> showFlashcards(state.flashcards)
                 }.exhaustive
@@ -114,9 +113,9 @@ class DirectoryScreen : AppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
-        progress_circular.visibility = VISIBLE
-        content_group.visibility = INVISIBLE
+    private fun showLoader() {
+        progress_circular.visibility = View.VISIBLE
+        content_group.visibility = View.INVISIBLE
     }
 
     @ExperimentalCoroutinesApi
@@ -155,21 +154,21 @@ class DirectoryScreen : AppCompatActivity() {
     }
 
     private fun showNoContent(flashcards: List<Flashcard>) {
-        progress_circular.visibility = GONE
-        content_group.visibility = VISIBLE
+        progress_circular.visibility = View.GONE
+        content_group.visibility = View.VISIBLE
         adapter.submitList(flashcards)
         adapter.notifyDataSetChanged()
-        noFlashcardText.visibility = VISIBLE
-        review.visibility = INVISIBLE
+        noFlashcardText.visibility = View.VISIBLE
+        review.visibility = View.INVISIBLE
     }
 
     private fun showFlashcards(flashcards: List<Flashcard>) {
-        progress_circular.visibility = GONE
-        content_group.visibility = VISIBLE
+        progress_circular.visibility = View.GONE
+        content_group.visibility = View.VISIBLE
         adapter.submitList(flashcards)
         adapter.notifyDataSetChanged()
-        noFlashcardText.visibility = INVISIBLE
-        review.visibility = VISIBLE
+        noFlashcardText.visibility = View.INVISIBLE
+        review.visibility = View.VISIBLE
         review.setOnClickListener { FlashcardReviewScreen.openReviewScreen(this, this.directoryId) }
     }
 }

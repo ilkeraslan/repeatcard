@@ -2,7 +2,6 @@ package it.ilker.repeatcard.ui.flashcarddetail
 
 import android.content.Context
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -54,7 +53,7 @@ class FlashcardDetailActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardDetailState.Loading -> showLoading()
+                    is FlashcardDetailState.Loading -> showLoader()
                     is FlashcardDetailState.Error -> showError()
                     is FlashcardDetailState.Success -> showFlashcard(state.flashcard)
                 }.exhaustive
@@ -62,10 +61,9 @@ class FlashcardDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun showLoading() {
+    private fun showLoader() {
         progress_circular.visibility = View.VISIBLE
         content_group.visibility = View.INVISIBLE
-
     }
 
     private fun setUpViews() {

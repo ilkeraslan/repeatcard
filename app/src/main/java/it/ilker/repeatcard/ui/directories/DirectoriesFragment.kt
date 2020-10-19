@@ -2,7 +2,6 @@ package it.ilker.repeatcard.ui.directories
 
 import android.app.Activity
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -82,7 +81,7 @@ class DirectoriesFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.directoriesState.collect { state ->
                 when (state) {
-                    is DirectoriesState.Loading -> showLoading()
+                    is DirectoriesState.Loading -> showLoader()
                     is DirectoriesState.Success -> showDirectories(state.directories)
                     is DirectoriesState.Error -> Timber.d(Error())
                 }.exhaustive
@@ -90,11 +89,9 @@ class DirectoriesFragment : Fragment() {
         }
     }
 
-    private fun showLoading() {
+    private fun showLoader() {
         content_group.visibility = View.INVISIBLE
         progress_circular.visibility = View.VISIBLE
-
-
     }
 
     @ExperimentalCoroutinesApi

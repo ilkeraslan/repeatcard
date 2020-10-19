@@ -62,10 +62,7 @@ class ResultsScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             resultsViewModel.state.collect { state ->
                 when (state) {
-                    is ResultState.Loading -> {
-                        progress_circular.visibility = View.VISIBLE
-                        recyclerView.visibility = View.INVISIBLE
-                    }
+                    is ResultState.Loading -> showLoader()
                     is ResultState.Success -> showSuccess(state.results)
                 }.exhaustive
             }
@@ -77,5 +74,10 @@ class ResultsScreen : AppCompatActivity() {
         recyclerView.visibility = View.VISIBLE
         resultsAdapter.submitList(result.questions)
         resultsAdapter.notifyDataSetChanged()
+    }
+
+    private fun showLoader() {
+        progress_circular.visibility = View.VISIBLE
+        recyclerView.visibility = View.INVISIBLE
     }
 }

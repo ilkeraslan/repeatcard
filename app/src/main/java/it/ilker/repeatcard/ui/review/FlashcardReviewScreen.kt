@@ -54,10 +54,7 @@ class FlashcardReviewScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is DirectoryState.Loading -> {
-                        progress_circular.visibility = View.VISIBLE
-                        content_group.visibility = View.INVISIBLE
-                    }
+                    is DirectoryState.Loading -> showLoader()
                     is DirectoryState.NoContent -> Toast.makeText(this@FlashcardReviewScreen, "error", Toast.LENGTH_SHORT).show()
                     is DirectoryState.HasContent -> {
                         progress_circular.visibility = View.GONE
@@ -67,6 +64,11 @@ class FlashcardReviewScreen : AppCompatActivity() {
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoader() {
+        progress_circular.visibility = View.VISIBLE
+        content_group.visibility = View.INVISIBLE
     }
 
     private fun setupViews() {

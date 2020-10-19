@@ -3,7 +3,7 @@ package it.ilker.repeatcard.ui.quiz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.*
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -93,9 +93,9 @@ class QuizScreen : AppCompatActivity() {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
 
                 if (viewPager.currentItem == 0) {
-                    previousButton.visibility = INVISIBLE
+                    previousButton.visibility = View.INVISIBLE
                 } else {
-                    previousButton.visibility = VISIBLE
+                    previousButton.visibility = View.VISIBLE
                 }
             }
         })
@@ -105,17 +105,14 @@ class QuizScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is QuizState.Loading -> {
-                        progress_circular.visibility = VISIBLE
-                        content_group.visibility = INVISIBLE
-                    }
+                    is QuizState.Loading -> showLoader()
                     is QuizState.Error -> {
                         Toast.makeText(this@QuizScreen, "No question available.", Toast.LENGTH_SHORT).show()
                         finish()
                     }
                     is QuizState.Success -> {
-                        progress_circular.visibility = GONE
-                        content_group.visibility = VISIBLE
+                        progress_circular.visibility = View.GONE
+                        content_group.visibility = View.VISIBLE
                         adapter.submitList(state.questions)
                         adapter.notifyDataSetChanged()
                     }
@@ -128,4 +125,8 @@ class QuizScreen : AppCompatActivity() {
         }
     }
 
+    private fun showLoader() {
+        progress_circular.visibility = View.VISIBLE
+        content_group.visibility = View.INVISIBLE
+    }
 }
