@@ -8,10 +8,10 @@ import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.models.quizresult.QuizResult
 import it.ilker.repeatcard.ui.util.exhaustive
+import java.util.UUID
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 const val MIN_CARD_NUMBER_FOR_QUIZ = 4
 
