@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.TextView
@@ -20,6 +21,7 @@ import it.ilker.repeatcard.ui.flashcardadd.AddFlashcardScreen
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
 import it.ilker.repeatcard.ui.review.FlashcardReviewScreen
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.directory_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -105,12 +107,17 @@ class DirectoryScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             directoryViewModel.state.collect { state ->
                 when (state) {
-                    is DirectoryState.Loading -> { }
+                    is DirectoryState.Loading -> showLoader()
                     is DirectoryState.NoContent -> showNoContent(state.flashcards)
                     is DirectoryState.HasContent -> showFlashcards(state.flashcards)
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoader() {
+        progress_circular.visibility = VISIBLE
+        content_group.visibility = INVISIBLE
     }
 
     @ExperimentalCoroutinesApi
@@ -149,6 +156,8 @@ class DirectoryScreen : AppCompatActivity() {
     }
 
     private fun showNoContent(flashcards: List<Flashcard>) {
+        progress_circular.visibility = GONE
+        content_group.visibility = VISIBLE
         adapter.submitList(flashcards)
         adapter.notifyDataSetChanged()
         noFlashcardText.visibility = VISIBLE
@@ -156,6 +165,8 @@ class DirectoryScreen : AppCompatActivity() {
     }
 
     private fun showFlashcards(flashcards: List<Flashcard>) {
+        progress_circular.visibility = GONE
+        content_group.visibility = VISIBLE
         adapter.submitList(flashcards)
         adapter.notifyDataSetChanged()
         noFlashcardText.visibility = INVISIBLE

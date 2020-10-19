@@ -41,4 +41,11 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="circular_progress_wheel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
 </resources>

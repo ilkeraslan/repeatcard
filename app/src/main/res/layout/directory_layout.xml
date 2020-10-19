@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".ui.directory.DirectoryScreen">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/content_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="noFlashcardText,reviewButton,recyclerViewDirectory,add_flashcard_to_directory"
+        />
+
     <TextView
         android:id="@+id/noFlashcardText"
         android:layout_width="0dp"
@@ -63,5 +70,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_review_24dp" />
+
+    <ProgressBar
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/progress_circular"
+        style="@style/circular_progress_wheel"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

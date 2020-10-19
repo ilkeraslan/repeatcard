@@ -3,6 +3,9 @@ package it.ilker.repeatcard.ui.results
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +15,7 @@ import it.ilker.repeatcard.models.question.Question
 import it.ilker.repeatcard.models.quizresult.QuizResult
 import it.ilker.repeatcard.ui.question.QuestionDetailScreen
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.screen_results.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.serialization.json.Json
@@ -60,7 +64,7 @@ class ResultsScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             resultsViewModel.state.collect { state ->
                 when (state) {
-                    is ResultState.Loading -> {}
+                    is ResultState.Loading -> showLoader()
                     is ResultState.Success -> showSuccess(state.results)
                 }.exhaustive
             }
@@ -68,7 +72,14 @@ class ResultsScreen : AppCompatActivity() {
     }
 
     private fun showSuccess(result: QuizResult) {
+        progress_circular.visibility = GONE
+        recyclerView.visibility = VISIBLE
         resultsAdapter.submitList(result.questions)
         resultsAdapter.notifyDataSetChanged()
+    }
+
+    private fun showLoader() {
+        progress_circular.visibility = VISIBLE
+        recyclerView.visibility = INVISIBLE
     }
 }

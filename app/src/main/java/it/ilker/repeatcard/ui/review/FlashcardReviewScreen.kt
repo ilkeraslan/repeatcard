@@ -3,7 +3,9 @@ package it.ilker.repeatcard.ui.review
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +17,7 @@ import it.ilker.repeatcard.ui.directory.DirectoryEvent
 import it.ilker.repeatcard.ui.directory.DirectoryState
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlinx.android.synthetic.main.flashcard_review_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -53,12 +56,21 @@ class FlashcardReviewScreen : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is DirectoryState.Loading -> {}
+                    is DirectoryState.Loading -> showLoader()
                     is DirectoryState.NoContent -> Toast.makeText(this@FlashcardReviewScreen, "error", Toast.LENGTH_SHORT).show()
-                    is DirectoryState.HasContent -> reviewAdapter.submitList(state.flashcards)
+                    is DirectoryState.HasContent -> {
+                        progress_circular.visibility = GONE
+                        content_group.visibility = VISIBLE
+                        reviewAdapter.submitList(state.flashcards)
+                    }
                 }.exhaustive
             }
         }
+    }
+
+    private fun showLoader() {
+        progress_circular.visibility = VISIBLE
+        content_group.visibility = INVISIBLE
     }
 
     private fun setupViews() {
@@ -88,11 +100,11 @@ class FlashcardReviewScreen : AppCompatActivity() {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
 
                 if (viewPager.currentItem == 0) {
-                    previousButton.visibility = View.INVISIBLE
-                    nextButton.visibility = View.VISIBLE
+                    previousButton.visibility = INVISIBLE
+                    nextButton.visibility = VISIBLE
                 } else {
-                    previousButton.visibility = View.VISIBLE
-                    nextButton.visibility = View.VISIBLE
+                    previousButton.visibility = VISIBLE
+                    nextButton.visibility = VISIBLE
                 }
             }
         })
