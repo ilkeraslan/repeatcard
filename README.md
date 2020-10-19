@@ -78,3 +78,4 @@ Following the list of amazing people that contributed to this project in histori
 - ![@renanrbs](https://github.com/renanrbs)
 - ![@Kardelio](https://github.com/Kardelio)
 - ![@guuilp](https://github.com/guuilp)
+- ![@lingarajsankaravelu](https://github.com/lingarajsankaravelu)
