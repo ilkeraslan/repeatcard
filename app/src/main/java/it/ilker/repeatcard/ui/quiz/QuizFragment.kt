@@ -3,6 +3,9 @@ package it.ilker.repeatcard.ui.quiz
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
@@ -54,9 +57,9 @@ class QuizFragment : Fragment() {
                     is QuizState.Loading -> showLoader()
                     is QuizState.Error -> showError()
                     is QuizState.Success -> {
-                        progress_circular.visibility = View.VISIBLE
-                        startQuiz.visibility = View.VISIBLE
-                        feedbackText.visibility = View.INVISIBLE
+                        progress_circular.visibility = GONE
+                        startQuiz.visibility = VISIBLE
+                        feedbackText.visibility = INVISIBLE
                         startQuiz.setOnClickListener { navigator.goToQuiz() }
                     }
                     is QuizState.Results -> Timber.d("Results")
@@ -66,13 +69,13 @@ class QuizFragment : Fragment() {
     }
 
     private fun showLoader() {
-        progress_circular.visibility = View.VISIBLE
-        feedbackText.visibility = View.INVISIBLE
-        startQuiz.visibility = View.INVISIBLE
+        progress_circular.visibility = VISIBLE
+        feedbackText.visibility = INVISIBLE
+        startQuiz.visibility = INVISIBLE
     }
 
     private fun showError() {
-        progress_circular.visibility = View.GONE
-        feedbackText.visibility = View.VISIBLE
+        progress_circular.visibility = GONE
+        feedbackText.visibility = VISIBLE
     }
 }

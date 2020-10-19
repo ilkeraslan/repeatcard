@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -72,8 +74,8 @@ class EditFlashcardScreen : AppCompatActivity() {
                 when (state) {
                     is FlashcardEditState.Loading -> showLoader()
                     is FlashcardEditState.Success -> {
-                        progress_circular.visibility = View.GONE
-                        content_group.visibility = View.VISIBLE
+                        progress_circular.visibility = GONE
+                        content_group.visibility = VISIBLE
                         setCurrentValues(state)
                         flashcardImage.setOnClickListener {
                             startActivityForResult(GalleryPicker.getIntent(this@EditFlashcardScreen), SELECT_IMAGE_INTENT)
@@ -96,8 +98,8 @@ class EditFlashcardScreen : AppCompatActivity() {
     }
 
     private fun showLoader() {
-        progress_circular.visibility = View.VISIBLE
-        content_group.visibility = View.INVISIBLE
+        progress_circular.visibility = VISIBLE
+        content_group.visibility = INVISIBLE
     }
 
     private fun setCurrentValues(state: FlashcardEditState.Success) {
@@ -111,7 +113,7 @@ class EditFlashcardScreen : AppCompatActivity() {
 
         if (!state.flashcard.imageUri.isNullOrEmpty()) {
             Glide.with(this).load(state.flashcard.imageUri).into(flashcardImage)
-            tapToAdd.visibility = View.INVISIBLE
+            tapToAdd.visibility = INVISIBLE
             flashcardImage.background = null
         }
     }
@@ -123,7 +125,7 @@ class EditFlashcardScreen : AppCompatActivity() {
             imageUri = data.data.toString()
             Timber.d(imageUri.toString())
             Glide.with(this).load(imageUri).into(flashcardImage)
-            tapToAdd.visibility = View.INVISIBLE
+            tapToAdd.visibility = INVISIBLE
             flashcardImage.background = null
         }
     }

@@ -3,6 +3,9 @@ package it.ilker.repeatcard.ui.home
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -49,8 +52,8 @@ class HomeScreen : Fragment() {
     private fun setupViews(view: View) {
         noFlashcardText = view.findViewById(R.id.no_cards)
         noQuizResultText = view.findViewById(R.id.no_quiz)
-        noFlashcardText.visibility = View.VISIBLE
-        noQuizResultText.visibility = View.VISIBLE
+        noFlashcardText.visibility = VISIBLE
+        noQuizResultText.visibility = VISIBLE
     }
 
     private fun setupRecyclerView(view: View) {
@@ -84,23 +87,23 @@ class HomeScreen : Fragment() {
     }
 
     private fun showLoader() {
-        progress_circular.visibility = View.VISIBLE
-        noFlashcardText.visibility = View.INVISIBLE
-        noQuizResultText.visibility = View.INVISIBLE
+        progress_circular.visibility = VISIBLE
+        noFlashcardText.visibility = INVISIBLE
+        noQuizResultText.visibility = INVISIBLE
     }
 
     private fun showError() {
-        progress_circular.visibility = View.GONE
-        noFlashcardText.visibility = View.VISIBLE
-        noQuizResultText.visibility = View.VISIBLE
+        progress_circular.visibility = GONE
+        noFlashcardText.visibility = VISIBLE
+        noQuizResultText.visibility = VISIBLE
         latestCardsAdapter.submitList(listOf())
         latestCardsAdapter.notifyDataSetChanged()
     }
 
     private fun showResults(flashcards: List<Flashcard>) {
-        progress_circular.visibility = View.GONE
-        noFlashcardText.visibility = View.INVISIBLE
-        noQuizResultText.visibility = View.INVISIBLE
+        progress_circular.visibility = GONE
+        noFlashcardText.visibility = INVISIBLE
+        noQuizResultText.visibility = INVISIBLE
         latestCardsAdapter.submitList(flashcards)
         latestCardsAdapter.notifyDataSetChanged()
     }

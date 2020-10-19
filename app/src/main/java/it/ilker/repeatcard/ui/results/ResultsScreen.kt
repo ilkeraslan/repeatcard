@@ -3,7 +3,9 @@ package it.ilker.repeatcard.ui.results
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,14 +72,14 @@ class ResultsScreen : AppCompatActivity() {
     }
 
     private fun showSuccess(result: QuizResult) {
-        progress_circular.visibility = View.GONE
-        recyclerView.visibility = View.VISIBLE
+        progress_circular.visibility = GONE
+        recyclerView.visibility = VISIBLE
         resultsAdapter.submitList(result.questions)
         resultsAdapter.notifyDataSetChanged()
     }
 
     private fun showLoader() {
-        progress_circular.visibility = View.VISIBLE
-        recyclerView.visibility = View.INVISIBLE
+        progress_circular.visibility = VISIBLE
+        recyclerView.visibility = INVISIBLE
     }
 }

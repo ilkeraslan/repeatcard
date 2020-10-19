@@ -3,7 +3,9 @@ package it.ilker.repeatcard.ui.quiz
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -93,9 +95,9 @@ class QuizScreen : AppCompatActivity() {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
 
                 if (viewPager.currentItem == 0) {
-                    previousButton.visibility = View.INVISIBLE
+                    previousButton.visibility = INVISIBLE
                 } else {
-                    previousButton.visibility = View.VISIBLE
+                    previousButton.visibility = VISIBLE
                 }
             }
         })
@@ -111,8 +113,8 @@ class QuizScreen : AppCompatActivity() {
                         finish()
                     }
                     is QuizState.Success -> {
-                        progress_circular.visibility = View.GONE
-                        content_group.visibility = View.VISIBLE
+                        progress_circular.visibility = GONE
+                        content_group.visibility = VISIBLE
                         adapter.submitList(state.questions)
                         adapter.notifyDataSetChanged()
                     }
@@ -126,7 +128,7 @@ class QuizScreen : AppCompatActivity() {
     }
 
     private fun showLoader() {
-        progress_circular.visibility = View.VISIBLE
-        content_group.visibility = View.INVISIBLE
+        progress_circular.visibility = VISIBLE
+        content_group.visibility = INVISIBLE
     }
 }
