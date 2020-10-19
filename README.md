@@ -7,9 +7,32 @@
 [![Discord](https://discord.com/api/guilds/765660376305500250/widget.png)](https://discord.gg/U4dYsfY)
 
 An Android app to create and memorize Flashcards.
-Each Flashcard has an image, a title and an optional description which enables a user to practice via scrolling.
 
 ![Repeatcard](https://user-images.githubusercontent.com/33685811/95678688-85bf3000-0bce-11eb-95ed-22a83dc514a7.png)
+
+## What's a Flashcard?
+
+Quoting from [Wikipedia](https://en.wikipedia.org/wiki/Flashcard)
+> A flashcard or flash card is a card bearing information on both sides, which is intended to be used as an aid in memorization. Each flashcard bears a question on one side and an answer on the other. Flashcards are often used to memorize vocabulary, historical dates, formulas or any subject matter that can be learned via a question-and-answer format. Flashcards can be virtual (part of a flashcard software), or physical.
+
+The main goal of this app is to help users memorize vocabulary using Flashcards.
+
+Imagine you want to memorize the English word [Banana](https://unsplash.com/photos/Kl3467edwsE). You can create a Flashcard with a banana picture, using the word `banana` as the title.
+So each time you open that Flashcard you see a picture of a banana associated with the word `banana`.
+Eventually you can add an optional description to help you memorize the word.
+
+That's why each Flashcard has an image, a title and an optional description.
+
+## OK, what should I do with those Flashcards?
+
+You repeat them, that's the point! Because practice makes perfect :rocket:!
+
+Each Flashcard belongs to a Directory. As you download the app for the first time you get a default Directory to store your Flashcards. But it's highly recommended that you create your own Directories based on which type of Flashcards you are going to store in those.
+A Directory named `Fruits` can contain Flashcards of fruits, for instance.
+
+In each Directory you can add Flashcards or repeat your existing Flashcards.  
+ 
+If you have more than 4 Flashcards, you can take a quiz to test your knowledge. At the end of each quiz, you will see your results which gives you a feedback of your learning level.
 
 ## User Stories
 
@@ -28,6 +51,8 @@ Each Flashcard has an image, a title and an optional description which enables a
 - [x] User can see the results after a quiz.
 - [x] User can see the details of a result card clicking on it.
 - [x] User can modify a Flashcard.
+- [ ] User can see the results of the last quiz taken.
+- [ ] User can take a photo in order to create a Flashcard.
 
 ## Download
 
@@ -40,6 +65,8 @@ You can download the application from PlayStore.
 This app welcomes first time contributors with all levels of experience. 
 You don't like something or the app has a problem? Please file an issue!
 Would you like to work on an issue? Just ask for it to see if someone is already working on it or not. Afterwards, make a PR.
+
+If you are opening a Pull Request, you should run [Detekt](https://detekt.github.io/detekt/cli.html). Please make sure that Detekt build is successful.
 
 You can join the Discord channel to discuss or ask for further info: [![Discord](https://discord.com/api/guilds/765660376305500250/widget.png)](https://discord.gg/U4dYsfY)
 
