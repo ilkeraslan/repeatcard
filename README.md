@@ -51,7 +51,7 @@ If you have more than 4 Flashcards, you can take a quiz to test your knowledge. 
 - [x] User can see the results after a quiz.
 - [x] User can see the details of a result card clicking on it.
 - [x] User can modify a Flashcard.
-- [ ] User can see the results of the last quiz taken.
+- [ ] User can see the results of the last quiz.
 - [ ] User can take a photo in order to create a Flashcard.
 
 ## Download
@@ -79,3 +79,4 @@ Following the list of amazing people that contributed to this project in histori
 - ![@Kardelio](https://github.com/Kardelio)
 - ![@guuilp](https://github.com/guuilp)
 - ![@lingarajsankaravelu](https://github.com/lingarajsankaravelu)
+- ![@Stuie](https://github.com/Stuie)
