@@ -94,7 +94,11 @@ dependencies {
     kapt Libs.room_compiler
 
     // Test
-    testImplementation TestLibs.junit
+    testRuntimeOnly TestLibs.junitJupiterEngine
+    testImplementation TestLibs.junitJupiterApi
+    testImplementation TestLibs.junitVintageEngine
+    testImplementation TestLibs.mockk
+    testImplementation TestLibs.coroutinesTest
     androidTestImplementation AndroidTestLibs.junit
     androidTestImplementation AndroidTestLibs.espresso_core
     androidTestImplementation TestLibs.room_testing
