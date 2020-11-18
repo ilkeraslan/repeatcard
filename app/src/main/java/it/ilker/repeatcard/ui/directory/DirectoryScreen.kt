@@ -73,6 +73,19 @@ class DirectoryScreen : AppCompatActivity() {
         directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
     }
 
+    @ExperimentalCoroutinesApi
+    private fun observe() {
+        lifecycleScope.launchWhenStarted {
+            directoryViewModel.state.collect { state ->
+                when (state) {
+                    is DirectoryState.Loading -> showLoader()
+                    is DirectoryState.NoContent -> showNoContent()
+                    is DirectoryState.HasContent -> showFlashcards(state.flashcards)
+                }.exhaustive
+            }
+        }
+    }
+
     private fun setUpViews() {
         noFlashcardText = findViewById(R.id.noFlashcardText)
         addFlashcard = findViewById(R.id.add_flashcard_to_directory)
@@ -102,19 +115,6 @@ class DirectoryScreen : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
-    @ExperimentalCoroutinesApi
-    private fun observe() {
-        lifecycleScope.launchWhenStarted {
-            directoryViewModel.state.collect { state ->
-                when (state) {
-                    is DirectoryState.Loading -> showLoader()
-                    is DirectoryState.NoContent -> showNoContent(state.flashcards)
-                    is DirectoryState.HasContent -> showFlashcards(state.flashcards)
-                }.exhaustive
-            }
-        }
-    }
-
     private fun showLoader() {
         progress_circular.visibility = VISIBLE
         content_group.visibility = INVISIBLE
@@ -133,8 +133,7 @@ class DirectoryScreen : AppCompatActivity() {
                     DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
                 ),
                 lastModified = OffsetDateTime.now().format(
-                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
-                        .withZone(ZoneId.systemDefault())
+                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM).withZone(ZoneId.systemDefault())
                 ),
                 directoryId = directoryId,
                 imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
@@ -155,18 +154,21 @@ class DirectoryScreen : AppCompatActivity() {
         dialogBuilder.create().show()
     }
 
-    private fun showNoContent(flashcards: List<Flashcard>) {
+    private fun showNoContent() {
         progress_circular.visibility = GONE
-        content_group.visibility = VISIBLE
-        adapter.submitList(flashcards)
+        content_group.visibility = GONE
+        noFlashcardText.visibility = VISIBLE
+        adapter.submitList(listOf())
         adapter.notifyDataSetChanged()
         noFlashcardText.visibility = VISIBLE
         review.visibility = INVISIBLE
     }
 
+    @ExperimentalCoroutinesApi
     private fun showFlashcards(flashcards: List<Flashcard>) {
         progress_circular.visibility = GONE
         content_group.visibility = VISIBLE
+        noFlashcardText.visibility = GONE
         adapter.submitList(flashcards)
         adapter.notifyDataSetChanged()
         noFlashcardText.visibility = INVISIBLE

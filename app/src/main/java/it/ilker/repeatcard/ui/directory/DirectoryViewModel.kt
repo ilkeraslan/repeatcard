@@ -7,16 +7,11 @@ import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.directory.FlashcardDirectoryRepository
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
-import it.ilker.repeatcard.db.notification.Notification
 import it.ilker.repeatcard.db.notification.NotificationRepository
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.ZoneId
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.FormatStyle
 
 sealed class DirectoryEvent {
     data class GetDirectoryContent(val directoryId: Int) : DirectoryEvent()
@@ -27,7 +22,7 @@ sealed class DirectoryEvent {
 sealed class DirectoryState {
     object Loading : DirectoryState()
     data class HasContent(val flashcards: List<Flashcard>) : DirectoryState()
-    data class NoContent(val flashcards: List<Flashcard>) : DirectoryState()
+    object NoContent : DirectoryState()
 }
 
 @ExperimentalCoroutinesApi
@@ -59,7 +54,7 @@ class DirectoryViewModel(context: Context) : ViewModel() {
         val directoryContent = flashcardRepository.getFlashcardsForDirectory(directoryId)
 
         if (directoryContent.isEmpty()) {
-            state.value = DirectoryState.NoContent(listOf())
+            state.value = DirectoryState.NoContent
         } else {
             state.value = DirectoryState.HasContent(directoryContent)
         }
@@ -67,24 +62,11 @@ class DirectoryViewModel(context: Context) : ViewModel() {
 
     private fun addCard(directoryId: Int, flashcard: Flashcard) = viewModelScope.launch {
         flashcardRepository.insert(flashcard)
-        logsRepository.insertNotification(createNotification("Added new flashcard"))
         getDirectoryContent(directoryId)
     }
 
     private fun deleteCard(directoryId: Int, flashcard: Flashcard) = viewModelScope.launch {
         flashcardRepository.deleteFlashcard(flashcard.id)
-        logsRepository.insertNotification(createNotification("Deleted flashcard"))
         getDirectoryContent(directoryId)
-    }
-
-    private fun createNotification(title: String): Notification {
-        return Notification(
-            notificationId = 0,
-            notificationTitle = title,
-            notificationType = "flashcard",
-            creationDate = OffsetDateTime.now().format(
-                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM).withZone(ZoneId.systemDefault())
-            )
-        )
     }
 }
