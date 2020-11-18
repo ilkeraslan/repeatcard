@@ -11,8 +11,7 @@
         android:id="@+id/content_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="noFlashcardText,reviewButton,recyclerViewDirectory,add_flashcard_to_directory"
-        />
+        app:constraint_referenced_ids="reviewButton,recyclerViewDirectory" />
 
     <TextView
         android:id="@+id/noFlashcardText"
