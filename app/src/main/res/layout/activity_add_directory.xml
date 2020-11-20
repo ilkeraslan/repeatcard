@@ -35,17 +35,8 @@
 
     <Button
         android:id="@+id/directory_save_button"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_default"
-        android:layout_marginEnd="@dimen/margin_default"
-        android:layout_marginBottom="@dimen/margin_default"
+        style="@style/save_button"
         android:text="@string/save_text"
-        android:textSize="@dimen/text_size_default"
-        android:textAllCaps="true"
-        android:textColor="@color/colorWhite"
-        app:backgroundTint="@color/colorGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
