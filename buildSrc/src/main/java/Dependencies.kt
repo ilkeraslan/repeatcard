@@ -21,10 +21,10 @@ object Versions {
 
 object BuildLibs {
     const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
-    const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.0.0-beta02"
+    const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.4.1"
     const val gradle_android = "com.android.tools.build:gradle:4.0.1"
     const val gradle_versions = "com.github.ben-manes:gradle-versions-plugin:0.27.0"
-    const val google_services = "com.google.gms:google-services:4.3.3"
+    const val google_services = "com.google.gms:google-services:4.3.4"
     const val jacoco = "org.jacoco:org.jacoco.core:0.8.4"
     const val kotlin_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val kotlin_serialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
@@ -41,8 +41,8 @@ object Libs {
     const val date = "com.jakewharton.threetenabp:threetenabp:1.2.2"
     const val glide = "com.github.bumptech.glide:glide:4.11.0"
     const val firebase_ads = "com.google.firebase:firebase-ads:18.3.0"
-    const val firebase_analytics = "com.google.firebase:firebase-analytics:17.2.2"
-    const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics:17.2.2"
+    const val firebase_analytics = "com.google.firebase:firebase-analytics:18.0.0"
+    const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics:17.3.0"
     const val google_material = "com.google.android.material:material:1.1.0-alpha07"
     const val koin = "org.koin:koin-android:${Versions.koin}"
     const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"

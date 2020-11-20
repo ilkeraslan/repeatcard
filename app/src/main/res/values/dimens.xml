@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Margin Dimensions -->
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_default">16dp</dimen>
     <dimen name="margin_medium">24dp</dimen>
     <dimen name="margin_large">32dp</dimen>
+
+    <!-- Text Size Dimensions -->
+    <dimen name="text_size_small">8sp</dimen>
+    <dimen name="text_size_default">16sp</dimen>
+    <dimen name="text_size_medium">24sp</dimen>
+    <dimen name="text_size_large">32sp</dimen>
 </resources>

@@ -55,9 +55,7 @@ class AddFlashcardScreen : AppCompatActivity() {
         flashcardImage.setOnClickListener { selectImage() }
     }
 
-    private fun isValid(): Boolean {
-        return !(flashcardTitleEdit.text.isNullOrEmpty() || imageUri == null)
-    }
+    private fun isValid(): Boolean = !(flashcardTitleEdit.text.isNullOrEmpty() || imageUri == null)
 
     private fun turnToMain() {
         val intentToMain = Intent()
@@ -89,7 +87,6 @@ class AddFlashcardScreen : AppCompatActivity() {
             imageUri = data.data.toString()
             Timber.d(imageUri.toString())
 
-            // Load the image
             Glide.with(this).load(imageUri).into(flashcardImage)
 
             tapToAdd.visibility = INVISIBLE
