@@ -24,6 +24,9 @@
             app:exitAnim="@android:anim/slide_out_right"
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_navigation_home_to_hostScreen"
+            app:destination="@id/hostScreen" />
     </fragment>
 
     <fragment
@@ -35,8 +38,12 @@
 
     <fragment
         android:id="@+id/navigation_directories"
-        android:name="it.ilker.repeatcard.ui.directories.DirectoriesFragment"
+        android:name="it.ilker.repeatcard.ui.directories.DirectoriesScreen"
         android:label="@string/title_directories"
         tools:layout="@layout/directories_fragment"/>
+    <activity
+        android:id="@+id/hostScreen"
+        android:name="it.ilker.repeatcard.ui.HostScreen"
+        android:label="HostScreen" />
 
 </navigation>

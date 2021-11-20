@@ -57,20 +57,33 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
     packagingOptions {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
+
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.0.5'
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project (":design")
+
     api Libs.coroutines
     implementation Libs.androidx_appcompat
     implementation Libs.androidx_kotlin_extensions
@@ -79,7 +92,8 @@ dependencies {
     implementation Libs.date
     implementation Libs.google_material
     implementation Libs.koin
-    implementation Libs.koinViewModel
+    implementation Libs.koinCompose
+    implementation Libs.koinAndroid
     implementation Libs.kotlinx_serialization
     implementation Libs.kotlin_stdlib
     implementation Libs.lifecycle_extensions
@@ -89,9 +103,22 @@ dependencies {
     implementation Libs.navigation
     implementation Libs.room_runtime
     implementation Libs.room_ktx
+    implementation Libs.room_rx
     implementation Libs.timber
     implementation Libs.viewpager2
     kapt Libs.room_compiler
+
+    // Compose
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation 'androidx.compose.material:material:1.0.5'
+    implementation 'androidx.compose.animation:animation:1.0.5'
+    implementation 'androidx.compose.ui:ui-tooling:1.0.5'
+    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.0.5'
+
+    // Accompanist
+    implementation Libs.accompanistInsets
 
     // Test
     testRuntimeOnly TestLibs.junitJupiterEngine

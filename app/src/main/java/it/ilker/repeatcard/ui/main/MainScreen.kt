@@ -3,13 +3,25 @@ package it.ilker.repeatcard.ui.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import it.ilker.repeatcard.R
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.insets.navigationBarsPadding
+import it.ilker.repeatcard.bottomNavItems
+import it.ilker.repeatcard.navigation.AppBottomNavigation
+import it.ilker.repeatcard.navigation.NavHostFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalMaterialApi
+@ExperimentalCoroutinesApi
 class MainScreen : AppCompatActivity() {
 
     companion object {
@@ -19,17 +31,36 @@ class MainScreen : AppCompatActivity() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        val host: NavHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        val navController = host.navController
+        setContent {
+            Host()
+        }
+    }
 
-        navView.setupWithNavController(navController)
-        navView.setOnNavigationItemReselectedListener { /* do nothing */ }
+    @ExperimentalCoroutinesApi
+    @Composable
+    private fun Host() {
+        val navController = rememberNavController()
+        val coroutineScope = rememberCoroutineScope()
+        val scrollState = rememberScrollState()
+
+        val bottomBar: @Composable () -> Unit = {
+            AppBottomNavigation(
+                navController = navController,
+                items = bottomNavItems
+            )
+        }
+
+        Scaffold(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .fillMaxSize(),
+            bottomBar = bottomBar
+        ) {
+            NavHostFactory(navController)
+        }
     }
 
     override fun onBackPressed() {

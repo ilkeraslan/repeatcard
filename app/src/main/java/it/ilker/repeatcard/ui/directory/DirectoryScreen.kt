@@ -19,7 +19,6 @@ import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcardadd.AddFlashcardScreen
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
-import it.ilker.repeatcard.ui.review.FlashcardReviewScreen
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.android.synthetic.main.directory_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,7 +55,6 @@ class DirectoryScreen : AppCompatActivity() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.directory_layout)
@@ -67,7 +65,6 @@ class DirectoryScreen : AppCompatActivity() {
         setUpViews()
     }
 
-    @ExperimentalCoroutinesApi
     override fun onResume() {
         super.onResume()
         directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
@@ -120,7 +117,6 @@ class DirectoryScreen : AppCompatActivity() {
         content_group.visibility = INVISIBLE
     }
 
-    @ExperimentalCoroutinesApi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -173,6 +169,5 @@ class DirectoryScreen : AppCompatActivity() {
         adapter.notifyDataSetChanged()
         noFlashcardText.visibility = INVISIBLE
         review.visibility = VISIBLE
-        review.setOnClickListener { FlashcardReviewScreen.openReviewScreen(this, this.directoryId) }
     }
 }

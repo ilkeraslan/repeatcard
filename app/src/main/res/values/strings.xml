@@ -1,4 +1,5 @@
 <resources>
+    <string name="flashcard">flashcard</string>
     <string name="flashcard_title_text">Flashcard Title</string>
     <string name="title_home">HOME</string>
     <string name="title_directories">DIRECTORIES</string>
@@ -44,4 +45,5 @@
         <item>Do you feel prepared? \nTake a quiz, and see the results.</item>
         <item>See the logs screen to track your activity.</item>
     </string-array>
+    <string name="title_designsystem">Design System</string>
 </resources>

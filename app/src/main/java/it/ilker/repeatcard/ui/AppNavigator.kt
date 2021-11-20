@@ -1,10 +1,12 @@
 package it.ilker.repeatcard.ui
 
 import android.content.Context
+import androidx.compose.material.ExperimentalMaterialApi
 import it.ilker.repeatcard.ui.directory.DirectoryScreen
 import it.ilker.repeatcard.ui.main.MainScreen
 import it.ilker.repeatcard.ui.onboarding.OnboardingScreen
 import it.ilker.repeatcard.ui.quiz.QuizScreen
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 interface Navigator {
     fun goToDirectory(id: Int)
@@ -13,6 +15,8 @@ interface Navigator {
     fun goToQuiz()
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 class AppNavigator(private val context: Context) : Navigator {
 
     override fun goToDirectory(id: Int) {
