@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.button.MaterialButton
 import com.jem.liquidswipe.LiquidSwipeViewPager
@@ -13,8 +14,11 @@ import com.rd.PageIndicatorView
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.KeyValueStorage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 class OnboardingScreen : AppCompatActivity() {
 
     private val navigator: AppNavigator by inject()

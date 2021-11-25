@@ -68,7 +68,7 @@ class QuizViewModel(context: Context) : ViewModel() {
             if (!flashcard.imageUri.isNullOrEmpty()) {
                 val question = Question(
                     id = flashcard.id,
-                    imageUri = flashcard.imageUri,
+                    imageUri = flashcard.imageUri!!,
                     correctAnswer = flashcard.title,
                     description = flashcard.description
                 )

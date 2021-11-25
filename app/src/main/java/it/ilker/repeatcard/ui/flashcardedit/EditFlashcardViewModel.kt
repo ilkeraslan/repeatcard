@@ -22,7 +22,7 @@ sealed class FlashcardEditEvent {
 
 sealed class FlashcardEditState {
     object Loading : FlashcardEditState()
-    data class Success(val flashcard: Flashcard) : FlashcardEditState()
+    data class Success(val flashcard: me.ilker.business.flashcard.Flashcard) : FlashcardEditState()
     object UpdateSuccess : FlashcardEditState()
 }
 

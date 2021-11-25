@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.KeyValueStorage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Runnable
 import org.koin.android.ext.android.inject
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 class SplashScreen : AppCompatActivity() {
 
     private val navigator: AppNavigator by inject()
@@ -21,7 +25,6 @@ class SplashScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.decorView.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
         setContentView(R.layout.screen_splash)
     }
 

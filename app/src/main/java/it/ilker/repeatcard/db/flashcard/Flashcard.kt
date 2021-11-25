@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import it.ilker.repeatcard.db.directory.Directory
+import me.ilker.business.flashcard.Flashcard
 
 @Entity(
     foreignKeys = [ForeignKey(
@@ -25,4 +26,14 @@ data class Flashcard(
     @ColumnInfo(name = "modification_date") val lastModified: String?,
     @ColumnInfo(name = "directory_id", index = true) var directoryId: Int?,
     @ColumnInfo(name = "image_uri") val imageUri: String?
-)
+) {
+    fun toDomain() = Flashcard(
+        id = id,
+        title = title,
+        description = description,
+        creationDate = creationDate,
+        lastModified = lastModified,
+        directoryId = directoryId,
+        imageUri = imageUri
+    )
+}

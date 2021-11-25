@@ -4,8 +4,8 @@ buildscript {
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         jcenter()
-
     }
+
     dependencies {
         classpath BuildLibs.detekt
         classpath BuildLibs.firebase_crashlytics
@@ -16,6 +16,7 @@ buildscript {
         classpath BuildLibs.kotlin_serialization
         classpath BuildLibs.jacoco
         classpath BuildLibs.sonarqube
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31'
     }
 
     ext.getVersionCode = {

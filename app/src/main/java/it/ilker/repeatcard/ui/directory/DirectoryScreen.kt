@@ -19,7 +19,6 @@ import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcardadd.AddFlashcardScreen
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
-import it.ilker.repeatcard.ui.review.FlashcardReviewScreen
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.android.synthetic.main.directory_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -56,7 +55,6 @@ class DirectoryScreen : AppCompatActivity() {
         }
     }
 
-    @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.directory_layout)
@@ -67,7 +65,6 @@ class DirectoryScreen : AppCompatActivity() {
         setUpViews()
     }
 
-    @ExperimentalCoroutinesApi
     override fun onResume() {
         super.onResume()
         directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
@@ -79,8 +76,8 @@ class DirectoryScreen : AppCompatActivity() {
             directoryViewModel.state.collect { state ->
                 when (state) {
                     is DirectoryState.Loading -> showLoader()
-                    is DirectoryState.NoContent -> showNoContent()
-                    is DirectoryState.HasContent -> showFlashcards(state.flashcards)
+                    is DirectoryState.NoContent -> {/* no-op */}
+                    is DirectoryState.HasContent -> {/* no-op */}
                 }.exhaustive
             }
         }
@@ -120,7 +117,6 @@ class DirectoryScreen : AppCompatActivity() {
         content_group.visibility = INVISIBLE
     }
 
-    @ExperimentalCoroutinesApi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -138,7 +134,7 @@ class DirectoryScreen : AppCompatActivity() {
                 directoryId = directoryId,
                 imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
             )
-            directoryViewModel.send(DirectoryEvent.CardAdded(directoryId, flashcard))
+//            directoryViewModel.send(DirectoryEvent.CardAdded(directoryId, flashcard))
         }
     }
 
@@ -148,31 +144,9 @@ class DirectoryScreen : AppCompatActivity() {
         dialogBuilder.setTitle("Are you sure you want to delete this?")
         dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
             dialog.dismiss()
-            directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId, flashcard))
+//            directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId, flashcard))
         }
         dialogBuilder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
         dialogBuilder.create().show()
-    }
-
-    private fun showNoContent() {
-        progress_circular.visibility = GONE
-        content_group.visibility = GONE
-        noFlashcardText.visibility = VISIBLE
-        adapter.submitList(listOf())
-        adapter.notifyDataSetChanged()
-        noFlashcardText.visibility = VISIBLE
-        review.visibility = INVISIBLE
-    }
-
-    @ExperimentalCoroutinesApi
-    private fun showFlashcards(flashcards: List<Flashcard>) {
-        progress_circular.visibility = GONE
-        content_group.visibility = VISIBLE
-        noFlashcardText.visibility = GONE
-        adapter.submitList(flashcards)
-        adapter.notifyDataSetChanged()
-        noFlashcardText.visibility = INVISIBLE
-        review.visibility = VISIBLE
-        review.setOnClickListener { FlashcardReviewScreen.openReviewScreen(this, this.directoryId) }
     }
 }

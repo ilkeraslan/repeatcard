@@ -2,27 +2,28 @@
 object Versions {
 
     //app
-    const val versionCode = 5 //used for local builds, CI uses codes used for published versions
-    const val versionName = "1.1.3"
+    const val versionCode = 6 //used for local builds, CI uses codes used for published versions
+    const val versionName = "1.1.4"
 
     // platform
-    const val buildTools = "29.0.2"
-    const val kotlin = "1.4.10"
-    const val minSdk = 22
-    const val targetSdk = 29
+    const val buildTools = "30.0.2"
+    const val kotlin = "1.5.31"
+    const val minSdk = 24
+    const val targetSdk = 31
 
     // 3rd party
-    const val coroutines = "1.3.9"
+    const val coroutines = "1.5.1"
     const val detekt = "1.7.4"
-    const val koin = "2.2.0-alpha-1"
+    const val koin = "3.1.3"
     const val lifecycle_version = "2.2.0"
-    const val roomVersion = "2.2.5"
+    const val roomVersion = "2.4.0-alpha04"
+    const val accompanist = "0.21.3-beta"
 }
 
 object BuildLibs {
     const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
     const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.4.1"
-    const val gradle_android = "com.android.tools.build:gradle:4.0.1"
+    const val gradle_android = "com.android.tools.build:gradle:7.0.3"
     const val gradle_versions = "com.github.ben-manes:gradle-versions-plugin:0.27.0"
     const val google_services = "com.google.gms:google-services:4.3.4"
     const val jacoco = "org.jacoco:org.jacoco.core:0.8.4"
@@ -33,7 +34,8 @@ object BuildLibs {
 
 @Suppress("unused")
 object Libs {
-    const val androidx_appcompat = "androidx.appcompat:appcompat:1.1.0"
+    const val accompanistInsets = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
+    const val androidx_appcompat = "androidx.appcompat:appcompat:1.3.0"
     const val androidx_constraint = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
     const val androidx_kotlin_extensions = "androidx.core:core-ktx:1.2.0"
     const val androidx_legacy_support = "androidx.legacy:legacy-support-v4:1.0.0"
@@ -44,8 +46,9 @@ object Libs {
     const val firebase_analytics = "com.google.firebase:firebase-analytics:18.0.0"
     const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics:17.3.0"
     const val google_material = "com.google.android.material:material:1.1.0-alpha07"
-    const val koin = "org.koin:koin-android:${Versions.koin}"
-    const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"
+    const val koin = "io.insert-koin:koin-core:${Versions.koin}"
+    const val koinCompose = "io.insert-koin:koin-androidx-compose:${Versions.koin}"
+    const val koinAndroid = "io.insert-koin:koin-android:${Versions.koin}"
     const val kotlinx_serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
     const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle_version}"
@@ -58,6 +61,7 @@ object Libs {
     const val pageIndicator = "com.romandanylyk:pageindicatorview:1.0.3@aar"
     const val room_compiler = "androidx.room:room-compiler:${Versions.roomVersion}"
     const val room_runtime = "androidx.room:room-runtime:${Versions.roomVersion}"
+    const val room_rx = "androidx.room:room-rxjava2:${Versions.roomVersion}"
     const val rx_android = "io.reactivex.rxjava2:rxandroid:2.1.1"
     const val rx_java = "io.reactivex.rxjava2:rxjava:2.2.17"
     const val room_ktx = "androidx.room:room-ktx:${Versions.roomVersion}"

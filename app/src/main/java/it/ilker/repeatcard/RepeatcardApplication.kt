@@ -1,5 +1,6 @@
 package it.ilker.repeatcard
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.multidex.MultiDexApplication
 import com.jakewharton.threetenabp.AndroidThreeTen
 import it.ilker.repeatcard.di.androidComponents
@@ -16,7 +17,7 @@ private const val TAG_LOGGING = "REPEATCARD"
 
 class RepeatcardApplication : MultiDexApplication() {
 
-    @ExperimentalCoroutinesApi
+    @ExperimentalMaterialApi
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
@@ -29,6 +30,7 @@ class RepeatcardApplication : MultiDexApplication() {
         Timber.tag(TAG_LOGGING)
     }
 
+    @ExperimentalMaterialApi
     @ExperimentalCoroutinesApi
     private fun setupDI() {
         startKoin {

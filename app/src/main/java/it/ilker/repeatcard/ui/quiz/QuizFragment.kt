@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import it.ilker.repeatcard.R
@@ -20,6 +21,7 @@ import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
+@ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 class QuizFragment : Fragment() {
 

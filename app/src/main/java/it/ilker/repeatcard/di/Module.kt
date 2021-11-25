@@ -1,5 +1,6 @@
 package it.ilker.repeatcard.di
 
+import androidx.compose.material.ExperimentalMaterialApi
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.directories.DirectoriesViewModel
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
@@ -10,8 +11,9 @@ import it.ilker.repeatcard.ui.question.QuestionViewModel
 import it.ilker.repeatcard.ui.quiz.QuizViewModel
 import it.ilker.repeatcard.ui.results.ResultsViewModel
 import it.ilker.repeatcard.ui.util.KeyValueStorageFactory
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val androidComponents = module {
@@ -19,10 +21,13 @@ val androidComponents = module {
     single { KeyValueStorageFactory.build(context = androidContext(), name = "repeatcard_prefs") }
 }
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 val appComponents = module {
     single { AppNavigator(get()) }
 }
 
+@ExperimentalCoroutinesApi
 val viewModels = module {
     viewModel { DirectoriesViewModel(get()) }
     viewModel { DirectoryViewModel(get()) }
