@@ -63,7 +63,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     compileOptions {
@@ -83,6 +83,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project (":design")
+    implementation project (":business")
 
     api Libs.coroutines
     implementation Libs.androidx_appcompat

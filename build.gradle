@@ -16,6 +16,7 @@ buildscript {
         classpath BuildLibs.kotlin_serialization
         classpath BuildLibs.jacoco
         classpath BuildLibs.sonarqube
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31'
     }
 
     ext.getVersionCode = {

@@ -2,6 +2,7 @@ package it.ilker.repeatcard.ui.home
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -18,9 +19,16 @@ object HomeFactory : NavFactory {
         navGraphBuilder.composable(Screen.HomeScreen.route) {
             val vm by viewModel<HomeViewModel>()
 
-            HomeScreen(
-                modifier = Modifier.fillMaxWidth()
-            )
+            val state = vm.state.collectAsState()
+
+            when (val value = state.value) {
+                FlashcardState.Error -> {/* no-op */}
+                FlashcardState.Loading -> {/* no-op */}
+                is FlashcardState.Success -> HomeScreen(
+                    modifier = Modifier.fillMaxWidth(),
+                    flashcards = value.flashcards
+                )
+            }
         }
     }
 }

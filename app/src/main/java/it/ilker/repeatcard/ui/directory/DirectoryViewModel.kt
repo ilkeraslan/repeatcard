@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.directory.FlashcardDirectoryRepository
-import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.db.notification.NotificationRepository
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import me.ilker.business.flashcard.Flashcard
 
 sealed class DirectoryEvent {
     data class GetDirectoryContent(val directoryId: Int) : DirectoryEvent()

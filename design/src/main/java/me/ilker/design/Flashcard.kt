@@ -21,17 +21,21 @@ import androidx.compose.ui.unit.dp
 @ExperimentalMaterialApi
 @Composable
 fun Flashcard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    image: Any? = null,
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(12.dp),
-        onClick = { /*TODO*/ }
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
-            Image(
+            image?.let {
+
+            } ?: Image(
                 modifier = Modifier
                     .width(64.dp)
                     .clip(RoundedCornerShape(12.dp))
@@ -39,6 +43,7 @@ fun Flashcard(
                 painter = painterResource(id = R.drawable.photography),
                 contentDescription = stringResource(id = R.string.flashcard)
             )
+
             Column {
                 Text(text = "Title")
                 Text(text = "Description")
@@ -52,7 +57,8 @@ fun Flashcard(
  */
 @ExperimentalMaterialApi
 @Preview(
-    backgroundColor = 0xFFFFFF
+    backgroundColor = 0xFFFFFF,
+    showBackground = true
 )
 @Composable
 private fun HomeScreenPreview() {
