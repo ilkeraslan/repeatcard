@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="false"
         tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity"
         tools:targetApi="n">
         <activity
@@ -27,9 +28,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.directory.DirectoryScreen"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.review.FlashcardReviewScreen"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.splash.SplashScreen"
