@@ -14,7 +14,7 @@ import me.ilker.design.Directory
 
 @ExperimentalMaterialApi
 @Composable
-internal fun DirectoriesScreen(
+internal fun Directories(
     modifier: Modifier = Modifier,
     directories: List<Directory>
 ) {
@@ -34,9 +34,6 @@ internal fun DirectoriesScreen(
     }
 }
 
-/**
- * Previews
- */
 /**
  * Previews
  */
@@ -64,8 +61,8 @@ private val directories = listOf(
     showBackground = true
 )
 @Composable
-private fun DirectoriesScreenPreview() {
-    DirectoriesScreen(
+private fun DirectoriesPreview() {
+    Directories(
         modifier = Modifier.fillMaxWidth(),
         directories = directories
     )
