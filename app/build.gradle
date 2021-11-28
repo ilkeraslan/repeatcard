@@ -95,7 +95,9 @@ dependencies {
     implementation Libs.koin
     implementation Libs.koinCompose
     implementation Libs.koinAndroid
+    implementation Libs.kotlin_serialization
     implementation Libs.kotlinx_serialization
+    implementation Libs.kotlinx_serialization_json
     implementation Libs.kotlin_stdlib
     implementation Libs.lifecycle_extensions
     implementation Libs.lifecycle_viewmodel

@@ -31,5 +31,16 @@ class FlashcardRepository(private val flashcardDao: FlashcardDao) {
         )
     }
 
-    suspend fun updateFlashcard(flashcard: Flashcard) = flashcardDao.updateFlashcard(flashcard)
+    suspend fun updateFlashcard(flashcard: me.ilker.business.flashcard.Flashcard) =
+        flashcardDao.updateFlashcard(
+            Flashcard(
+                id = flashcard.id,
+                title = flashcard.title,
+                description = flashcard.description,
+                creationDate = flashcard.creationDate,
+                lastModified = flashcard.lastModified,
+                directoryId = flashcard.directoryId,
+                imageUri = flashcard.imageUri
+            )
+        )
 }

@@ -17,7 +17,17 @@ class FlashcardRepositoryTest : RepositoryTestBase() {
 
     private lateinit var subject: FlashcardRepository
 
-    private val sampleFlashcard = Flashcard(
+    private val sampleFlashcard = me.ilker.business.flashcard.Flashcard(
+        id = 1337,
+        title = "Some flashcard",
+        description = "Some description",
+        creationDate = null,
+        lastModified = null,
+        directoryId = null,
+        imageUri = null
+    )
+
+    private val dbFlashcard = Flashcard(
         id = 1337,
         title = "Some flashcard",
         description = "Some description",
@@ -73,7 +83,7 @@ class FlashcardRepositoryTest : RepositoryTestBase() {
 
     @Test
     fun `getFlashcards gets expected flashcards`() = runBlockingTest {
-        coEvery { dao.getFlashcards() } returns listOf(sampleFlashcard)
+        coEvery { dao.getFlashcards() } returns listOf(dbFlashcard)
 
         val result = subject.getFlashcards()
 
