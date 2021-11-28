@@ -41,7 +41,7 @@ complexity:
     threshold: 180
   LongMethod:
     active: true
-    threshold: 31
+    threshold: 50
   LongParameterList:
     active: true
     threshold: 6
@@ -209,7 +209,7 @@ formatting:
   SpacingAroundOperators:
     active: true
   SpacingAroundParens:
-    active: true
+    active: false
   SpacingAroundRangeOperator:
     active: true
   StringTemplate:
@@ -236,7 +236,7 @@ naming:
     minimumFunctionNameLength: 3
   FunctionNaming:
     active: true
-    functionPattern: '^([a-z$][a-zA-Z$0-9]*)|(`.*`)$'
+    functionPattern: '^([a-zA-Z$][a-zA-Z$0-9]*)|(`.*`)$'
     excludeClassPattern: '$^'
   FunctionParameterNaming:
     active: true
@@ -361,7 +361,7 @@ style:
     active: true
     maxJumpCount: 1
   MagicNumber:
-    active: true
+    active: false
     excludes: "**/*Test.kt, **/*Spec.kt"
     ignoreNumbers: '-1,0,1,2'
     ignoreHashCodeFunction: true
@@ -438,7 +438,7 @@ style:
   UnusedPrivateClass:
     active: true
   UnusedPrivateMember:
-    active: true
+    active: false
     allowedNames: "(_|ignored|expected)"
   UseArrayLiteralsInAnnotations:
     active: true

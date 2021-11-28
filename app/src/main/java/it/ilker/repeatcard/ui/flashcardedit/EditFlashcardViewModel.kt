@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
-import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -51,16 +50,16 @@ class EditFlashcardViewModel(application: Application) : AndroidViewModel(applic
 
     private fun updateValues(id: Int, title: String, description: String?, imageUri: String?) = viewModelScope.launch {
         val flashcardToUpdate = flashcardRepository.getFlashcard(id)
-        val newFlashcard = Flashcard(
+        val newFlashcard = flashcardToUpdate.copy(
             id = id,
             title = title,
             description = description,
             imageUri = imageUri,
-            directoryId = flashcardToUpdate.directoryId,
-            creationDate = flashcardToUpdate.creationDate,
-            lastModified = OffsetDateTime.now().format(
-                DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM).withZone(ZoneId.systemDefault())
-            )
+            lastModified = OffsetDateTime.now()
+                .format(
+                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM)
+                        .withZone(ZoneId.systemDefault())
+                )
         )
 
         flashcardRepository.updateFlashcard(newFlashcard)

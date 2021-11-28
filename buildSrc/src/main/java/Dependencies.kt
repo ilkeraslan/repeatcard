@@ -12,7 +12,7 @@ object Versions {
     const val targetSdk = 31
 
     // 3rd party
-    const val coroutines = "1.5.1"
+    const val coroutines = "1.5.2"
     const val detekt = "1.7.4"
     const val koin = "3.1.3"
     const val lifecycle_version = "2.2.0"
@@ -29,6 +29,7 @@ object BuildLibs {
     const val jacoco = "org.jacoco:org.jacoco.core:0.8.4"
     const val kotlin_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     const val kotlin_serialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
+    const val kotlinx_serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.1"
     const val sonarqube = "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
 }
 
@@ -37,7 +38,7 @@ object Libs {
     const val accompanistInsets = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
     const val androidx_appcompat = "androidx.appcompat:appcompat:1.3.0"
     const val androidx_constraint = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
-    const val androidx_kotlin_extensions = "androidx.core:core-ktx:1.2.0"
+    const val androidx_kotlin_extensions = "androidx.core:core-ktx:1.7.0"
     const val androidx_legacy_support = "androidx.legacy:legacy-support-v4:1.0.0"
     const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     const val date = "com.jakewharton.threetenabp:threetenabp:1.2.2"
@@ -49,8 +50,10 @@ object Libs {
     const val koin = "io.insert-koin:koin-core:${Versions.koin}"
     const val koinCompose = "io.insert-koin:koin-androidx-compose:${Versions.koin}"
     const val koinAndroid = "io.insert-koin:koin-android:${Versions.koin}"
-    const val kotlinx_serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC"
-    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    const val kotlin_serialization = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
+    const val kotlinx_serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.1"
+    const val kotlinx_serialization_json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1"
+    const val kotlin_stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
     const val lifecycle_extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle_version}"
     const val lifecycle_viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle_version}"
     const val liquidSwipe = "com.github.Chrisvin:LiquidSwipe:1.3"
@@ -72,7 +75,7 @@ object Libs {
 
 object AndroidTestLibs {
     const val espresso_core = "androidx.test.espresso:espresso-core:3.2.0"
-    const val junit = "androidx.test.ext:junit:1.1.1"
+    const val junit = "androidx.test.ext:junit:1.1.2"
 }
 
 object TestLibs {

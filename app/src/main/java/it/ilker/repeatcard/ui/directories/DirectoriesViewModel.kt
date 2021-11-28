@@ -63,8 +63,8 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
         val flashcards = repository.getDirectoryContent(id)
         if (flashcards.isNotEmpty()) {
             flashcards.forEach { flashcard ->
-                flashcard.directoryId = null
-                flashcardRepository.updateFlashcard(flashcard)
+                val updated = flashcard.copy(directoryId = null)
+                flashcardRepository.updateFlashcard(updated)
             }
         }
         repository.deleteDirectory(id)
