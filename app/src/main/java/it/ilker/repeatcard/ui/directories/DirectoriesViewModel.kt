@@ -21,7 +21,6 @@ import org.threeten.bp.format.FormatStyle
 const val DEFAULT_DIRECTORY_NAME = "Miscellaneous"
 
 sealed class DirectoriesEvent {
-    object Load : DirectoriesEvent()
     data class AddDirectories(val directory: Directory) : DirectoriesEvent()
     data class DeleteDirectories(val id: Int) : DirectoriesEvent()
 }
@@ -38,8 +37,10 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
     private val repository: FlashcardDirectoryRepository
     private val flashcardRepository: FlashcardRepository
     private val logsRepository: NotificationRepository
-    val allDirectories = MutableStateFlow<List<Directory>>(emptyList())
-    var directoriesState = MutableStateFlow<DirectoriesState>(DirectoriesState.Loading)
+
+    private var _directoriesState = MutableStateFlow<DirectoriesState>(DirectoriesState.Loading)
+    val directoriesState
+        get() = _directoriesState
 
     init {
         val directoriesDao = FlashcardDatabase.getDatabase(context).directoryDao()
@@ -48,13 +49,22 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
         repository = FlashcardDirectoryRepository(directoriesDao)
         flashcardRepository = FlashcardRepository(flashcardDao)
         logsRepository = NotificationRepository(logsDao)
+
+        viewModelScope.launch {
+            val directories = repository.getDirectories()
+
+            if (directories.isEmpty()) {
+                directoriesState.value = DirectoriesState.Error(NullPointerException())
+            } else {
+                directoriesState.value = DirectoriesState.Success(directories)
+            }
+        }
     }
 
     fun send(event: DirectoriesEvent) {
         when (event) {
             is DirectoriesEvent.AddDirectories -> insert(event.directory)
             is DirectoriesEvent.DeleteDirectories -> deleteDirectory(event.id)
-            is DirectoriesEvent.Load -> loadContent()
         }.exhaustive
     }
 
@@ -69,7 +79,6 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
         }
         repository.deleteDirectory(id)
         logsRepository.insertNotification(createNotification("Deleted directory"))
-        loadContent()
     }
 
     private fun insert(directory: Directory) = viewModelScope.launch {
@@ -84,19 +93,6 @@ class DirectoriesViewModel(context: Context) : ViewModel() {
             repository.addDirectory(directory)
             logsRepository.insertNotification(createNotification("Added directory"))
         }
-        loadContent()
-    }
-
-    private fun loadContent() = viewModelScope.launch {
-        val directories = repository.getDirectories()
-        if (directories.isEmpty()) {
-            val defaultDirectory = Directory(1, DEFAULT_DIRECTORY_NAME, null)
-            repository.addDirectory(defaultDirectory)
-            allDirectories.value = listOf(defaultDirectory)
-        } else {
-            allDirectories.value = repository.getDirectories()
-        }
-        directoriesState.value = DirectoriesState.Success(repository.getDirectories())
     }
 
     private fun createNotification(title: String): Notification {

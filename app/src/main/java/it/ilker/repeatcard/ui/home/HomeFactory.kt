@@ -18,7 +18,6 @@ object HomeFactory : NavFactory {
     override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(Screen.HomeScreen.route) {
             val vm by viewModel<HomeViewModel>()
-
             val state = vm.state.collectAsState()
 
             when (val value = state.value) {
