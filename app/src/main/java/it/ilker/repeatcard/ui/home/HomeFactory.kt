@@ -7,8 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import it.ilker.repeatcard.NavFactory
-import it.ilker.repeatcard.Screen
+import it.ilker.repeatcard.navigation.NavFactory
+import it.ilker.repeatcard.navigation.Screen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.androidx.compose.viewModel
 
@@ -22,8 +22,8 @@ object HomeFactory : NavFactory {
             val state = vm.state.collectAsState()
 
             when (val value = state.value) {
-                FlashcardState.Error -> {/* no-op */}
-                FlashcardState.Loading -> {/* no-op */}
+                FlashcardState.Error -> { /* no-op */ }
+                FlashcardState.Loading -> { /* no-op */ }
                 is FlashcardState.Success -> HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     flashcards = value.flashcards

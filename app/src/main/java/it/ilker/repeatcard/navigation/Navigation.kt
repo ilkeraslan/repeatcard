@@ -1,4 +1,4 @@
-package it.ilker.repeatcard
+package it.ilker.repeatcard.navigation
 
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController

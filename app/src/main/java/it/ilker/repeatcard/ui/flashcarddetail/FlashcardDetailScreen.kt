@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.lifecycleScope
 import it.ilker.repeatcard.R
-import it.ilker.repeatcard.ui.HostScreen
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -46,9 +45,12 @@ class FlashcardDetailActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
                 when (state) {
-                    is FlashcardDetailState.Loading -> { }
-                    is FlashcardDetailState.Error -> { }
-                    is FlashcardDetailState.Success -> { }
+                    is FlashcardDetailState.Loading -> {
+                    }
+                    is FlashcardDetailState.Error -> {
+                    }
+                    is FlashcardDetailState.Success -> {
+                    }
                 }.exhaustive
             }
         }

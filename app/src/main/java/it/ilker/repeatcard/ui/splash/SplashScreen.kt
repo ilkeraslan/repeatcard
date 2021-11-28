@@ -1,8 +1,8 @@
 package it.ilker.repeatcard.ui.splash
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import it.ilker.repeatcard.R
@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Runnable
 import org.koin.android.ext.android.inject
 
+@SuppressLint("CustomSplashScreen")
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 class SplashScreen : AppCompatActivity() {

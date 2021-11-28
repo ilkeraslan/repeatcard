@@ -4,7 +4,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import it.ilker.repeatcard.Screen
 import it.ilker.repeatcard.ui.directories.DirectoriesFactory
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailFactory
 import it.ilker.repeatcard.ui.home.HomeFactory

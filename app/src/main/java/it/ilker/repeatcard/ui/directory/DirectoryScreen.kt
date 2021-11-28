@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.TextView
@@ -20,7 +19,8 @@ import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcardadd.AddFlashcardScreen
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
 import it.ilker.repeatcard.ui.util.exhaustive
-import kotlinx.android.synthetic.main.directory_layout.*
+import kotlinx.android.synthetic.main.directory_layout.content_group
+import kotlinx.android.synthetic.main.directory_layout.progress_circular
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -28,6 +28,7 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
+import timber.log.Timber
 
 const val ADD_FLASHCARD_INTENT = 1000
 const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
@@ -76,8 +77,8 @@ class DirectoryScreen : AppCompatActivity() {
             directoryViewModel.state.collect { state ->
                 when (state) {
                     is DirectoryState.Loading -> showLoader()
-                    is DirectoryState.NoContent -> {/* no-op */}
-                    is DirectoryState.HasContent -> {/* no-op */}
+                    is DirectoryState.NoContent -> { /* no-op */ }
+                    is DirectoryState.HasContent -> { /* no-op */ }
                 }.exhaustive
             }
         }
@@ -144,6 +145,7 @@ class DirectoryScreen : AppCompatActivity() {
         dialogBuilder.setTitle("Are you sure you want to delete this?")
         dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
             dialog.dismiss()
+            Timber.d(flashcard.toString())
 //            directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId, flashcard))
         }
         dialogBuilder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
