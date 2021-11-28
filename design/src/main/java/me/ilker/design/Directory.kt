@@ -1,18 +1,16 @@
 package me.ilker.design
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,9 +18,9 @@ import androidx.compose.ui.unit.dp
 
 @ExperimentalMaterialApi
 @Composable
-fun Flashcard(
+fun Directory(
     modifier: Modifier = Modifier,
-    image: Any? = null,
+    name: String,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -31,23 +29,16 @@ fun Flashcard(
         onClick = onClick
     ) {
         Row(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            image?.let {
-
-            } ?: Image(
-                modifier = Modifier
-                    .width(64.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .aspectRatio(16f / 9f),
-                painter = painterResource(id = R.drawable.photography),
-                contentDescription = stringResource(id = R.string.flashcard)
+            Icon(
+                painter = painterResource(id = R.drawable.ic_folder),
+                contentDescription = stringResource(id = R.string.directory),
+                tint = Color.Unspecified
             )
 
-            Column {
-                Text(text = "Title")
-                Text(text = "Description")
-            }
+            Text(text = name)
         }
     }
 }
@@ -61,6 +52,6 @@ fun Flashcard(
     showBackground = true
 )
 @Composable
-private fun FlashcardPreview() {
-    Flashcard()
+private fun DirectoryPreview() {
+    Directory(name = "Sample Directory")
 }

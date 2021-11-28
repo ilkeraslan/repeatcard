@@ -1,3 +1,4 @@
 <resources>
-    <string name="flashcard">flashcard</string>
+    <string name="flashcard">Flashcard</string>
+    <string name="directory">Directory</string>
 </resources>
