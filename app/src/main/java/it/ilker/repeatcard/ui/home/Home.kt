@@ -13,7 +13,7 @@ import me.ilker.design.Flashcard
 
 @ExperimentalMaterialApi
 @Composable
-internal fun HomeScreen(
+internal fun Home(
     modifier: Modifier = Modifier,
     flashcards: List<Flashcard>,
     onClick: () -> Unit = {}
@@ -65,5 +65,5 @@ private val flashcards = listOf(
 )
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen(flashcards = flashcards)
+    Home(flashcards = flashcards)
 }
