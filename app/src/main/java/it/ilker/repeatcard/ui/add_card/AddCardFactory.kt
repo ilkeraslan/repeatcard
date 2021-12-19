@@ -1,4 +1,4 @@
-package it.ilker.repeatcard.ui.home
+package it.ilker.repeatcard.ui.add_card
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ExperimentalMaterialApi
@@ -14,19 +14,19 @@ import org.koin.androidx.compose.viewModel
 
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
-object HomeFactory : NavFactory {
+object AddCardFactory : NavFactory {
     override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
         navGraphBuilder.composable(Screen.HomeScreen.route) {
-            val vm by viewModel<HomeViewModel>()
+            val vm by viewModel<AddCardViewModel>()
             val state = vm.state.collectAsState()
 
             when (val value = state.value) {
-                FlashcardState.Error -> { /* no-op */ }
-                FlashcardState.Loading -> { /* no-op */ }
-                is FlashcardState.Success -> Home(
-                    modifier = Modifier.fillMaxWidth(),
-                    flashcards = value.flashcards
-                )
+                AddCardState.Initial -> AddCard(Modifier.fillMaxWidth()) { title ->
+                    vm.send(AddCardEvent.Add(title))
+                }
+                AddCardState.Error -> { /* no-op */ }
+                AddCardState.Loading -> { /* no-op */ }
+                is AddCardState.Success -> { navController.popBackStack() }
             }
         }
     }

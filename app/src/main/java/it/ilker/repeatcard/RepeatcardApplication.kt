@@ -17,6 +17,7 @@ private const val TAG_LOGGING = "REPEATCARD"
 
 class RepeatcardApplication : MultiDexApplication() {
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @ExperimentalMaterialApi
     override fun onCreate() {
         super.onCreate()
