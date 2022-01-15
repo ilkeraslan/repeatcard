@@ -33,6 +33,7 @@ class HomeViewModel(context: Context) : ViewModel() {
     init {
         val flashcardsDao = FlashcardDatabase.getDatabase(context).flashcardDao()
         repository = FlashcardRepository(flashcardsDao)
+        loadContent()
     }
 
     fun send(event: FlashcardEvent) {
