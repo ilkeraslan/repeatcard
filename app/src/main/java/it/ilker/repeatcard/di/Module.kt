@@ -2,6 +2,7 @@ package it.ilker.repeatcard.di
 
 import androidx.compose.material.ExperimentalMaterialApi
 import it.ilker.repeatcard.ui.AppNavigator
+import it.ilker.repeatcard.ui.add_card.AddCardViewModel
 import it.ilker.repeatcard.ui.directories.DirectoriesViewModel
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailViewModel
@@ -18,7 +19,12 @@ import org.koin.dsl.module
 
 val androidComponents = module {
     single { androidContext().resources }
-    single { KeyValueStorageFactory.build(context = androidContext(), name = "repeatcard_prefs") }
+    single {
+        KeyValueStorageFactory.build(
+            context = androidContext(),
+            name = "repeatcard_prefs"
+        )
+    }
 }
 
 @ExperimentalCoroutinesApi
@@ -32,6 +38,7 @@ val viewModels = module {
     viewModel { DirectoriesViewModel(get()) }
     viewModel { DirectoryViewModel(get()) }
     viewModel { FlashcardDetailViewModel(get()) }
+    viewModel { AddCardViewModel(get()) }
     viewModel { EditFlashcardViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { QuestionViewModel() }

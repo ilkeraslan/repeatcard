@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -28,8 +30,7 @@ internal fun Home(
     onAddCard: () -> Unit = {},
     onClick: () -> Unit = {}
 ) {
-    Box() {
-
+    Box(modifier = modifier) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
@@ -38,7 +39,7 @@ internal fun Home(
                 key = { flashcard -> flashcard.id }
             ) { flashcard ->
                 Flashcard(
-                    modifier = modifier,
+                    modifier = Modifier.fillMaxWidth(),
                     image = flashcard.imageUri,
                     onClick = onClick
                 )
@@ -92,5 +93,8 @@ internal fun Home(
     )
     @Composable
     private fun HomeScreenPreview() {
-        Home(flashcards = flashcards)
+        Home(
+            modifier = Modifier.fillMaxSize(),
+            flashcards = flashcards
+        )
     }

@@ -5,7 +5,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 
 interface NavFactory {
-    fun create(navGraphBuilder: NavGraphBuilder, navController: NavController)
+    fun create(
+        navGraphBuilder: NavGraphBuilder,
+        navController: NavController
+    )
 }
 
 sealed class Screen(

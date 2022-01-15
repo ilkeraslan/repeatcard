@@ -15,7 +15,10 @@ import org.koin.androidx.compose.viewModel
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 object AddCardFactory : NavFactory {
-    override fun create(navGraphBuilder: NavGraphBuilder, navController: NavController) {
+    override fun create(
+        navGraphBuilder: NavGraphBuilder,
+        navController: NavController
+    ) {
         navGraphBuilder.composable(Screen.HomeScreen.route) {
             val vm by viewModel<AddCardViewModel>()
             val state = vm.state.collectAsState()
@@ -26,7 +29,9 @@ object AddCardFactory : NavFactory {
                 }
                 AddCardState.Error -> { /* no-op */ }
                 AddCardState.Loading -> { /* no-op */ }
-                is AddCardState.Success -> { navController.popBackStack() }
+                is AddCardState.Success -> {
+                    navController.popBackStack()
+                }
             }
         }
     }

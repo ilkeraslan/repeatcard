@@ -4,6 +4,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import it.ilker.repeatcard.ui.add_card.AddCardFactory
 import it.ilker.repeatcard.ui.directories.DirectoriesFactory
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailFactory
 import it.ilker.repeatcard.ui.home.HomeFactory
@@ -27,6 +28,11 @@ internal fun NavHostFactory(navController: NavHostController) = NavHost(
     )
 
     FlashcardDetailFactory.create(
+        navGraphBuilder = this,
+        navController = navController
+    )
+
+    AddCardFactory.create(
         navGraphBuilder = this,
         navController = navController
     )
