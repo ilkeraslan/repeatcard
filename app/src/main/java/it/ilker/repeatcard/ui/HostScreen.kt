@@ -28,14 +28,6 @@ private fun Host() {
     val navController = rememberNavController()
 
     Scaffold {
-        NavHost(
-            navController = navController,
-            startDestination = "placeholder"
-        ) {
-            FlashcardDetailFactory.create(
-                navGraphBuilder = this,
-                navController = navController
-            )
-        }
+
     }
 }

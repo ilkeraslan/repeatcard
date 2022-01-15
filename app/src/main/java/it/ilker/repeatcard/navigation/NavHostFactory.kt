@@ -4,6 +4,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import it.ilker.repeatcard.ui.add_card.AddCardFactory
 import it.ilker.repeatcard.ui.directories.DirectoriesFactory
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailFactory
@@ -17,23 +18,31 @@ internal fun NavHostFactory(navController: NavHostController) = NavHost(
     navController = navController,
     startDestination = Screen.HomeScreen.route
 ) {
-    HomeFactory.create(
-        navGraphBuilder = this,
-        navController = navController
-    )
+    composable(Screen.HomeScreen.route) {
+        HomeFactory.Create(
+            navGraphBuilder = this,
+            navController = navController
+        )
+    }
 
-    DirectoriesFactory.create(
-        navGraphBuilder = this,
-        navController = navController
-    )
+    composable(Screen.DirectoriesScreen.route) {
+        DirectoriesFactory.Create(
+            navGraphBuilder = this,
+            navController = navController
+        )
+    }
 
-    FlashcardDetailFactory.create(
-        navGraphBuilder = this,
-        navController = navController
-    )
+    composable(Screen.FlashcardDetailScreen.route) {
+        FlashcardDetailFactory.Create(
+            navGraphBuilder = this,
+            navController = navController
+        )
+    }
 
-    AddCardFactory.create(
-        navGraphBuilder = this,
-        navController = navController
-    )
+    composable(Screen.AddCardScreen.route) {
+        AddCardFactory.Create(
+            navGraphBuilder = this,
+            navController = navController
+        )
+    }
 }

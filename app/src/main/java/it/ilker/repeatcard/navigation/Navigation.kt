@@ -1,11 +1,13 @@
 package it.ilker.repeatcard.navigation
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 
 interface NavFactory {
-    fun create(
+    @Composable
+    fun Create(
         navGraphBuilder: NavGraphBuilder,
         navController: NavController
     )
