@@ -25,7 +25,7 @@ interface FlashcardDao {
     suspend fun getFlashcardsForDirectory(directoryId: Int): List<Flashcard>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(flashcard: Flashcard)
+    suspend fun insert(flashcard: Flashcard): Long
 
     @Update(entity = Flashcard::class)
     suspend fun updateFlashcard(flashcard: Flashcard)

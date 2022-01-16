@@ -61,9 +61,4 @@ class MainScreen : AppCompatActivity() {
             NavHostFactory(navController)
         }
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
-    }
 }

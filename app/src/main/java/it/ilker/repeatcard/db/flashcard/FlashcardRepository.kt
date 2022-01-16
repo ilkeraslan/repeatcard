@@ -17,7 +17,7 @@ class FlashcardRepository(private val flashcardDao: FlashcardDao) {
             flashcard.toDomain()
         }
 
-    suspend fun insert(flashcard: me.ilker.business.flashcard.Flashcard) {
+    suspend fun insert(flashcard: me.ilker.business.flashcard.Flashcard) =
         flashcardDao.insert(
             Flashcard(
                 id = flashcard.id,
@@ -29,7 +29,6 @@ class FlashcardRepository(private val flashcardDao: FlashcardDao) {
                 imageUri = flashcard.imageUri
             )
         )
-    }
 
     suspend fun updateFlashcard(flashcard: me.ilker.business.flashcard.Flashcard) =
         flashcardDao.updateFlashcard(
