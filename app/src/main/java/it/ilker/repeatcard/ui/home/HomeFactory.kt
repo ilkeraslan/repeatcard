@@ -10,7 +10,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.insets.systemBarsPadding
 import it.ilker.repeatcard.navigation.NavFactory
+import it.ilker.repeatcard.navigation.Screen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.ilker.design.Error
 import me.ilker.design.Loading
@@ -37,9 +40,12 @@ object HomeFactory : NavFactory {
             is FlashcardState.Success -> Home(
                 modifier = Modifier
                     .fillMaxSize()
-                    .navigationBarsPadding()
+                    .systemBarsPadding()
+                    .padding(horizontal = 25.dp)
+                    .padding(top = 25.dp)
                     .padding(bottom = 60.dp),
-                flashcards = value.flashcards
+                flashcards = value.flashcards,
+                onAddCard = { navController.navigate(Screen.AddCardScreen.route) }
             )
         }
     }

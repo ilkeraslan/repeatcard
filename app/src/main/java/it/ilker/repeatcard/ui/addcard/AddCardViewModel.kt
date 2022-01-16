@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.ui.util.exhaustive
-import java.util.UUID
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import me.ilker.business.flashcard.Flashcard
+import kotlin.random.Random
 
 sealed class AddCardEvent {
     data class Add(val title: String) : AddCardEvent()
@@ -47,7 +47,7 @@ class AddCardViewModel(context: Context) : ViewModel() {
     private fun addCard(title: String) {
         viewModelScope.launch {
             val card = Flashcard(
-                id = UUID.randomUUID().clockSequence(),
+                id = Random.nextInt(),
                 title = title
             )
 
