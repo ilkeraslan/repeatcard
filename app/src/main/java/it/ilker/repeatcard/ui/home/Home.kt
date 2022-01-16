@@ -34,7 +34,7 @@ internal fun Home(
 ) {
     Box(modifier = modifier) {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(
                 items = flashcards,
@@ -42,7 +42,7 @@ internal fun Home(
             ) { flashcard ->
                 Flashcard(
                     modifier = Modifier.fillMaxWidth(),
-                    image = flashcard.imageUri,
+                    flashcard = flashcard,
                     onClick = onClick
                 )
             }

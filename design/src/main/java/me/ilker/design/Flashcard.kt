@@ -4,36 +4,43 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import me.ilker.business.flashcard.Flashcard
 
 @ExperimentalMaterialApi
 @Composable
 fun Flashcard(
     modifier: Modifier = Modifier,
-    image: Any? = null,
+    flashcard: Flashcard,
     onClick: () -> Unit = {}
 ) {
+    val indication = rememberRipple()
+
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(12.dp),
-        onClick = onClick
+        onClick = onClick,
+        indication = indication
     ) {
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
-            image?.let {
+            flashcard.imageUri?.let {
 
             } ?: Image(
                 modifier = Modifier
@@ -45,8 +52,14 @@ fun Flashcard(
             )
 
             Column {
-                Text(text = "Title")
-                Text(text = "Description")
+                Text(
+                    text = flashcard.title,
+                    fontWeight = FontWeight.Bold
+                )
+
+                flashcard.description?.let { _description ->
+                    Text(text = _description)
+                }
             }
         }
     }
@@ -62,5 +75,12 @@ fun Flashcard(
 )
 @Composable
 private fun FlashcardPreview() {
-    Flashcard()
+    Flashcard(
+        modifier = Modifier.fillMaxWidth(),
+        flashcard = Flashcard(
+            id = 5,
+            title = "Orange",
+            description = "A delicious fruit which has orange color and a circle shape"
+        )
+    )
 }
