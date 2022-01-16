@@ -53,6 +53,8 @@ dependencies {
     implementation("androidx.compose.foundation:foundation:1.0.5")
     implementation("androidx.compose.foundation:foundation-layout:1.0.5")
 
+    implementation("io.coil-kt:coil-compose:1.4.0")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")

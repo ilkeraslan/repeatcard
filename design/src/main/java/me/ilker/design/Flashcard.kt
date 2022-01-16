@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
+import coil.transform.RoundedCornersTransformation
 import me.ilker.business.flashcard.Flashcard
 
 @ExperimentalMaterialApi
@@ -40,8 +42,21 @@ fun Flashcard(
         Row(
             modifier = Modifier.padding(12.dp)
         ) {
-            flashcard.imageUri?.let {
-
+            flashcard.imageUri?.let { uri ->
+                Image(
+                    modifier = Modifier
+                        .width(64.dp)
+                        .aspectRatio(16f / 9f),
+                    painter = rememberImagePainter(
+                        data = uri,
+                        builder = {
+                            placeholder(R.drawable.photography)
+                            crossfade(true)
+                            transformations(RoundedCornersTransformation(12f))
+                        }
+                    ),
+                    contentDescription = null
+                )
             } ?: Image(
                 modifier = Modifier
                     .width(64.dp)
@@ -80,7 +95,8 @@ private fun FlashcardPreview() {
         flashcard = Flashcard(
             id = 5,
             title = "Orange",
-            description = "A delicious fruit which has orange color and a circle shape"
+            description = "A delicious fruit which has orange color and a circle shape",
+            imageUri = "https://i.picsum.photos/id/616/320/180.jpg?hmac=XXxP6KoQXDuP0wPTFGMIj9xSTT-5UbhEV64VMyrb8W8"
         )
     )
 }
