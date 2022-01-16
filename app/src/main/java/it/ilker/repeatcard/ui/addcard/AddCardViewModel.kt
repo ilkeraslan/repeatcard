@@ -6,12 +6,12 @@ import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
 import it.ilker.repeatcard.ui.util.exhaustive
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import me.ilker.business.flashcard.Flashcard
-import kotlin.random.Random
 
 sealed class AddCardEvent {
     data class Add(val title: String) : AddCardEvent()
