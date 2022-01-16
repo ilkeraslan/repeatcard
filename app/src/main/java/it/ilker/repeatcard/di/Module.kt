@@ -2,7 +2,7 @@ package it.ilker.repeatcard.di
 
 import androidx.compose.material.ExperimentalMaterialApi
 import it.ilker.repeatcard.ui.AppNavigator
-import it.ilker.repeatcard.ui.add_card.AddCardViewModel
+import it.ilker.repeatcard.ui.addcard.AddCardViewModel
 import it.ilker.repeatcard.ui.directories.DirectoriesViewModel
 import it.ilker.repeatcard.ui.directory.DirectoryViewModel
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailViewModel

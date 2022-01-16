@@ -9,12 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import com.google.accompanist.insets.navigationBarsPadding
 import it.ilker.repeatcard.navigation.NavFactory
-import it.ilker.repeatcard.navigation.Screen
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import me.ilker.business.flashcard.Flashcard
+import me.ilker.design.Error
+import me.ilker.design.Loading
 import org.koin.androidx.compose.viewModel
 
 @ExperimentalMaterialApi
@@ -28,37 +27,19 @@ object HomeFactory : NavFactory {
         val vm by viewModel<HomeViewModel>()
         val state = vm.state.collectAsState()
 
-        Home(
-            modifier = Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
-                .padding(bottom = 60.dp),
-//                    flashcards = value.flashcards
-            flashcards = listOf(
-                Flashcard(
-                    id = 5,
-                    title = "foo"
-                )
-            ),
-            onAddCard = {
-                navController.navigate(Screen.AddCardScreen.route)
-            }
-        )
-
         when (val value = state.value) {
-            FlashcardState.Error -> { /* no-op */
-            }
-            FlashcardState.Loading -> { /* no-op */
-            }
+            FlashcardState.Error -> Error(
+                modifier = Modifier.fillMaxSize()
+            )
+            FlashcardState.Loading -> Loading(
+                modifier = Modifier.fillMaxSize()
+            )
             is FlashcardState.Success -> Home(
-                modifier = Modifier.fillMaxSize(),
-//                    flashcards = value.flashcards
-                flashcards = listOf(
-                    Flashcard(
-                        id = 5,
-                        title = "foo"
-                    )
-                )
+                modifier = Modifier
+                    .fillMaxSize()
+                    .navigationBarsPadding()
+                    .padding(bottom = 60.dp),
+                flashcards = value.flashcards
             )
         }
     }

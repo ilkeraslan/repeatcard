@@ -1,6 +1,5 @@
 package it.ilker.repeatcard.ui.directory
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.db.flashcard.Flashcard
-import it.ilker.repeatcard.ui.flashcardadd.AddFlashcardScreen
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.android.synthetic.main.directory_layout.content_group
@@ -24,15 +22,12 @@ import kotlinx.android.synthetic.main.directory_layout.progress_circular
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.ZoneId
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.FormatStyle
 import timber.log.Timber
 
 const val ADD_FLASHCARD_INTENT = 1000
 const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
+@ExperimentalCoroutinesApi
 class DirectoryScreen : AppCompatActivity() {
 
     private var directoryId = 1
@@ -77,8 +72,10 @@ class DirectoryScreen : AppCompatActivity() {
             directoryViewModel.state.collect { state ->
                 when (state) {
                     is DirectoryState.Loading -> showLoader()
-                    is DirectoryState.NoContent -> { /* no-op */ }
-                    is DirectoryState.HasContent -> { /* no-op */ }
+                    is DirectoryState.NoContent -> { /* no-op */
+                    }
+                    is DirectoryState.HasContent -> { /* no-op */
+                    }
                 }.exhaustive
             }
         }
@@ -89,11 +86,6 @@ class DirectoryScreen : AppCompatActivity() {
         addFlashcard = findViewById(R.id.add_flashcard_to_directory)
         review = findViewById(R.id.reviewButton)
         noFlashcardText.visibility = INVISIBLE
-
-        addFlashcard.setOnClickListener {
-            val intent = Intent(this, AddFlashcardScreen::class.java)
-            startActivityForResult(intent, ADD_FLASHCARD_INTENT)
-        }
     }
 
     @ExperimentalCoroutinesApi
@@ -118,27 +110,6 @@ class DirectoryScreen : AppCompatActivity() {
         content_group.visibility = INVISIBLE
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == ADD_FLASHCARD_INTENT && resultCode == Activity.RESULT_OK && data != null) {
-            val flashcard = Flashcard(
-                id = 0,
-                title = data.extras?.get("ADD_FLASHCARD_TITLE_RESULT").toString(),
-                description = data.extras?.get("ADD_FLASHCARD_DESCRIPTION_RESULT").toString(),
-                creationDate = OffsetDateTime.now().format(
-                    DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-                ),
-                lastModified = OffsetDateTime.now().format(
-                    DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.MEDIUM).withZone(ZoneId.systemDefault())
-                ),
-                directoryId = directoryId,
-                imageUri = data.extras?.get("ADD_FLASHCARD_IMAGE_RESULT") as String?
-            )
-//            directoryViewModel.send(DirectoryEvent.CardAdded(directoryId, flashcard))
-        }
-    }
-
     @ExperimentalCoroutinesApi
     private fun alertToDelete(flashcard: Flashcard) {
         val dialogBuilder = AlertDialog.Builder(ContextThemeWrapper(this, R.style.DirectoryTheme))
@@ -146,7 +117,6 @@ class DirectoryScreen : AppCompatActivity() {
         dialogBuilder.setPositiveButton("Yes") { dialog, _ ->
             dialog.dismiss()
             Timber.d(flashcard.toString())
-//            directoryViewModel.send(DirectoryEvent.CardDeleted(directoryId, flashcard))
         }
         dialogBuilder.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
         dialogBuilder.create().show()

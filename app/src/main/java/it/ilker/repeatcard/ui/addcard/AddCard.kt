@@ -1,4 +1,4 @@
-package it.ilker.repeatcard.ui.add_card
+package it.ilker.repeatcard.ui.addcard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -55,7 +55,7 @@ fun AddCard(
             ) {
                 Text(text = "Cancel")
             }
-            
+
             Spacer(modifier = Modifier.width(10.dp))
 
             OutlinedButton(

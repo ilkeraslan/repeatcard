@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import it.ilker.repeatcard.ui.add_card.AddCardFactory
+import it.ilker.repeatcard.ui.addcard.AddCardFactory
 import it.ilker.repeatcard.ui.directories.DirectoriesFactory
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailFactory
 import it.ilker.repeatcard.ui.home.HomeFactory

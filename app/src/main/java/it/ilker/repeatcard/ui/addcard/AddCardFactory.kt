@@ -1,4 +1,4 @@
-package it.ilker.repeatcard.ui.add_card
+package it.ilker.repeatcard.ui.addcard
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +27,7 @@ object AddCardFactory : NavFactory {
         val vm by viewModel<AddCardViewModel>()
         val state = vm.state.collectAsState()
 
-        when (val value = state.value) {
+        when (state.value) {
             AddCardState.Initial -> AddCard(
                 modifier = Modifier
                     .fillMaxWidth()
