@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -22,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
-import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import me.ilker.business.flashcard.Flashcard
 
 @ExperimentalMaterialApi
@@ -45,12 +44,15 @@ fun Flashcard(
         ) {
             flashcard.imageUri?.let { uri ->
                 Image(
-                    modifier = Modifier.size(128.dp),
+                    modifier = Modifier
+                        .width(64.dp)
+                        .aspectRatio(16f / 9f),
                     painter = rememberImagePainter(
                         data = uri,
                         builder = {
+                            placeholder(R.drawable.photography)
                             crossfade(true)
-                            transformations(CircleCropTransformation())
+                            transformations(RoundedCornersTransformation(12f))
                         }
                     ),
                     contentDescription = null
