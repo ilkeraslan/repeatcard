@@ -10,6 +10,7 @@
     <string name="flashcard_description_text">Description</string>
     <string name="select_image">Select Image</string>
     <string name="add_flashcard">Add</string>
+    <string name="delete">Delete</string>
     <string name="delete_all">Delete</string>
     <string name="review">Review</string>
     <string name="directory_title_text">Directory Title</string>

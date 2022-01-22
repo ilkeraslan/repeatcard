@@ -43,7 +43,8 @@ object HomeFactory : NavFactory {
                     .padding(top = 25.dp)
                     .padding(bottom = 60.dp),
                 flashcards = value.flashcards,
-                onAddCard = { navController.navigate(Screen.AddCardScreen.route) }
+                onAddCard = { navController.navigate(Screen.AddCardScreen.route) },
+                onDelete = { vm.deleteCard(it) }
             )
         }
     }

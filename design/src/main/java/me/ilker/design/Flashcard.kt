@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
@@ -29,6 +30,7 @@ import me.ilker.business.flashcard.Flashcard
 fun Flashcard(
     modifier: Modifier = Modifier,
     flashcard: Flashcard,
+    elevation: Dp = 1.dp,
     onClick: () -> Unit = {}
 ) {
     val indication = rememberRipple()
@@ -37,7 +39,8 @@ fun Flashcard(
         modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         onClick = onClick,
-        indication = indication
+        indication = indication,
+        elevation = elevation
     ) {
         Row(
             modifier = Modifier.padding(12.dp)

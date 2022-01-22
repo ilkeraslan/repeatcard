@@ -6,7 +6,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color.Companion.LightGray
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -17,7 +18,7 @@ internal fun AppBottomNavigation(
     items: List<BottomNavItem>
 ) {
     BottomNavigation(
-        backgroundColor = LightGray,
+        backgroundColor = Gray,
         contentColor = White
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -37,9 +38,14 @@ internal fun AppBottomNavigation(
                 selected = currentRoute == screen.route,
                 onClick = {
                     if (currentRoute != screen.route) {
-                        navController.navigate(screen.route)
+                        navController.navigate(screen.route) {
+                            popUpTo(navController.graph.id)
+                            launchSingleTop = true
+                        }
                     }
-                }
+                },
+                selectedContentColor = Color.Black,
+                unselectedContentColor = White
             )
         }
     }

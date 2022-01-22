@@ -28,7 +28,9 @@ fun AddCard(
     onAdded: (String) -> Unit = {},
     onBackPressed: () -> Unit = {}
 ) {
-    val textState = remember { mutableStateOf(TextFieldValue(annotatedString = AnnotatedString(""))) }
+    val textState = remember {
+        mutableStateOf(TextFieldValue(annotatedString = AnnotatedString("")))
+    }
 
     Column(modifier = modifier) {
         OutlinedTextField(
