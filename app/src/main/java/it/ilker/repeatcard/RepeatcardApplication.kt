@@ -10,15 +10,16 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import org.koin.dsl.module
 import timber.log.Timber
 
 private const val TAG_LOGGING = "REPEATCARD"
 
+@ExperimentalCoroutinesApi
+@ExperimentalMaterialApi
 class RepeatcardApplication : MultiDexApplication() {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @ExperimentalMaterialApi
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
@@ -35,7 +36,8 @@ class RepeatcardApplication : MultiDexApplication() {
     @ExperimentalCoroutinesApi
     private fun setupDI() {
         startKoin {
-            androidLogger()
+            // Workaround, with Koin 3.2.0 will be resolved
+            androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.NONE)
             androidContext(this@RepeatcardApplication)
 
             val appSetupModule = module { single { BuildConfig.DEBUG } }
