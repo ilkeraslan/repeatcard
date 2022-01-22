@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissState
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FractionalThreshold
@@ -48,6 +50,7 @@ internal fun Home(
     onClick: () -> Unit = {}
 ) {
     Box(modifier = modifier) {
+        this.AddButton()
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
@@ -69,50 +72,13 @@ internal fun Home(
                     state = dismissState,
                     modifier = Modifier.padding(vertical = 4.dp),
                     directions = setOf(DismissDirection.EndToStart),
-                    dismissThresholds = {
-                        FractionalThreshold(0.25f)
-                    },
-                    background = {
-                        val color by animateColorAsState(
-                            when (dismissState.targetValue) {
-                                DismissValue.DismissedToStart -> Color.Red
-                                else -> Color.LightGray
-                            }
-                        )
-                        val alignment = Alignment.CenterEnd
-                        val icon = Icons.Default.Delete
-                        val scale by animateFloatAsState(
-                            if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
-                        )
-
-                        Box(
-                            Modifier
-                                .fillMaxSize()
-                                .background(
-                                    color = color,
-                                    shape = RoundedCornerShape(12.dp)
-                                )
-                                .padding(horizontal = 20.dp),
-                            contentAlignment = alignment
-                        ) {
-                            Icon(
-                                imageVector = icon,
-                                contentDescription = stringResource(id = R.string.delete),
-                                modifier = Modifier.scale(scale)
-                            )
-                        }
-                    },
+                    dismissThresholds = { FractionalThreshold(0.25f) },
+                    background = { SwipeBackground(dismissState = dismissState) },
                     dismissContent = {
                         Flashcard(
                             modifier = Modifier.fillMaxWidth(),
                             flashcard = flashcard,
-                            elevation = animateDpAsState(
-                                if (dismissState.dismissDirection != null) {
-                                    4.dp
-                                } else {
-                                    0.dp
-                                }
-                            ).value,
+                            elevation = animationState(dismissState).value,
                             onClick = onClick
                         )
                     }
@@ -120,26 +86,75 @@ internal fun Home(
             }
         }
 
-        IconButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(bottom = 10.dp, end = 10.dp)
-                .background(
-                    color = Color.Green,
-                    shape = CircleShape
-                )
-                .size(36.dp),
-            onClick = onAddCard
-        ) {
-            Icon(
-                modifier = Modifier,
-                painter = painterResource(id = R.drawable.ic_add_white_24dp),
-                contentDescription = "Add card",
-                tint = Color.Unspecified
-            )
-        }
+        AddButton(onAddCard = onAddCard)
     }
 }
+
+@ExperimentalMaterialApi
+@Composable
+private fun SwipeBackground(dismissState: DismissState) {
+    val color by animateColorAsState(
+        if (dismissState.targetValue == DismissValue.DismissedToStart) {
+            Color.Red
+        } else Color.LightGray
+    )
+    val alignment = Alignment.CenterEnd
+    val scale by animateFloatAsState(
+        if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
+    )
+
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(
+                color = color,
+                shape = RoundedCornerShape(12.dp)
+            )
+            .padding(horizontal = 20.dp),
+        contentAlignment = alignment
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = stringResource(id = R.string.delete),
+            modifier = Modifier.scale(scale)
+        )
+    }
+}
+
+@Composable
+private fun BoxScope.AddButton(
+    modifier: Modifier = Modifier,
+    onAddCard: () -> Unit = {},
+) {
+    IconButton(
+        modifier = modifier
+            .align(Alignment.BottomEnd)
+            .padding(bottom = 10.dp, end = 10.dp)
+            .background(
+                color = Color.Green,
+                shape = CircleShape
+            )
+            .size(36.dp),
+        onClick = onAddCard
+    ) {
+        Icon(
+            modifier = Modifier,
+            painter = painterResource(id = R.drawable.ic_add_white_24dp),
+            contentDescription = stringResource(id = R.string.add_flashcard),
+            tint = Color.Unspecified
+        )
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun animationState(dismissState: DismissState) = animateDpAsState(
+    if (dismissState.dismissDirection != null) {
+        4.dp
+    } else {
+        0.dp
+    }
+)
 
 /**
  * Previews
