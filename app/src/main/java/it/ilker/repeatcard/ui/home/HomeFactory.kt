@@ -6,6 +6,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -17,6 +18,7 @@ import me.ilker.design.Error
 import me.ilker.design.Loading
 import org.koin.androidx.compose.viewModel
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 object HomeFactory : NavFactory {

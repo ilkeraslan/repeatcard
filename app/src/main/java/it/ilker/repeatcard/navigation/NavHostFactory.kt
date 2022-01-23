@@ -2,6 +2,7 @@ package it.ilker.repeatcard.navigation
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,6 +12,7 @@ import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailFactory
 import it.ilker.repeatcard.ui.home.HomeFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 @Composable
