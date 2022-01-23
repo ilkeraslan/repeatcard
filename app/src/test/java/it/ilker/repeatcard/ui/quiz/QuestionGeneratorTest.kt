@@ -3,6 +3,7 @@ package it.ilker.repeatcard.ui.quiz
 import org.junit.Test
 
 import me.ilker.business.question.Question
+import me.ilker.business.quiz.QuestionGenerator
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 

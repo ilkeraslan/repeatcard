@@ -23,7 +23,7 @@ object Versions {
 object BuildLibs {
     const val detekt = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:${Versions.detekt}"
     const val firebase_crashlytics = "com.google.firebase:firebase-crashlytics-gradle:2.4.1"
-    const val gradle_android = "com.android.tools.build:gradle:7.0.3"
+    const val gradle_android = "com.android.tools.build:gradle:7.0.4"
     const val gradle_versions = "com.github.ben-manes:gradle-versions-plugin:0.27.0"
     const val google_services = "com.google.gms:google-services:4.3.4"
     const val jacoco = "org.jacoco:org.jacoco.core:0.8.4"
