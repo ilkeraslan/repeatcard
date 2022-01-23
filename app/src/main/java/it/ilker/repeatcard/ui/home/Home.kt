@@ -23,6 +23,7 @@ import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberDismissState
@@ -34,12 +35,19 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import it.ilker.repeatcard.R
 import me.ilker.business.flashcard.Flashcard
 import me.ilker.design.Flashcard
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
 internal fun Home(
@@ -50,43 +58,71 @@ internal fun Home(
     onClick: () -> Unit = {}
 ) {
     Box(modifier = modifier) {
-        this.AddButton()
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(
-                items = flashcards,
-                key = { flashcard -> flashcard.id }
-            ) { flashcard ->
-                val dismissState = rememberDismissState(
-                    confirmStateChange = {
-                        val dismissed = it == DismissValue.DismissedToStart
-                        if (dismissed) {
-                            onDelete(flashcard)
-                        }
-                        dismissed
-                    }
+        if (flashcards.isEmpty()) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.Center),
+                text = stringResource(id = R.string.no_flashcard_yet),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = TextUnit(
+                    value = 18.sp.value,
+                    type = TextUnitType.Sp
                 )
-
-                SwipeToDismiss(
-                    state = dismissState,
-                    modifier = Modifier.padding(vertical = 4.dp),
-                    directions = setOf(DismissDirection.EndToStart),
-                    dismissThresholds = { FractionalThreshold(0.25f) },
-                    background = { SwipeBackground(dismissState = dismissState) },
-                    dismissContent = {
-                        Flashcard(
-                            modifier = Modifier.fillMaxWidth(),
-                            flashcard = flashcard,
-                            elevation = animationState(dismissState).value,
-                            onClick = onClick
-                        )
-                    }
-                )
-            }
+            )
+        } else {
+            Flashcards(
+                flashcards = flashcards,
+                onDelete = onDelete,
+                onClick = onClick
+            )
         }
 
         AddButton(onAddCard = onAddCard)
+    }
+}
+
+@ExperimentalMaterialApi
+@Composable
+private fun Flashcards(
+    flashcards: List<Flashcard>,
+    onDelete: (Flashcard) -> Unit,
+    onClick: () -> Unit
+) {
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        items(
+            items = flashcards,
+            key = { flashcard -> flashcard.id }
+        ) { flashcard ->
+            val dismissState = rememberDismissState(
+                confirmStateChange = {
+                    val dismissed = it == DismissValue.DismissedToStart
+                    if (dismissed) {
+                        onDelete(flashcard)
+                    }
+                    dismissed
+                }
+            )
+
+            SwipeToDismiss(
+                state = dismissState,
+                modifier = Modifier.padding(vertical = 4.dp),
+                directions = setOf(DismissDirection.EndToStart),
+                dismissThresholds = { FractionalThreshold(0.25f) },
+                background = { SwipeBackground(dismissState = dismissState) },
+                dismissContent = {
+                    Flashcard(
+                        modifier = Modifier.fillMaxWidth(),
+                        flashcard = flashcard,
+                        elevation = animationState(dismissState).value,
+                        onClick = onClick
+                    )
+                }
+            )
+        }
     }
 }
 
@@ -180,6 +216,7 @@ private val flashcards = listOf(
     )
 )
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Preview(
     backgroundColor = 0xFFFFFF,
@@ -188,7 +225,21 @@ private val flashcards = listOf(
 @Composable
 private fun HomeScreenPreview() {
     Home(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(),
         flashcards = flashcards
+    )
+}
+
+@ExperimentalUnitApi
+@ExperimentalMaterialApi
+@Preview(
+    backgroundColor = 0xFFFFFF,
+    showBackground = true
+)
+@Composable
+private fun HomeScreenWithoutFlashcardsPreview() {
+    Home(
+        modifier = Modifier.fillMaxWidth(),
+        flashcards = listOf()
     )
 }

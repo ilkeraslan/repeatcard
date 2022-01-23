@@ -1,12 +1,12 @@
 package it.ilker.repeatcard.ui.results
 
 import androidx.lifecycle.ViewModel
-import me.ilker.business.quiz.QuizResult
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import me.ilker.business.quiz.QuizResult
 
 sealed class ResultEvent {
     data class SendResults(val results: String) : ResultEvent()

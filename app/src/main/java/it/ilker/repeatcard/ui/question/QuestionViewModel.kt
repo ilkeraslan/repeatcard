@@ -1,11 +1,11 @@
 package it.ilker.repeatcard.ui.question
 
 import androidx.lifecycle.ViewModel
-import me.ilker.business.question.Question
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import me.ilker.business.question.Question
 
 sealed class QuestionEvent {
     data class GetDetails(val questionString: String) : QuestionEvent()

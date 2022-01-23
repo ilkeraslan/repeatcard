@@ -11,14 +11,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import it.ilker.repeatcard.R
-import me.ilker.business.question.Question
-import me.ilker.business.quiz.QuizResult
 import it.ilker.repeatcard.ui.question.QuestionDetailScreen
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.android.synthetic.main.screen_results.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.serialization.json.Json
+import me.ilker.business.question.Question
+import me.ilker.business.quiz.QuizResult
 import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi

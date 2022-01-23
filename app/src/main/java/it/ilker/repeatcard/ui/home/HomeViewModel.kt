@@ -55,12 +55,11 @@ class HomeViewModel(context: Context) : ViewModel() {
         _state.value = FlashcardState.Loading
 
         viewModelScope.launch {
-            val allFlashcards = repository.getFlashcards()
-
-            if (allFlashcards.isEmpty()) {
-                _state.value = FlashcardState.Error
+            val flashcards = repository.getFlashcards()
+            _state.value = if (flashcards.isEmpty()) {
+                FlashcardState.Success(emptyList())
             } else {
-                _state.value = FlashcardState.Success(allFlashcards)
+                FlashcardState.Success(flashcards)
             }
         }
     }
