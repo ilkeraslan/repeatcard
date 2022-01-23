@@ -1,7 +1,7 @@
 package it.ilker.repeatcard.ui.question
 
 import androidx.lifecycle.ViewModel
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.decodeFromString

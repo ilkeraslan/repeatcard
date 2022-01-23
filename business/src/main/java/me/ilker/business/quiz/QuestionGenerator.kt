@@ -1,11 +1,10 @@
-package it.ilker.repeatcard.ui.quiz
+package me.ilker.business.quiz
 
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 
 private const val OPTION_COUNT = 4
 
 object QuestionGenerator {
-
     fun generate(questions: MutableList<Question>): List<Question> {
         val questionsGenerated = mutableListOf<Question>()
         questions.forEach { question ->

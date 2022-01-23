@@ -3,6 +3,7 @@ package it.ilker.repeatcard.models.question
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import me.ilker.business.question.Question
 
 class QuestionTest {
 

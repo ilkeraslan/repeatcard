@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.android.synthetic.main.activity_quiz_base.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import it.ilker.repeatcard.R
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 
 class ResultsAdapter(private val clickListener: ResultListener) : ListAdapter<Question, ResultsViewHolder>(QuestionDiffUtil()) {
 

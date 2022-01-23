@@ -1,10 +1,14 @@
-package it.ilker.repeatcard.models.question
+package me.ilker.business.question
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Question(val id: Int, val imageUri: String, val correctAnswer: String, val description: String?) {
-
+data class Question(
+    val id: Int,
+    val imageUri: String,
+    val correctAnswer: String,
+    val description: String?
+) {
     val options = mutableListOf<String>()
     var selectedAnswer: String? = null
 

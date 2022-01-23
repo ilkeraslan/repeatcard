@@ -1,6 +1,6 @@
-package it.ilker.repeatcard.models.quizresult
+package me.ilker.business.quiz
 
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 import kotlinx.serialization.Serializable
 
 @Serializable

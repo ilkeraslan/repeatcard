@@ -1,7 +1,7 @@
 package it.ilker.repeatcard.ui.results
 
 import androidx.lifecycle.ViewModel
-import it.ilker.repeatcard.models.quizresult.QuizResult
+import me.ilker.business.quiz.QuizResult
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow

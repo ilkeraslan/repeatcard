@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import it.ilker.repeatcard.R
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 
 class QuizAdapter(private val clickListener: QuizListener) : ListAdapter<Question, QuizSliderViewHolder>(QuestionDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuizSliderViewHolder {
