@@ -30,6 +30,8 @@ object HomeFactory : NavFactory {
         val vm by viewModel<HomeViewModel>()
         val state = vm.state.collectAsState()
 
+        vm.loadContent()
+
         when (val value = state.value) {
             FlashcardState.Error -> Error(
                 modifier = Modifier.fillMaxSize()

@@ -2,6 +2,7 @@ package it.ilker.repeatcard.ui
 
 import android.content.Context
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import it.ilker.repeatcard.ui.directory.DirectoryScreen
 import it.ilker.repeatcard.ui.main.MainScreen
 import it.ilker.repeatcard.ui.onboarding.OnboardingScreen
@@ -15,6 +16,7 @@ interface Navigator {
     fun goToQuiz()
 }
 
+@ExperimentalUnitApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 class AppNavigator(private val context: Context) : Navigator {

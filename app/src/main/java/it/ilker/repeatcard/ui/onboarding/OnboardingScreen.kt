@@ -7,6 +7,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.button.MaterialButton
 import com.jem.liquidswipe.LiquidSwipeViewPager
@@ -17,6 +18,7 @@ import it.ilker.repeatcard.ui.util.KeyValueStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
+@ExperimentalUnitApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 class OnboardingScreen : AppCompatActivity() {

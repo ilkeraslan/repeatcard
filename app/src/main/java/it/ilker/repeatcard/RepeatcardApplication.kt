@@ -1,6 +1,7 @@
 package it.ilker.repeatcard
 
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.multidex.MultiDexApplication
 import com.jakewharton.threetenabp.AndroidThreeTen
 import it.ilker.repeatcard.di.androidComponents
@@ -16,6 +17,7 @@ import timber.log.Timber
 
 private const val TAG_LOGGING = "REPEATCARD"
 
+@ExperimentalUnitApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 class RepeatcardApplication : MultiDexApplication() {
