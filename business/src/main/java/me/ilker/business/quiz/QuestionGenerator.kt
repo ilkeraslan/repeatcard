@@ -17,8 +17,8 @@ object QuestionGenerator {
 
             temporaryList.forEach { otherQuestion ->
                 // If the question we are producing doesn't have the otherQuestion title among it's options, add it as an option
-                if (question.options.size < OPTION_COUNT && !question.options.contains(otherQuestion.correctAnswer)) {
-                    question.options.add(otherQuestion.correctAnswer)
+                if (question.options.size < OPTION_COUNT && !question.options.contains(otherQuestion.answer)) {
+                    question.options.add(otherQuestion.answer)
                 }
             }
 

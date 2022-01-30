@@ -28,7 +28,7 @@ object QuizFactory : NavFactory {
         val vm by viewModel<QuizViewModel>()
         val state = vm.state.collectAsState()
 
-        when (state.value) {
+        when (val quizState = state.value) {
             is QuizState.Error -> Error(
                 modifier = Modifier.fillMaxSize()
             )
@@ -36,7 +36,10 @@ object QuizFactory : NavFactory {
                 modifier = Modifier.fillMaxSize()
             )
             is QuizState.Results -> Results()
-            is QuizState.Success -> Quiz()
+            is QuizState.Success -> Quiz(
+                modifier = Modifier.fillMaxSize(),
+                questions = quizState.questions
+            )
         }
     }
 }

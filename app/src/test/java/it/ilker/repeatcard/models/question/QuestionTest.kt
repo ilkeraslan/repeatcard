@@ -14,14 +14,14 @@ class QuestionTest {
     private val minimalSubject = Question(
             id = 0,
             imageUri = "",
-            correctAnswer = emptyCorrectAnswer,
+            answer = emptyCorrectAnswer,
             description = null
     )
 
     private val fullSubject = Question(
             id = 1337,
             imageUri = "https://en.wikipedia.org/wiki/Rick_Astley#/media/File:Rick_Astely.jpg",
-            correctAnswer = populatedCorrectAnswer,
+            answer = populatedCorrectAnswer,
             description = "This is a description of Rick Astley"
     )
 

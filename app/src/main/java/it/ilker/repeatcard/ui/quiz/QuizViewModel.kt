@@ -55,8 +55,8 @@ class QuizViewModel(context: Context) : ViewModel() {
             QuizResult(
                 id = UUID.randomUUID().toString(),
                 questions = generatedQuestions,
-                correctAnswers = generatedQuestions.filter { question -> question.selectedAnswer == question.correctAnswer },
-                wrongAnswers = generatedQuestions.filterNot { question -> question.selectedAnswer == question.correctAnswer }
+                correctAnswers = generatedQuestions.filter { question -> question.selectedAnswer == question.answer },
+                wrongAnswers = generatedQuestions.filterNot { question -> question.selectedAnswer == question.answer }
             ))
     }
 
@@ -70,7 +70,7 @@ class QuizViewModel(context: Context) : ViewModel() {
                 val question = Question(
                     id = flashcard.id,
                     imageUri = flashcard.imageUri!!,
-                    correctAnswer = flashcard.title,
+                    answer = flashcard.title,
                     description = flashcard.description
                 )
                 questions.add(question)
