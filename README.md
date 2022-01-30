@@ -8,8 +8,6 @@
 
 An Android app to create and memorize Flashcards.
 
-![Repeatcard](https://user-images.githubusercontent.com/33685811/95678688-85bf3000-0bce-11eb-95ed-22a83dc514a7.png)
-
 ## What's a Flashcard?
 
 Quoting from [Wikipedia](https://en.wikipedia.org/wiki/Flashcard)
@@ -34,26 +32,6 @@ In each Directory you can add Flashcards or repeat your existing Flashcards.
  
 If you have more than 4 Flashcards, you can take a quiz to test your knowledge. At the end of each quiz, you will see your results which gives you a feedback of your learning level.
 
-## User Stories
-
-- [x] User can create flashcards with a `title` and a `description`
-- [x] User can create a flashcard with an image selected from the gallery.
-- [x] User can delete created flashcards.
-- [x] User can create directories.
-- [x] User can delete created directories.
-- [x] User can add a flashcard into a directory.
-- [x] User can see a default directory which can be used to add any Flashcard that has no other directory to be added.
-- [x] User can see notifications in another screen after creating or deleting a flashcard.
-- [x] User can review flashcards.
-- [x] User can see the flashcard details clicking on it.
-- [x] User can take a quiz if has at least 4 Flashcards with title-description-image.
-- [x] User can see a list of questions with an image.
-- [x] User can see the results after a quiz.
-- [x] User can see the details of a result card clicking on it.
-- [x] User can modify a Flashcard.
-- [ ] User can see the results of the last quiz.
-- [ ] User can take a photo in order to create a Flashcard.
-
 ## Download
 
 You can download the application from PlayStore.
@@ -66,17 +44,22 @@ This app welcomes first time contributors with all levels of experience.
 You don't like something or the app has a problem? Please file an issue!
 Would you like to work on an issue? Just ask for it to see if someone is already working on it or not. Afterwards, make a PR.
 
-If you are opening a Pull Request, you should run [Detekt](https://detekt.github.io/detekt/cli.html). Please make sure that Detekt build is successful.
+If you are opening a Pull Request, you should run [Detekt](https://detekt.github.io/detekt/cli.html) and [Lint](https://developer.android.com/studio/write/lint).
+To do so run these commands:
+```shell
+./gradlew detekt
+./gradlew lint
+```
 
 You can join the Discord channel to discuss or ask for further info: [![Discord](https://discord.com/api/guilds/765660376305500250/widget.png)](https://discord.gg/U4dYsfY)
 
 ## Contributors
 
 Following the list of amazing people that contributed to this project in historical order:
-- ![@IllusionFpv](https://github.com/IllusionFpv)
-- ![@mantas84](https://github.com/mantas84)
-- ![@renanrbs](https://github.com/renanrbs)
-- ![@Kardelio](https://github.com/Kardelio)
-- ![@guuilp](https://github.com/guuilp)
-- ![@lingarajsankaravelu](https://github.com/lingarajsankaravelu)
-- ![@Stuie](https://github.com/Stuie)
+- [@IllusionFpv](https://github.com/IllusionFpv)
+- [@mantas84](https://github.com/mantas84)
+- [@renanrbs](https://github.com/renanrbs)
+- [@Kardelio](https://github.com/Kardelio)
+- [@guuilp](https://github.com/guuilp)
+- [@lingarajsankaravelu](https://github.com/lingarajsankaravelu)
+- [@Stuie](https://github.com/Stuie)
