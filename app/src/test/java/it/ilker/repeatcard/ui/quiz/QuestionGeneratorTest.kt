@@ -2,7 +2,8 @@ package it.ilker.repeatcard.ui.quiz
 
 import org.junit.Test
 
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
+import me.ilker.business.quiz.QuestionGenerator
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 
@@ -15,21 +16,21 @@ class QuestionGeneratorTest {
     private val question1 = Question(
         id = 1,
         imageUri = "",
-        correctAnswer = firstQuestionCorrectAnswer,
+        answer = firstQuestionCorrectAnswer,
         description = "First question description"
     )
 
     private val question2 = Question(
         id = 2,
         imageUri = "",
-        correctAnswer = secondQuestionCorrectAnswer,
+        answer = secondQuestionCorrectAnswer,
         description = "Second question description"
     )
 
     private val question3 = Question(
             id = 3,
             imageUri = "",
-            correctAnswer = thirdQuestionCorrectAnswer,
+            answer = thirdQuestionCorrectAnswer,
             description = "Second question description"
     )
 
@@ -64,7 +65,7 @@ class QuestionGeneratorTest {
                 question2
         ))
 
-        val firstQuestion = result.first { it.correctAnswer == firstQuestionCorrectAnswer }
+        val firstQuestion = result.first { it.answer == firstQuestionCorrectAnswer }
 
         assertTrue(secondQuestionCorrectAnswer in firstQuestion.options)
     }
@@ -83,7 +84,7 @@ class QuestionGeneratorTest {
                     question3
             ))
 
-            if (result[0].correctAnswer != firstQuestionCorrectAnswer) {
+            if (result[0].answer != firstQuestionCorrectAnswer) {
                 seenShuffledResult = true
             }
         }

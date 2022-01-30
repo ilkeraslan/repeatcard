@@ -1,11 +1,10 @@
-package it.ilker.repeatcard.ui.quiz
+package me.ilker.business.quiz
 
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 
 private const val OPTION_COUNT = 4
 
 object QuestionGenerator {
-
     fun generate(questions: MutableList<Question>): List<Question> {
         val questionsGenerated = mutableListOf<Question>()
         questions.forEach { question ->
@@ -18,8 +17,8 @@ object QuestionGenerator {
 
             temporaryList.forEach { otherQuestion ->
                 // If the question we are producing doesn't have the otherQuestion title among it's options, add it as an option
-                if (question.options.size < OPTION_COUNT && !question.options.contains(otherQuestion.correctAnswer)) {
-                    question.options.add(otherQuestion.correctAnswer)
+                if (question.options.size < OPTION_COUNT && !question.options.contains(otherQuestion.answer)) {
+                    question.options.add(otherQuestion.answer)
                 }
             }
 

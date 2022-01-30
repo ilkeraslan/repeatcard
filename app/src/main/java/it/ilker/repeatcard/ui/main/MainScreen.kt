@@ -6,12 +6,11 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.navigationBarsPadding
 import it.ilker.repeatcard.navigation.AppBottomNavigation
@@ -19,6 +18,7 @@ import it.ilker.repeatcard.navigation.NavHostFactory
 import it.ilker.repeatcard.navigation.bottomNavItems
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 class MainScreen : AppCompatActivity() {
@@ -42,9 +42,6 @@ class MainScreen : AppCompatActivity() {
     @Composable
     private fun Host() {
         val navController = rememberNavController()
-        val coroutineScope = rememberCoroutineScope()
-        val scrollState = rememberScrollState()
-
         val bottomBar: @Composable () -> Unit = {
             AppBottomNavigation(
                 navController = navController,

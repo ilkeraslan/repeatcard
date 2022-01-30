@@ -1,5 +1,6 @@
 package it.ilker.repeatcard.models.quizresult
 
+import me.ilker.business.quiz.QuizResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test

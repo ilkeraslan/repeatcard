@@ -5,13 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
-import it.ilker.repeatcard.models.question.Question
-import it.ilker.repeatcard.models.quizresult.QuizResult
 import it.ilker.repeatcard.ui.util.exhaustive
 import java.util.UUID
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import me.ilker.business.question.Question
+import me.ilker.business.quiz.QuestionGenerator
+import me.ilker.business.quiz.QuizResult
 
 const val MIN_CARD_NUMBER_FOR_QUIZ = 4
 
@@ -54,8 +55,8 @@ class QuizViewModel(context: Context) : ViewModel() {
             QuizResult(
                 id = UUID.randomUUID().toString(),
                 questions = generatedQuestions,
-                correctAnswers = generatedQuestions.filter { question -> question.selectedAnswer == question.correctAnswer },
-                wrongAnswers = generatedQuestions.filterNot { question -> question.selectedAnswer == question.correctAnswer }
+                correctAnswers = generatedQuestions.filter { question -> question.selectedAnswer == question.answer },
+                wrongAnswers = generatedQuestions.filterNot { question -> question.selectedAnswer == question.answer }
             ))
     }
 
@@ -69,7 +70,7 @@ class QuizViewModel(context: Context) : ViewModel() {
                 val question = Question(
                     id = flashcard.id,
                     imageUri = flashcard.imageUri!!,
-                    correctAnswer = flashcard.title,
+                    answer = flashcard.title,
                     description = flashcard.description
                 )
                 questions.add(question)

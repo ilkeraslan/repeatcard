@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import it.ilker.repeatcard.R
-import it.ilker.repeatcard.models.question.Question
+import me.ilker.business.question.Question
 
 class ResultsAdapter(private val clickListener: ResultListener) : ListAdapter<Question, ResultsViewHolder>(QuestionDiffUtil()) {
 
@@ -22,7 +22,7 @@ class ResultsAdapter(private val clickListener: ResultListener) : ListAdapter<Qu
     override fun onBindViewHolder(holder: ResultsViewHolder, position: Int) {
         val question = getItem(holder.adapterPosition)
         holder.questionNumber.text = (holder.adapterPosition + 1).toString()
-        holder.questionText.text = question.correctAnswer
+        holder.questionText.text = question.answer
         holder.answerText.text = if (question.selectedAnswer.isNullOrEmpty()) "No answer" else question.selectedAnswer
 
         holder.card.setOnClickListener { clickListener.showResultDetails(question) }
