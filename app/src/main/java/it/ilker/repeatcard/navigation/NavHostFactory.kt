@@ -10,6 +10,7 @@ import it.ilker.repeatcard.ui.addcard.AddCardFactory
 import it.ilker.repeatcard.ui.directories.DirectoriesFactory
 import it.ilker.repeatcard.ui.flashcarddetail.FlashcardDetailFactory
 import it.ilker.repeatcard.ui.home.HomeFactory
+import it.ilker.repeatcard.ui.quiz.QuizFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalUnitApi
@@ -43,6 +44,13 @@ internal fun NavHostFactory(navController: NavHostController) = NavHost(
 
     composable(Screen.AddCardScreen.route) {
         AddCardFactory.Create(
+            navGraphBuilder = this,
+            navController = navController
+        )
+    }
+
+    composable(Screen.Quiz.route) {
+        QuizFactory.Create(
             navGraphBuilder = this,
             navController = navController
         )

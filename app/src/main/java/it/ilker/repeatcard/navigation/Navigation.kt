@@ -25,6 +25,7 @@ sealed class Screen(
     object DirectoriesScreen : Screen(route = "directories", label = "Directories", icon = Icons.Rounded.List)
     object FlashcardDetailScreen : Screen(route = "flashcard_detail", label = "Flashcard Detail")
     object AddCardScreen : Screen(route = "add_card", label = "Add Flashcard")
+    object Quiz : Screen(route = "quiz", label = "Quiz")
 }
 
 data class BottomNavItem(val screen: Screen)
