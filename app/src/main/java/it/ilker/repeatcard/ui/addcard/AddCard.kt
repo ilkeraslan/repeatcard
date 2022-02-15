@@ -1,5 +1,6 @@
 package it.ilker.repeatcard.ui.addcard
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
@@ -35,8 +37,8 @@ import it.ilker.repeatcard.R
 fun AddCard(
     modifier: Modifier = Modifier,
     onSelectImage: () -> Unit = {},
-    onImageSelected: ImageBitmap? = null,
-    onAdded: (String) -> Unit = {},
+    selectedImage: ImageBitmap? = null,
+    onAdded: (String, Bitmap?) -> Unit = { _, _ -> },
     onBackPressed: () -> Unit = {}
 ) {
     val textState = remember {
@@ -60,7 +62,7 @@ fun AddCard(
         Spacer(modifier = Modifier.height(20.dp))
 
         Image(
-            onImageSelected = onImageSelected,
+            selectedImage = selectedImage,
             onSelectImage = onSelectImage
         )
 
@@ -70,7 +72,8 @@ fun AddCard(
             modifier = Modifier.fillMaxWidth(),
             onBackPressed = onBackPressed,
             onAdded = onAdded,
-            textState = textState
+            textState = textState,
+            selectedImage = selectedImage
         )
     }
 }
@@ -78,10 +81,10 @@ fun AddCard(
 @Composable
 private fun ColumnScope.Image(
     modifier: Modifier = Modifier,
-    onImageSelected: ImageBitmap?,
+    selectedImage: ImageBitmap?,
     onSelectImage: () -> Unit
 ) {
-    onImageSelected?.let { bitmap ->
+    selectedImage?.let { bitmap ->
         Image(
             modifier = modifier
                 .fillMaxWidth()
@@ -107,9 +110,10 @@ private fun ColumnScope.Image(
 @Composable
 private fun Buttons(
     modifier: Modifier = Modifier,
-    onBackPressed: () -> Unit,
-    onAdded: (String) -> Unit,
-    textState: MutableState<TextFieldValue>
+    onBackPressed: () -> Unit = {},
+    onAdded: (String, Bitmap?) -> Unit = { _, _ -> },
+    textState: MutableState<TextFieldValue>,
+    selectedImage: ImageBitmap?
 ) {
     Row(
         modifier = modifier,
@@ -134,7 +138,14 @@ private fun Buttons(
                 backgroundColor = Color.Green,
                 contentColor = Color.White
             ),
-            onClick = { onAdded(textState.value.annotatedString.text) }
+            onClick = {
+                onAdded(
+                    textState.value.annotatedString.text,
+                    selectedImage?.let { image ->
+                        image.asAndroidBitmap()
+                    } ?: null
+                )
+            }
         ) {
             Text(text = stringResource(id = R.string.add))
         }

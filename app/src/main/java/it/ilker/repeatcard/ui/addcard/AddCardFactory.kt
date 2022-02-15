@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,12 +18,16 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 import it.ilker.repeatcard.navigation.NavFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import me.ilker.design.Error
 import me.ilker.design.Loading
 import org.koin.androidx.compose.viewModel
 
+@ExperimentalPermissionsApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
 object AddCardFactory : NavFactory {
@@ -33,6 +38,15 @@ object AddCardFactory : NavFactory {
     ) {
         val vm by viewModel<AddCardViewModel>()
         val state = vm.state.collectAsState()
+        val externalStoragePermissionState = rememberPermissionState(
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        when (externalStoragePermissionState.status) {
+            is PermissionStatus.Denied -> SideEffect {
+                externalStoragePermissionState.launchPermissionRequest()
+            }
+        }
 
         val result = remember { mutableStateOf<Bitmap?>(null) }
         val launcher = rememberLauncherForActivityResult(
@@ -47,10 +61,8 @@ object AddCardFactory : NavFactory {
                     .fillMaxWidth()
                     .padding(25.dp),
                 onSelectImage = { launcher.launch() },
-                onImageSelected = result.value?.asImageBitmap(),
-                onAdded = { title ->
-                    vm.send(AddCardEvent.Add(title))
-                }
+                selectedImage = result.value?.asImageBitmap(),
+                onAdded = vm::addCard
             ) { navController.popBackStack() }
             AddCardState.Error -> Error(
                 modifier = Modifier.fillMaxSize()

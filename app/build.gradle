@@ -122,6 +122,7 @@ dependencies {
 
     // Accompanist
     implementation Libs.accompanistInsets
+    implementation Libs.accompanistPermissions
 
     // Test
     testRuntimeOnly TestLibs.junitJupiterEngine

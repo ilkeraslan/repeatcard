@@ -3,6 +3,7 @@ package it.ilker.repeatcard
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.multidex.MultiDexApplication
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.jakewharton.threetenabp.AndroidThreeTen
 import it.ilker.repeatcard.di.androidComponents
 import it.ilker.repeatcard.di.appComponents
@@ -17,6 +18,7 @@ import timber.log.Timber
 
 private const val TAG_LOGGING = "REPEATCARD"
 
+@ExperimentalPermissionsApi
 @ExperimentalUnitApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi

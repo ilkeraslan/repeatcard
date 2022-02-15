@@ -17,7 +17,7 @@ object Versions {
     const val koin = "3.1.3"
     const val lifecycle_version = "2.2.0"
     const val roomVersion = "2.4.0-alpha04"
-    const val accompanist = "0.21.3-beta"
+    const val accompanist = "0.24.2-alpha"
 }
 
 object BuildLibs {
@@ -36,6 +36,7 @@ object BuildLibs {
 @Suppress("unused")
 object Libs {
     const val accompanistInsets = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
+    const val accompanistPermissions = "com.google.accompanist:accompanist-permissions:${Versions.accompanist}"
     const val androidx_appcompat = "androidx.appcompat:appcompat:1.3.0"
     const val androidx_constraint = "androidx.constraintlayout:constraintlayout:2.0.0-alpha3"
     const val androidx_kotlin_extensions = "androidx.core:core-ktx:1.7.0"

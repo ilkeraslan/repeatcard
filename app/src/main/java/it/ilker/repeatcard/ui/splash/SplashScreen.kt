@@ -6,6 +6,7 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import it.ilker.repeatcard.R
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.util.KeyValueStorage
@@ -13,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Runnable
 import org.koin.android.ext.android.inject
 
+@ExperimentalPermissionsApi
 @ExperimentalUnitApi
 @SuppressLint("CustomSplashScreen")
 @ExperimentalCoroutinesApi

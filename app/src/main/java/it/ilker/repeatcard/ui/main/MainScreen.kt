@@ -13,11 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.navigationBarsPadding
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import it.ilker.repeatcard.navigation.AppBottomNavigation
 import it.ilker.repeatcard.navigation.NavHostFactory
 import it.ilker.repeatcard.navigation.bottomNavItems
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalPermissionsApi
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @ExperimentalCoroutinesApi
