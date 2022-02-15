@@ -1,31 +1,26 @@
 package it.ilker.repeatcard.ui.addcard
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import it.ilker.repeatcard.db.FlashcardDatabase
 import it.ilker.repeatcard.db.flashcard.FlashcardRepository
+import java.io.ByteArrayOutputStream
+import java.io.OutputStream
+import kotlin.random.Random
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import me.ilker.business.flashcard.Flashcard
-import java.io.ByteArrayOutputStream
-import java.io.OutputStream
-import kotlin.random.Random
-
 
 sealed class AddCardState {
     object Error : AddCardState()

@@ -141,9 +141,7 @@ private fun Buttons(
             onClick = {
                 onAdded(
                     textState.value.annotatedString.text,
-                    selectedImage?.let { image ->
-                        image.asAndroidBitmap()
-                    } ?: null
+                    selectedImage?.asAndroidBitmap()
                 )
             }
         ) {
