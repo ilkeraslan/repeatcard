@@ -1,4 +1,6 @@
 <resources>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
     <string name="flashcard">flashcard</string>
     <string name="flashcard_title_text">Flashcard Title</string>
     <string name="title_home">HOME</string>
@@ -9,7 +11,6 @@
     <string name="save_text">Save</string>
     <string name="flashcard_description_text">Description</string>
     <string name="select_image">Select Image</string>
-    <string name="add_flashcard">Add</string>
     <string name="delete">Delete</string>
     <string name="delete_all">Delete</string>
     <string name="review">Review</string>

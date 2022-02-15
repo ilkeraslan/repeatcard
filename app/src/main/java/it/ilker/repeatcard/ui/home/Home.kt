@@ -176,7 +176,7 @@ private fun BoxScope.AddButton(
         Icon(
             modifier = Modifier,
             painter = painterResource(id = R.drawable.ic_add_white_24dp),
-            contentDescription = stringResource(id = R.string.add_flashcard),
+            contentDescription = stringResource(id = R.string.add),
             tint = Color.Unspecified
         )
     }

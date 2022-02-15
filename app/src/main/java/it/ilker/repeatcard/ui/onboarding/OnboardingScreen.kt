@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.viewpager.widget.ViewPager
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.android.material.button.MaterialButton
 import com.jem.liquidswipe.LiquidSwipeViewPager
 import com.rd.PageIndicatorView
@@ -18,6 +19,7 @@ import it.ilker.repeatcard.ui.util.KeyValueStorage
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
+@ExperimentalPermissionsApi
 @ExperimentalUnitApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi

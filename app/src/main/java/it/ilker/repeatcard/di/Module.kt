@@ -2,6 +2,7 @@ package it.ilker.repeatcard.di
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import it.ilker.repeatcard.ui.AppNavigator
 import it.ilker.repeatcard.ui.addcard.AddCardViewModel
 import it.ilker.repeatcard.ui.directories.DirectoriesViewModel
@@ -28,6 +29,7 @@ val androidComponents = module {
     }
 }
 
+@ExperimentalPermissionsApi
 @ExperimentalUnitApi
 @ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
