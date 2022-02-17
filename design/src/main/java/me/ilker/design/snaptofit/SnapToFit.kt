@@ -1,13 +1,20 @@
 package me.ilker.design.snaptofit
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +22,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,8 +44,7 @@ data class ImageModel(
 fun SnapToFit(
     modifier: Modifier = Modifier,
     model: ImageModel,
-    onSelect: (Int) -> Unit = {},
-    editMode: Boolean = false
+    onSelect: (Int) -> Unit = {}
 ) {
     val selectorSize = 90.dp
     val itemSize = 60.dp
@@ -61,8 +68,8 @@ fun SnapToFit(
 
     LaunchedEffect(isBeingDragged) {
         if (!isBeingDragged) {
-            listState.layoutInfo.visibleItemsInfo.firstOrNull { elm ->
-                elm.offset >= -maxOffset && elm.offset < maxOffset
+            listState.layoutInfo.visibleItemsInfo.firstOrNull { element ->
+                element.offset >= -maxOffset && element.offset < maxOffset
             }?.let {
                 listState.animateScrollToItem(it.index)
                 onSelect(it.index)
@@ -71,6 +78,16 @@ fun SnapToFit(
     }
 
     Box(modifier = modifier.fillMaxWidth()) {
+        Box(
+            modifier = Modifier
+                .size(selectorSize)
+                .background(
+                    color = Color.LightGray,
+                    shape = RoundedCornerShape(16.dp)
+                )
+                .align(Alignment.Center)
+        )
+
         Images(
             spacingSize = spacingSize,
             horizontalPadding = horizontalPadding,
@@ -78,8 +95,7 @@ fun SnapToFit(
             model = model,
             itemSize = itemSize,
             coroutineScope = coroutineScope,
-            onSelect = onSelect,
-            editMode = editMode
+            onSelect = onSelect
         )
     }
 }
@@ -93,8 +109,7 @@ private fun BoxScope.Images(
     model: ImageModel,
     itemSize: Dp,
     coroutineScope: CoroutineScope,
-    onSelect: (Int) -> Unit,
-    editMode: Boolean
+    onSelect: (Int) -> Unit
 ) {
     LazyRow(
         modifier = Modifier.Companion.align(Alignment.Center),
@@ -118,7 +133,7 @@ private fun BoxScope.Images(
             ) {
                 Image(
                     modifier = Modifier
-                        .clip(CircleShape)
+                        .clip(RoundedCornerShape(16.dp))
                         .size(itemSize),
                     painter = rememberImagePainter(
                         data = icon,
