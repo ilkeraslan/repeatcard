@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import it.ilker.repeatcard.R
 import me.ilker.business.flashcard.Flashcard
-import me.ilker.design.Flashcard
+import me.ilker.design.flashcard.Flashcard
 
 @ExperimentalUnitApi
 @ExperimentalMaterialApi

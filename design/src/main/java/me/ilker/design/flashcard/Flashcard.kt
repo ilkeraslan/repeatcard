@@ -1,4 +1,4 @@
-package me.ilker.design
+package me.ilker.design.flashcard
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
 import me.ilker.business.flashcard.Flashcard
+import me.ilker.design.R
 
 @ExperimentalMaterialApi
 @Composable
