@@ -15,11 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false"
-        tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity"
-        tools:targetApi="n">
-        <activity
-            android:name=".ui.flashcardadd.AddFlashcardScreen"
-            android:screenOrientation="portrait" />
+        tools:ignore="GoogleAppIndexingWarning,LockedOrientationActivity">
         <activity
             android:name=".ui.util.GalleryPicker"
             android:screenOrientation="portrait" />
@@ -41,12 +37,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainScreen" />
+        <activity android:name=".ui.main.MainScreen" android:exported="true" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.quiz.QuizScreen"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.results.ResultsScreen" />
         <activity android:name=".ui.question.QuestionDetailScreen" />

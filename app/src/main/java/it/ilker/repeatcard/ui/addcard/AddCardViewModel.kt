@@ -22,12 +22,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import me.ilker.business.flashcard.Flashcard
 
-sealed class AddCardState {
-    object Error : AddCardState()
-    data class Success(val flashcard: Flashcard) : AddCardState()
-    object Loading : AddCardState()
-    object Initial : AddCardState()
-}
+data class AddCardState(
+    val isLoading: Boolean = false,
+    val error: String? = null,
+    val title: String? = null,
+    val image: Bitmap? = null,
+    val cardCreated: Boolean = false
+)
 
 @SuppressLint("StaticFieldLeak")
 @ExperimentalCoroutinesApi
@@ -35,7 +36,7 @@ class AddCardViewModel(private val context: Context) : ViewModel() {
 
     private val repository: FlashcardRepository
 
-    private var _state = MutableStateFlow<AddCardState>(AddCardState.Initial)
+    private var _state = MutableStateFlow(AddCardState())
     val state: StateFlow<AddCardState>
         get() = _state
 
@@ -97,6 +98,14 @@ class AddCardViewModel(private val context: Context) : ViewModel() {
         return Uri.parse(path)
     }
 
+    internal fun setTitle(title: String) {
+        _state.value = state.value.copy(title = title)
+    }
+
+    internal fun setImage(image: Bitmap?) {
+        _state.value = state.value.copy(image = image)
+    }
+
     internal fun addCard(
         title: String,
         image: Bitmap?
@@ -108,10 +117,8 @@ class AddCardViewModel(private val context: Context) : ViewModel() {
                 imageUri = image?.toUri().toString()
             )
 
-            val addedCardId = repository.insert(card)
-            val addedCard = repository.getFlashcard(addedCardId.toInt())
-
-            _state.value = AddCardState.Success(addedCard)
+            repository.insert(card)
+            _state.value = state.value.copy(cardCreated = true)
         }
     }
 }
