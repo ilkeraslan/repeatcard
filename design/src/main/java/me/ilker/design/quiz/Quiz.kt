@@ -35,7 +35,7 @@ fun Quiz(
 
         LinearProgressIndicator(
             modifier = Modifier.fillMaxWidth(),
-            progress = 0.9f,
+            progress = 0.5f,
             color = Color.Green
         )
     }
@@ -61,7 +61,7 @@ private fun QuizPreview() {
         questions = listOf(
             Question(
                 id = 1,
-                imageUri = "",
+                imageUri = "https://i.picsum.photos/id/477/1280/720.jpg?hmac=RgAXMExbzpP2c7qZKGmkABjQE_pPsGH0DBEJGrzLrik",
                 answer = "Answer",
                 description = "Description",
                 options = mutableListOf(
