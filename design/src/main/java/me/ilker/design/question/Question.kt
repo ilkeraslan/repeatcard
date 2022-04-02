@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
@@ -92,41 +94,47 @@ private fun OptionRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        TextButton(
-            modifier = Modifier.weight(1f),
-            colors = buttonColors,
-            shape = RoundedCornerShape(16.dp),
-            border = BorderStroke(4.dp, Color.Blue),
-            onClick = { onSelect(first) }
-        ) {
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp),
-                text = first,
-                textAlign = TextAlign.Justify,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
+        Option(
+            buttonColors = buttonColors,
+            text = first,
+            onSelect = onSelect
+        )
 
         Spacer(modifier = Modifier.width(20.dp))
 
-        TextButton(
-            modifier = Modifier.weight(1f),
-            colors = buttonColors,
-            shape = RoundedCornerShape(16.dp),
-            border = BorderStroke(4.dp, Color.Blue),
-            onClick = { onSelect(second) }
-        ) {
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp),
-                text = second,
-                textAlign = TextAlign.Justify,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
+        Option(
+            buttonColors = buttonColors,
+            text = second,
+            onSelect = onSelect
+        )
+    }
+}
+
+@Composable
+private fun RowScope.Option(
+    buttonColors: ButtonColors,
+    text: String,
+    onSelect: (String) -> Unit
+) {
+    TextButton(
+        modifier = Modifier.Companion.weight(1f),
+        colors = buttonColors,
+        shape = RoundedCornerShape(16.dp),
+        border = BorderStroke(
+            width = 4.dp,
+            color = Color.Gray
+        ),
+        onClick = { onSelect(text) }
+    ) {
+        Text(
+            modifier = Modifier.padding(vertical = 8.dp),
+            text = text,
+            textAlign = TextAlign.Justify,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 

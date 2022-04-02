@@ -20,7 +20,8 @@ import me.ilker.design.question.Question
 @Composable
 fun Quiz(
     modifier: Modifier = Modifier,
-    questions: List<Question>
+    question: Question,
+    progress: Float
 ) {
     BottomSheetScaffold(
         modifier = modifier,
@@ -28,14 +29,14 @@ fun Quiz(
     ) {
         Question(
             modifier = Modifier.fillMaxWidth(),
-            question = questions.first()
+            question = question
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         LinearProgressIndicator(
             modifier = Modifier.fillMaxWidth(),
-            progress = 0.5f,
+            progress = progress,
             color = Color.Green
         )
     }
@@ -58,19 +59,18 @@ private fun QuizPreview() {
                 horizontal = 25.dp,
                 vertical = 20.dp
             ),
-        questions = listOf(
-            Question(
-                id = 1,
-                imageUri = "https://i.picsum.photos/id/477/1280/720.jpg?hmac=RgAXMExbzpP2c7qZKGmkABjQE_pPsGH0DBEJGrzLrik",
-                answer = "Answer",
-                description = "Description",
-                options = mutableListOf(
-                    "Answer",
-                    "Wrong option-1",
-                    "Wrong option-2",
-                    "Wrong option-3"
-                )
+        question = Question(
+            id = 1,
+            imageUri = "https://i.picsum.photos/id/477/1280/720.jpg?hmac=RgAXMExbzpP2c7qZKGmkABjQE_pPsGH0DBEJGrzLrik",
+            answer = "Answer",
+            description = "Description",
+            options = mutableListOf(
+                "Answer",
+                "Wrong option-1",
+                "Wrong option-2",
+                "Wrong option-3"
             )
-        )
+        ),
+        progress = 0.3f
     )
 }
