@@ -1,17 +1,17 @@
 package it.ilker.repeatcard.ui.quiz
 
-import org.junit.Test
-
+import me.ilker.business.answer.Answer
 import me.ilker.business.question.Question
 import me.ilker.business.quiz.QuestionGenerator
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Test
 
 class QuestionGeneratorTest {
 
-    private val firstQuestionCorrectAnswer = "42"
-    private val secondQuestionCorrectAnswer = "1337"
-    private val thirdQuestionCorrectAnswer = "8675309"
+    private val firstQuestionCorrectAnswer = Answer("42")
+    private val secondQuestionCorrectAnswer = Answer("1337")
+    private val thirdQuestionCorrectAnswer = Answer("8675309")
 
     private val question1 = Question(
         id = 1,
@@ -28,10 +28,10 @@ class QuestionGeneratorTest {
     )
 
     private val question3 = Question(
-            id = 3,
-            imageUri = "",
-            answer = thirdQuestionCorrectAnswer,
-            description = "Second question description"
+        id = 3,
+        imageUri = "",
+        answer = thirdQuestionCorrectAnswer,
+        description = "Second question description"
     )
 
     @Test
@@ -50,20 +50,24 @@ class QuestionGeneratorTest {
 
     @Test
     fun generate_returnsTwoItemList_whenTwoItemsProvided() {
-        val result = QuestionGenerator.generate(mutableListOf(
+        val result = QuestionGenerator.generate(
+            mutableListOf(
                 question1,
                 question2
-        ))
+            )
+        )
 
         assertEquals(2, result.size)
     }
 
     @Test
     fun generate_addsOptionsToQuestions_whenMoreThanOneQuestionProvided() {
-        val result = QuestionGenerator.generate(mutableListOf(
+        val result = QuestionGenerator.generate(
+            mutableListOf(
                 question1,
                 question2
-        ))
+            )
+        )
 
         val firstQuestion = result.first { it.answer == firstQuestionCorrectAnswer }
 
@@ -78,11 +82,13 @@ class QuestionGeneratorTest {
         // the first item 100 times in a row. This is very unlikely. It only requires one
         // successful shuffle to pass.
         for (i in 0..100) {
-            val result = QuestionGenerator.generate(mutableListOf(
+            val result = QuestionGenerator.generate(
+                mutableListOf(
                     question1,
                     question2,
                     question3
-            ))
+                )
+            )
 
             if (result[0].answer != firstQuestionCorrectAnswer) {
                 seenShuffledResult = true
