@@ -1,13 +1,14 @@
 package me.ilker.business.question
 
 import kotlinx.serialization.Serializable
+import me.ilker.business.answer.Answer
 
 @Serializable
 data class Question(
     val id: Int,
     val imageUri: String,
-    val answer: String,
+    val answer: Answer,
     val description: String? = null,
-    var selectedAnswer: String? = null,
-    val options: MutableList<String> = mutableListOf(answer)
+    var selectedAnswer: Answer? = null,
+    val options: MutableList<Answer> = mutableListOf(answer)
 )

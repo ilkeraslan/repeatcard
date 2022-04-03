@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import me.ilker.business.answer.Answer
 import me.ilker.business.question.Question
 import me.ilker.design.question.Question
 
@@ -21,7 +22,8 @@ import me.ilker.design.question.Question
 fun Quiz(
     modifier: Modifier = Modifier,
     question: Question,
-    progress: Float
+    progress: Float,
+    onAnswerSelected: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     BottomSheetScaffold(
         modifier = modifier,
@@ -29,7 +31,8 @@ fun Quiz(
     ) {
         Question(
             modifier = Modifier.fillMaxWidth(),
-            question = question
+            question = question,
+            onAnswerSelected = onAnswerSelected
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -62,13 +65,13 @@ private fun QuizPreview() {
         question = Question(
             id = 1,
             imageUri = "https://i.picsum.photos/id/477/1280/720.jpg?hmac=RgAXMExbzpP2c7qZKGmkABjQE_pPsGH0DBEJGrzLrik",
-            answer = "Answer",
             description = "Description",
+            answer = Answer("Answer"),
             options = mutableListOf(
-                "Answer",
-                "Wrong option-1",
-                "Wrong option-2",
-                "Wrong option-3"
+                Answer("Answer"),
+                Answer("Wrong long option-1"),
+                Answer("Wrong long option-2"),
+                Answer("Wrong long option-3 and it's a bit long")
             )
         ),
         progress = 0.3f

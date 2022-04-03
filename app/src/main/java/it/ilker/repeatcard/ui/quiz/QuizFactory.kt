@@ -39,7 +39,15 @@ object QuizFactory : NavFactory {
             is QuizState.Success -> Quiz(
                 modifier = Modifier.fillMaxSize(),
                 question = quizState.question,
-                progress = quizState.progress
+                progress = quizState.progress,
+                onAnswerSelected = { question, answer ->
+                    vm.send(
+                        QuizEvent.SelectOption(
+                            question = question,
+                            answer = answer
+                        )
+                    )
+                }
             )
         }
     }

@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.RoundedCornersTransformation
+import me.ilker.business.answer.Answer
 import me.ilker.business.question.Question
 import me.ilker.design.R
 
@@ -36,11 +37,13 @@ import me.ilker.design.R
 @Composable
 fun Question(
     modifier: Modifier = Modifier,
-    question: Question
+    question: Question,
+    onAnswerSelected: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(25.dp)
     ) {
         Image(
             modifier = Modifier
@@ -57,34 +60,43 @@ fun Question(
             contentDescription = null
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Options(question)
+        Options(
+            question = question,
+            onAnswerSelected = onAnswerSelected
+        )
     }
 }
 
 @Composable
-private fun Options(question: Question) {
+private fun Options(
+    question: Question,
+    onAnswerSelected: (Question, Answer) -> Unit = { _, _ -> }
+) {
     Column {
         OptionRow(
+            question = question,
             first = question.options[0],
-            second = question.options[1]
+            second = question.options[1],
+            onSelect = onAnswerSelected
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         OptionRow(
+            question = question,
             first = question.options[2],
-            second = question.options[3]
+            second = question.options[3],
+            onSelect = onAnswerSelected
         )
     }
 }
 
 @Composable
 private fun OptionRow(
-    first: String,
-    second: String,
-    onSelect: (String) -> Unit = {}
+    question: Question,
+    first: Answer,
+    second: Answer,
+    onSelect: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     val buttonColors = ButtonDefaults.textButtonColors(
         contentColor = Color.Black
@@ -97,16 +109,18 @@ private fun OptionRow(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Option(
+            question = question,
             buttonColors = buttonColors,
-            text = first,
+            option = first,
             onSelect = onSelect
         )
 
         Spacer(modifier = Modifier.width(20.dp))
 
         Option(
+            question = question,
             buttonColors = buttonColors,
-            text = second,
+            option = second,
             onSelect = onSelect
         )
     }
@@ -114,9 +128,10 @@ private fun OptionRow(
 
 @Composable
 private fun RowScope.Option(
+    question: Question,
+    option: Answer,
     buttonColors: ButtonColors,
-    text: String,
-    onSelect: (String) -> Unit
+    onSelect: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     TextButton(
         modifier = Modifier.Companion.weight(1f),
@@ -126,11 +141,11 @@ private fun RowScope.Option(
             width = 4.dp,
             color = Color.Gray
         ),
-        onClick = { onSelect(text) }
+        onClick = { onSelect(question, option) }
     ) {
         Text(
             modifier = Modifier.padding(vertical = 8.dp),
-            text = text,
+            text = option.text,
             textAlign = TextAlign.Justify,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
@@ -153,12 +168,12 @@ private fun QuestionPreview() {
         question = Question(
             id = 1,
             imageUri = "",
-            answer = "Answer",
+            answer = Answer("Answer"),
             options = mutableListOf(
-                "Answer",
-                "Wrong long option-1",
-                "Wrong long option-2",
-                "Wrong long option-3 and it's a bit long"
+                Answer("Answer"),
+                Answer("Wrong long option-1"),
+                Answer("Wrong long option-2"),
+                Answer("Wrong long option-3 and it's a bit long")
             )
         )
     )

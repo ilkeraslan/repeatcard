@@ -21,9 +21,13 @@ class ResultsAdapter(private val clickListener: ResultListener) : ListAdapter<Qu
 
     override fun onBindViewHolder(holder: ResultsViewHolder, position: Int) {
         val question = getItem(holder.adapterPosition)
-        holder.questionNumber.text = (holder.adapterPosition + 1).toString()
-        holder.questionText.text = question.answer
-        holder.answerText.text = if (question.selectedAnswer.isNullOrEmpty()) "No answer" else question.selectedAnswer
+        holder.questionNumber.text = (holder.adapterPosition.plus(1)).toString()
+        holder.questionText.text = question.answer.text
+        holder.answerText.text = if (question.selectedAnswer?.text.isNullOrEmpty()) {
+            "No answer"
+        } else {
+            question.selectedAnswer?.text
+        }
 
         holder.card.setOnClickListener { clickListener.showResultDetails(question) }
     }

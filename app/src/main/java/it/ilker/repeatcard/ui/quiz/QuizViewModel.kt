@@ -9,6 +9,7 @@ import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import me.ilker.business.answer.Answer
 import me.ilker.business.question.Question
 import me.ilker.business.quiz.QuestionGenerator
 import me.ilker.business.quiz.QuizResult
@@ -21,7 +22,7 @@ sealed class QuizEvent {
     object Load : QuizEvent()
     data class SelectOption(
         val question: Question,
-        val option: String?
+        val answer: Answer?
     ) : QuizEvent()
 }
 
@@ -32,12 +33,12 @@ sealed class QuizState {
         val question: Question,
         val progress: Float
     ) : QuizState()
+
     data class Results(val result: QuizResult) : QuizState()
 }
 
 @ExperimentalCoroutinesApi
 class QuizViewModel(context: Context) : ViewModel() {
-
     private val repository: FlashcardRepository
     private val generatedQuestions = mutableListOf<Question>()
     private var currentQuestionIndex = -1
@@ -54,10 +55,16 @@ class QuizViewModel(context: Context) : ViewModel() {
         when (event) {
             is QuizEvent.GetResults -> getResults()
             is QuizEvent.Load -> loadContent()
-            is QuizEvent.SelectOption -> selectOption(
-                question = event.question,
-                option = event.option
-            )
+            is QuizEvent.SelectOption -> {
+                selectOption(
+                    question = event.question,
+                    answer = event.answer
+                )
+
+                if (currentQuestionIndex < generatedQuestions.size - 1) {
+                    next()
+                } else Unit
+            }
         }.exhaustive
     }
 
@@ -66,8 +73,12 @@ class QuizViewModel(context: Context) : ViewModel() {
             QuizResult(
                 id = UUID.randomUUID().toString(),
                 questions = generatedQuestions,
-                correctAnswers = generatedQuestions.filter { question -> question.selectedAnswer == question.answer },
-                wrongAnswers = generatedQuestions.filterNot { question -> question.selectedAnswer == question.answer }
+                correctAnswers = generatedQuestions.filter { question ->
+                    question.selectedAnswer == question.answer
+                },
+                wrongAnswers = generatedQuestions.filterNot { question ->
+                    question.selectedAnswer == question.answer
+                }
             )
         )
     }
@@ -83,7 +94,7 @@ class QuizViewModel(context: Context) : ViewModel() {
                     val question = Question(
                         id = flashcard.id,
                         imageUri = flashcard.imageUri!!,
-                        answer = flashcard.title,
+                        answer = Answer(flashcard.title),
                         description = flashcard.description
                     )
                     questions.add(question)
@@ -110,11 +121,10 @@ class QuizViewModel(context: Context) : ViewModel() {
         )
     }
 
-    private fun selectOption(question: Question, option: String?) {
-        if (option.isNullOrEmpty()) {
-            question.selectedAnswer = null
-        } else {
-            question.selectedAnswer = option
-        }
+    private fun selectOption(
+        question: Question,
+        answer: Answer?
+    ) {
+        question.selectedAnswer = answer
     }
 }
