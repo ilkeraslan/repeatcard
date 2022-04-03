@@ -18,7 +18,6 @@ import java.util.UUID
 const val MIN_CARD_NUMBER_FOR_QUIZ = 4
 
 sealed class QuizEvent {
-    object GetResults : QuizEvent()
     object Load : QuizEvent()
     data class SelectOption(
         val question: Question,
@@ -33,7 +32,6 @@ sealed class QuizState {
         val question: Question,
         val progress: Float
     ) : QuizState()
-
     data class Results(val result: QuizResult) : QuizState()
 }
 
@@ -53,7 +51,6 @@ class QuizViewModel(context: Context) : ViewModel() {
 
     fun send(event: QuizEvent) {
         when (event) {
-            is QuizEvent.GetResults -> getResults()
             is QuizEvent.Load -> loadContent()
             is QuizEvent.SelectOption -> {
                 selectOption(
@@ -63,12 +60,14 @@ class QuizViewModel(context: Context) : ViewModel() {
 
                 if (currentQuestionIndex < generatedQuestions.size - 1) {
                     next()
-                } else Unit
+                } else {
+                    finish()
+                }
             }
         }.exhaustive
     }
 
-    private fun getResults() {
+    private fun finish() {
         state.value = QuizState.Results(
             QuizResult(
                 id = UUID.randomUUID().toString(),
@@ -115,9 +114,10 @@ class QuizViewModel(context: Context) : ViewModel() {
 
     private fun next() {
         currentQuestionIndex++
+
         state.value = QuizState.Success(
             question = generatedQuestions[currentQuestionIndex],
-            progress = (currentQuestionIndex / (generatedQuestions.size - 1)).toFloat()
+            progress = currentQuestionIndex.toFloat() / (generatedQuestions.size - 1).toFloat()
         )
     }
 

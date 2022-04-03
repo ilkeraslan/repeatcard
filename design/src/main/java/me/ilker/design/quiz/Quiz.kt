@@ -35,10 +35,12 @@ fun Quiz(
             onAnswerSelected = onAnswerSelected
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         LinearProgressIndicator(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp),
             progress = progress,
             color = Color.Green
         )
