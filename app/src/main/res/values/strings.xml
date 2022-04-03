@@ -29,6 +29,7 @@
     <string name="no_flashcard_yet">NO FLASHCARD YET.\nTAP + TO ADD ONE.</string>
     <string name="no_log">NO LOGS YET.</string>
     <string name="correct_answer">Correct answer</string>
+    <string name="correct_answers">Correct answers %1$s</string>
     <string name="your_answer">Your answer</string>
     <string name="question_no">Question No</string>
     <string name="tap_to_add_image">TAP TO ADD IMAGE</string>
@@ -39,6 +40,7 @@
     <string name="card_image">CardImage</string>
     <string name="min_card_for_quiz">You should have at least 4 cards \nwith a title and image.</string>
     <string name="flashcard_invalid_error">Flashcards need to have a title and an image</string>
+    <string name="title">Title</string>
 
     <string-array name="onboardingTexts">
         <item>Create a directory to add flashcards. \nNo worries, you already have a default directory.</item>

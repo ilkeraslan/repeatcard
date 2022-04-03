@@ -1,6 +1,5 @@
 package it.ilker.repeatcard.ui.addcard
 
-import android.graphics.Bitmap
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
@@ -11,8 +10,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.dp
@@ -37,7 +34,7 @@ object AddCardFactory : NavFactory {
         navController: NavController
     ) {
         val vm by viewModel<AddCardViewModel>()
-        val state = vm.state.collectAsState()
+        val state = vm.state.collectAsState().value
         val externalStoragePermissionState = rememberPermissionState(
             android.Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
@@ -48,29 +45,28 @@ object AddCardFactory : NavFactory {
             }
         }
 
-        val result = remember { mutableStateOf<Bitmap?>(null) }
         val launcher = rememberLauncherForActivityResult(
             ActivityResultContracts.TakePicturePreview()
-        ) { bitmap ->
-            result.value = bitmap
-        }
+        ) { bitmap -> vm.setImage(bitmap) }
 
-        when (state.value) {
-            AddCardState.Initial -> AddCard(
+        when {
+            state.error != null -> Error(
+                modifier = Modifier.fillMaxSize()
+            )
+            state.isLoading -> Loading(
+                modifier = Modifier.fillMaxSize()
+            )
+            state.cardCreated -> navController.popBackStack()
+            else -> AddCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(25.dp),
+                title = state.title,
+                onTitleChanged = vm::setTitle,
                 onSelectImage = { launcher.launch() },
-                selectedImage = result.value?.asImageBitmap(),
+                selectedImage = state.image?.asImageBitmap(),
                 onAdded = vm::addCard
             ) { navController.popBackStack() }
-            AddCardState.Error -> Error(
-                modifier = Modifier.fillMaxSize()
-            )
-            AddCardState.Loading -> Loading(
-                modifier = Modifier.fillMaxSize()
-            )
-            is AddCardState.Success -> navController.popBackStack()
         }
     }
 }

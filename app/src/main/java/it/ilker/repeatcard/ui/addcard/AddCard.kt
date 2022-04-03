@@ -18,17 +18,12 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import it.ilker.repeatcard.R
@@ -36,27 +31,22 @@ import it.ilker.repeatcard.R
 @Composable
 fun AddCard(
     modifier: Modifier = Modifier,
+    title: String? = null,
+    onTitleChanged: (String) -> Unit = {},
     onSelectImage: () -> Unit = {},
     selectedImage: ImageBitmap? = null,
     onAdded: (String, Bitmap?) -> Unit = { _, _ -> },
     onBackPressed: () -> Unit = {}
 ) {
-    val textState = remember {
-        mutableStateOf(
-            TextFieldValue(annotatedString = AnnotatedString(""))
-        )
-    }
-
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = textState.value,
-            onValueChange = {
-                textState.value = it
-            }
+            value = title ?: "",
+            onValueChange = onTitleChanged,
+            label = { Text(text = stringResource(id = R.string.title)) }
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -72,7 +62,7 @@ fun AddCard(
             modifier = Modifier.fillMaxWidth(),
             onBackPressed = onBackPressed,
             onAdded = onAdded,
-            textState = textState,
+            title = title,
             selectedImage = selectedImage
         )
     }
@@ -112,7 +102,7 @@ private fun Buttons(
     modifier: Modifier = Modifier,
     onBackPressed: () -> Unit = {},
     onAdded: (String, Bitmap?) -> Unit = { _, _ -> },
-    textState: MutableState<TextFieldValue>,
+    title: String?,
     selectedImage: ImageBitmap?
 ) {
     Row(
@@ -135,12 +125,14 @@ private fun Buttons(
         OutlinedButton(
             modifier = Modifier.weight(1f),
             colors = ButtonDefaults.textButtonColors(
-                backgroundColor = Color.Green,
-                contentColor = Color.White
+                backgroundColor = if (title.isNullOrBlank()) Color.LightGray else Color.Green,
+                contentColor = Color.White,
+                disabledContentColor = Color.Black
             ),
+            enabled = !title.isNullOrBlank(),
             onClick = {
                 onAdded(
-                    textState.value.annotatedString.text,
+                    title!!,
                     selectedImage?.asAndroidBitmap()
                 )
             }
@@ -162,5 +154,6 @@ private fun Buttons(
 private fun AddCardPreview() {
     AddCard(
         modifier = Modifier.fillMaxSize(),
+        title = "My Flashcard Title"
     )
 }

@@ -10,6 +10,7 @@ import java.util.UUID
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import me.ilker.business.answer.Answer
 import me.ilker.business.question.Question
 import me.ilker.business.quiz.QuestionGenerator
 import me.ilker.business.quiz.QuizResult
@@ -17,23 +18,29 @@ import me.ilker.business.quiz.QuizResult
 const val MIN_CARD_NUMBER_FOR_QUIZ = 4
 
 sealed class QuizEvent {
-    object GetResults : QuizEvent()
     object Load : QuizEvent()
-    data class SelectOption(val question: Question, val option: String?) : QuizEvent()
+    data class SelectOption(
+        val question: Question,
+        val answer: Answer?
+    ) : QuizEvent()
 }
 
 sealed class QuizState {
     object Loading : QuizState()
     data class Error(val error: Throwable) : QuizState()
-    data class Success(val questions: List<Question>) : QuizState()
+    data class Success(
+        val question: Question,
+        val progress: Float
+    ) : QuizState()
     data class Results(val result: QuizResult) : QuizState()
 }
 
 @ExperimentalCoroutinesApi
 class QuizViewModel(context: Context) : ViewModel() {
-
     private val repository: FlashcardRepository
     private val generatedQuestions = mutableListOf<Question>()
+    private var currentQuestionIndex = -1
+
     var state = MutableStateFlow<QuizState>(QuizState.Loading)
 
     init {
@@ -44,57 +51,80 @@ class QuizViewModel(context: Context) : ViewModel() {
 
     fun send(event: QuizEvent) {
         when (event) {
-            is QuizEvent.GetResults -> getResults()
             is QuizEvent.Load -> loadContent()
-            is QuizEvent.SelectOption -> selectOption(event.question, event.option)
+            is QuizEvent.SelectOption -> {
+                selectOption(
+                    question = event.question,
+                    answer = event.answer
+                )
+
+                if (currentQuestionIndex < generatedQuestions.size - 1) {
+                    next()
+                } else {
+                    finish()
+                }
+            }
         }.exhaustive
     }
 
-    private fun getResults() {
+    private fun finish() {
         state.value = QuizState.Results(
             QuizResult(
                 id = UUID.randomUUID().toString(),
                 questions = generatedQuestions,
-                correctAnswers = generatedQuestions.filter { question -> question.selectedAnswer == question.answer },
-                wrongAnswers = generatedQuestions.filterNot { question -> question.selectedAnswer == question.answer }
-            ))
+                correctAnswers = generatedQuestions.filter { question ->
+                    question.selectedAnswer == question.answer
+                },
+                wrongAnswers = generatedQuestions.filterNot { question ->
+                    question.selectedAnswer == question.answer
+                }
+            )
+        )
     }
 
-    private fun loadContent() = viewModelScope.launch {
-        val allFlashcards = repository.getFlashcards()
-        val questions = mutableListOf<Question>()
+    private fun loadContent() {
+        viewModelScope.launch {
+            val allFlashcards = repository.getFlashcards()
+            val questions = mutableListOf<Question>()
 
-        // Create questions for each flashcard that has an image
-        allFlashcards.forEach { flashcard ->
-            if (!flashcard.imageUri.isNullOrEmpty()) {
-                val question = Question(
-                    id = flashcard.id,
-                    imageUri = flashcard.imageUri!!,
-                    answer = flashcard.title,
-                    description = flashcard.description
-                )
-                questions.add(question)
+            // Create questions for each flashcard that has an image
+            allFlashcards.forEach { flashcard ->
+                if (!flashcard.imageUri.isNullOrEmpty()) {
+                    val question = Question(
+                        id = flashcard.id,
+                        imageUri = flashcard.imageUri!!,
+                        answer = Answer(flashcard.title),
+                        description = flashcard.description
+                    )
+                    questions.add(question)
+                }
             }
-        }
 
-        // Generate questions with random options
-        generatedQuestions.clear()
-        generatedQuestions.addAll(QuestionGenerator.generate(questions))
+            // Generate questions with random options
+            generatedQuestions.clear()
+            generatedQuestions.addAll(QuestionGenerator.generate(questions))
 
-        // Post Success if exist MIN_CARD_NUMBER_FOR_QUIZ else Error
-        state.value =
             if (generatedQuestions.size >= MIN_CARD_NUMBER_FOR_QUIZ) {
-                QuizState.Success(generatedQuestions)
+                next()
             } else {
-                QuizState.Error(NullPointerException())
+                state.value = QuizState.Error(NullPointerException())
             }
+        }
     }
 
-    private fun selectOption(question: Question, option: String?) {
-        if (option.isNullOrEmpty()) {
-            question.selectedAnswer = null
-        } else {
-            question.selectedAnswer = option
-        }
+    private fun next() {
+        currentQuestionIndex++
+
+        state.value = QuizState.Success(
+            question = generatedQuestions[currentQuestionIndex],
+            progress = currentQuestionIndex.toFloat() / (generatedQuestions.size - 1).toFloat()
+        )
+    }
+
+    private fun selectOption(
+        question: Question,
+        answer: Answer?
+    ) {
+        question.selectedAnswer = answer
     }
 }
