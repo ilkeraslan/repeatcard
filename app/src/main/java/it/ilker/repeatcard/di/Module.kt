@@ -12,7 +12,6 @@ import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardViewModel
 import it.ilker.repeatcard.ui.home.HomeViewModel
 import it.ilker.repeatcard.ui.question.QuestionViewModel
 import it.ilker.repeatcard.ui.quiz.QuizViewModel
-import it.ilker.repeatcard.ui.results.ResultsViewModel
 import it.ilker.repeatcard.ui.util.KeyValueStorageFactory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.koin.androidContext
@@ -47,5 +46,4 @@ val viewModels = module {
     viewModel { HomeViewModel(get()) }
     viewModel { QuestionViewModel() }
     viewModel { QuizViewModel(get()) }
-    viewModel { ResultsViewModel() }
 }

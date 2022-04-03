@@ -39,10 +39,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.MainScreen" />
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".ui.results.ResultsScreen" />
         <activity android:name=".ui.question.QuestionDetailScreen" />
         <activity android:name=".ui.flashcardedit.EditFlashcardScreen" />
         <activity

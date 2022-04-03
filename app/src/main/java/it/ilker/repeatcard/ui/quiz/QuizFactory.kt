@@ -35,7 +35,10 @@ object QuizFactory : NavFactory {
             QuizState.Loading -> Loading(
                 modifier = Modifier.fillMaxSize()
             )
-            is QuizState.Results -> Results()
+            is QuizState.Results -> Results(
+                modifier = Modifier.fillMaxSize(),
+                result = quizState.result
+            )
             is QuizState.Success -> Quiz(
                 modifier = Modifier.fillMaxSize(),
                 question = quizState.question,
