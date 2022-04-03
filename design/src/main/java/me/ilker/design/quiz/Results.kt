@@ -59,7 +59,10 @@ fun Results(
                 CorrectAnswers()
 
                 result.correctAnswers.forEach {
-                    Question(question = it) { _, _ -> }
+                    Question(
+                        question = it,
+                        answersEnabled = false
+                    ) { _, _ -> }
                 }
             }
 
@@ -67,7 +70,10 @@ fun Results(
                 WrongAnswers()
 
                 result.wrongAnswers.forEach {
-                    Question(question = it) { _, _ -> }
+                    Question(
+                        question = it,
+                        answersEnabled = false
+                    ) { _, _ -> }
                 }
             }
         }

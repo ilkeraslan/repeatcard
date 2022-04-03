@@ -38,6 +38,7 @@ import me.ilker.design.R
 fun Question(
     modifier: Modifier = Modifier,
     question: Question,
+    answersEnabled: Boolean = true,
     onAnswerSelected: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     Column(
@@ -62,6 +63,7 @@ fun Question(
 
         Options(
             question = question,
+            answersEnabled = answersEnabled,
             onAnswerSelected = onAnswerSelected
         )
     }
@@ -70,6 +72,7 @@ fun Question(
 @Composable
 private fun Options(
     question: Question,
+    answersEnabled: Boolean = true,
     onAnswerSelected: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     Column {
@@ -77,6 +80,7 @@ private fun Options(
             question = question,
             first = question.options[0],
             second = question.options[1],
+            answersEnabled = answersEnabled,
             onSelect = onAnswerSelected
         )
 
@@ -86,6 +90,7 @@ private fun Options(
             question = question,
             first = question.options[2],
             second = question.options[3],
+            answersEnabled = answersEnabled,
             onSelect = onAnswerSelected
         )
     }
@@ -96,6 +101,7 @@ private fun OptionRow(
     question: Question,
     first: Answer,
     second: Answer,
+    answersEnabled: Boolean = true,
     onSelect: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     val buttonColors = ButtonDefaults.textButtonColors(
@@ -112,6 +118,7 @@ private fun OptionRow(
             question = question,
             buttonColors = buttonColors,
             option = first,
+            answersEnabled = answersEnabled,
             onSelect = onSelect
         )
 
@@ -121,6 +128,7 @@ private fun OptionRow(
             question = question,
             buttonColors = buttonColors,
             option = second,
+            answersEnabled = answersEnabled,
             onSelect = onSelect
         )
     }
@@ -131,6 +139,7 @@ private fun RowScope.Option(
     question: Question,
     option: Answer,
     buttonColors: ButtonColors,
+    answersEnabled: Boolean = true,
     onSelect: (Question, Answer) -> Unit = { _, _ -> }
 ) {
     TextButton(
@@ -141,7 +150,8 @@ private fun RowScope.Option(
             width = 4.dp,
             color = Color.Gray
         ),
-        onClick = { onSelect(question, option) }
+        enabled = answersEnabled,
+        onClick = { onSelect(question, option) },
     ) {
         Text(
             modifier = Modifier.padding(vertical = 8.dp),
