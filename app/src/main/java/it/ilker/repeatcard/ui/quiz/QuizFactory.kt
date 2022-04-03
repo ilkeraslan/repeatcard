@@ -40,7 +40,8 @@ object QuizFactory : NavFactory {
             is QuizState.Results -> Results(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(25.dp),
+                    .padding(25.dp)
+                    .padding(bottom = 40.dp),
                 result = quizState.result
             )
             is QuizState.Success -> Quiz(

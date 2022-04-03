@@ -1,10 +1,12 @@
 <resources>
-    <string name="correct_answers">Correct Answers: %1$s</string>
+    <string name="correct_answers">Correct Answers</string>
+    <string name="correct_answers_count">Correct Answers: %1$s</string>
     <string name="directory">Directory</string>
     <string name="error_description">Something went wrong here. Please try again!</string>
     <string name="error_title">Error</string>
     <string name="flashcard">Flashcard</string>
     <string name="results">Results</string>
     <string name="questions">Questions: %1$s</string>
-    <string name="wrong_answers">Wrong Answers: %1$s</string>
+    <string name="wrong_answers">Wrong Answers</string>
+    <string name="wrong_answers_count">Wrong Answers: %1$s</string>
 </resources>
