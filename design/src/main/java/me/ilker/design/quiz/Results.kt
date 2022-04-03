@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import me.ilker.business.quiz.QuizResult
@@ -17,11 +18,15 @@ fun Results(
 ) {
     Box(modifier = modifier) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .align(Alignment.Center),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Text(text = result.questions.size.toString())
+
             Text(text = result.correctAnswers.size.toString())
+
             Text(text = result.wrongAnswers.size.toString())
         }
     }

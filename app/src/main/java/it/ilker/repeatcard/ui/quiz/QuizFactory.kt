@@ -1,11 +1,13 @@
 package it.ilker.repeatcard.ui.quiz
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import it.ilker.repeatcard.navigation.NavFactory
@@ -36,7 +38,9 @@ object QuizFactory : NavFactory {
                 modifier = Modifier.fillMaxSize()
             )
             is QuizState.Results -> Results(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(25.dp),
                 result = quizState.result
             )
             is QuizState.Success -> Quiz(
