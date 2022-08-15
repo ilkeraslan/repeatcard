@@ -14,17 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import it.ilker.repeatcard.R
-import it.ilker.repeatcard.db.flashcard.Flashcard
 import it.ilker.repeatcard.ui.flashcardedit.EditFlashcardScreen
 import it.ilker.repeatcard.ui.util.exhaustive
 import kotlinx.android.synthetic.main.directory_layout.content_group
 import kotlinx.android.synthetic.main.directory_layout.progress_circular
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import me.ilker.business.flashcard.Flashcard
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
-const val ADD_FLASHCARD_INTENT = 1000
 const val BUNDLE_TAG_DIRECTORY_ID: String = "BUNDLE_TAG_DIRECTORY_ID"
 
 @ExperimentalCoroutinesApi
@@ -54,10 +53,11 @@ class DirectoryScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.directory_layout)
+
         observe()
         directoryId = intent.extras!!.getInt("BUNDLE_TAG_DIRECTORY_ID")
         directoryViewModel.send(DirectoryEvent.GetDirectoryContent(directoryId))
-        setUpRecyclerView()
+
         setUpViews()
     }
 
@@ -68,14 +68,12 @@ class DirectoryScreen : AppCompatActivity() {
 
     @ExperimentalCoroutinesApi
     private fun observe() {
-        lifecycleScope.launchWhenStarted {
+        lifecycleScope.launchWhenCreated {
             directoryViewModel.state.collect { state ->
                 when (state) {
                     is DirectoryState.Loading -> showLoader()
-                    is DirectoryState.NoContent -> { /* no-op */
-                    }
-                    is DirectoryState.HasContent -> { /* no-op */
-                    }
+                    is DirectoryState.NoContent -> setUpRecyclerView(listOf())
+                    is DirectoryState.HasContent -> setUpRecyclerView(state.flashcards)
                 }.exhaustive
             }
         }
@@ -89,7 +87,7 @@ class DirectoryScreen : AppCompatActivity() {
     }
 
     @ExperimentalCoroutinesApi
-    private fun setUpRecyclerView() {
+    private fun setUpRecyclerView(flashcards: List<Flashcard>) {
         recyclerView = findViewById(R.id.recyclerViewDirectory)
         recyclerView.layoutManager = LinearLayoutManager(this.applicationContext)
         directoryListener = object : DirectoryListener {
@@ -98,10 +96,17 @@ class DirectoryScreen : AppCompatActivity() {
             }
 
             override fun itemEdit(flashcard: Flashcard) {
-                EditFlashcardScreen.openScreen(applicationContext, flashcard.id)
+                EditFlashcardScreen.openScreen(
+                    startingContext = applicationContext,
+                    flashcardId = flashcard.id
+                )
             }
         }
-        adapter = DirectoryAdapter(directoryListener)
+
+        adapter = DirectoryAdapter(
+            clickListener = directoryListener,
+            flashcards = flashcards
+        )
         recyclerView.adapter = adapter
     }
 
